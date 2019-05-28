@@ -17,3 +17,6 @@ __MACOSX
 
 /data/tmp/*.php
 /data/tmp/*.cache
+config/application.php
+config/error.php
+config/servers.php
