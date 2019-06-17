@@ -1,6 +1,5 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -12,14 +11,28 @@
 		<link rel="stylesheet" href="<?php echo $this->themePath('css/fluxcpfonts.css') ?>" type="text/css" media="screen" title="" charset="utf-8" />
 		<link rel="stylesheet" href="<?php echo $this->themePath('css/main.css') ?>" type="text/css" media="screen" title="" charset="utf-8" />
         <link type='text/css' rel="stylesheet" href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' />
+        <link type='text/css' rel="stylesheet" href='//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css' />
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 		<?php if (Flux::config('EnableReCaptcha')): ?>
 		<link href="<?php echo $this->themePath('css/flux/recaptcha.css') ?>" rel="stylesheet" type="text/css" media="screen" title="" charset="utf-8" />
 		<?php endif ?>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="<?php echo $this->themePath('js/flux.console.js') ?>"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
-		<script src="<?php echo $this->themePath('js/flux.console.js') ?>"></script>
-		
+        <link rel="stylesheet" href="<?php echo $this->themePath('css/OverlayScrollbars.min.css') ?>">
+        <script src="<?php echo $this->themePath('js/jquery.overlayScrollbars.min.js') ?>"></script>
+        <?php if(isset($json_arr)): ?>
+        <link type="text/css" rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+        <script src="<?php echo $this->themePath('js/jquery-ui.js') ?>"></script>
+        <?php endif ?>
+        <script>
+            $(document).ready(function() {
+                $('body').tooltip({
+                    selector: '[data-toggle=tooltip]',
+                    delay: {"show":200, "hide":0},
+                });
+            });
+        </script>
 		<script type="text/javascript">
 			function reload(){
 				window.location.href = '<?php echo $this->url ?>';
@@ -36,25 +49,6 @@
 				var preferred = sel.options[sel.selectedIndex].value;
 				document.preferred_theme_form.preferred_theme.value = preferred;
 				document.preferred_theme_form.submit();
-			}
-			// Preload spinner image.
-			var spinner = new Image();
-			spinner.src = '<?php echo $this->themePath('img/spinner.gif') ?>';
-			
-			function refreshSecurityCode(imgSelector){
-				$(imgSelector).attr('src', spinner.src);
-				
-				// Load image, spinner will be active until loading is complete.
-				var clean = <?php echo Flux::config('UseCleanUrls') ? 'true' : 'false' ?>;
-				var image = new Image();
-				image.src = "<?php echo $this->url('captcha') ?>"+(clean ? '?nocache=' : '&nocache=')+Math.random();
-				
-				$(imgSelector).attr('src', image.src);
-			}
-			function toggleSearchForm()
-			{
-				//$('.search-form').toggle();
-				$('.search-form').slideToggle('fast');
 			}
 		</script>
 		
@@ -215,6 +209,21 @@
 		</nav>
 		
 		<main>
+            <?php if(!in_array($params->get('module'), array('main'))): ?>
+            <section class="botongui">
+                            <header class="topbar d-flex w-100 justify-content-space-between align-items-center">
+                                <h1 class="page_title"><?php echo $title ?></h1>
+                                <div class="pagemenu">
+                                <div class="pagemenu_bar" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-caret-down"></i></div>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+								<?php include $this->themePath('main/submenu.php', true) ?>
+								<?php include $this->themePath('main/pagemenu.php', true) ?>
+                                </div>
+								<!-- Sub menu -->
+                                </div>
+                            </header>
+            </section>
+            <?php endif ?>
 								<?php if (Flux::config('DebugMode') && @gethostbyname(Flux::config('ServerAddress')) == '127.0.0.1'): ?>
 									<p class="notice">Please change your <strong>ServerAddress</strong> directive in your application config to your server's real address (e.g., myserver.com).</p>
 								<?php endif ?>
@@ -224,11 +233,6 @@
 									<p class="message"><?php echo htmlspecialchars($message) ?></p>
 								<?php endif ?>
 								
-								<!-- Sub menu -->
-								<?php include $this->themePath('main/submenu.php', true) ?>
-								
-								<!-- Page menu -->
-								<?php include $this->themePath('main/pagemenu.php', true) ?>
 								
 								<!-- Credit balance -->
 								<?php if (in_array($params->get('module'), array('donate', 'purchase'))) include $this->themePath('main/balance.php', true) ?>

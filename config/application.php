@@ -11,7 +11,7 @@ return array(
 	'DefaultCharMapServer' => null,
 	'DefaultLanguage'      => 'en_us',                  // Specify the default control panel language (see FLUX_ROOT/lang/ directory for available languages.)
 	'SiteTitle'            => 'Flux Control Panel',     // This value is only used if the theme decides to use it.
-	'ThemeName'            => array('default', 'emphaino'), // Names of the themes you would like to use.  Themes are in FLUX_ROOT/themes. First theme listed will be default theme.
+	'ThemeName'            => array('botong-ui','default', 'emphaino'), // Names of the themes you would like to use.  Themes are in FLUX_ROOT/themes. First theme listed will be default theme.
 	'ScriptTimeLimit'      => 0,                        // Script execution time limit. Specifies (in seconds) how long a page should run before timing out. (0 means forever)
 	'MissingEmblemBMP'     => 'empty.bmp',              //
 	'ItemIconNameFormat'   => '%d.png',                 // The filename format for item icons (defaults to {itemid}.png).
@@ -26,7 +26,7 @@ return array(
 	'DateFormat'           => 'Y-m-d',                  // Default DATE format to be displayed in pages.
 	'DateTimeFormat'       => 'Y-m-d H:i:s',            // Default DATETIME format to be displayed in pages.
 	'ShowSinglePage'       => true,                     // Whether or not to show the page numbers even if there's only one page.
-	'ResultsPerPage'       => 20,                       // The number of results to display in a paged set, per page.
+	'ResultsPerPage'       => 110,                       // The number of results to display in a paged set, per page.
 	'PagesToShow'          => 10,                       // The number of page numbers to display at once.
 	'PageJumpMinimumPages' => 1,                        // Minimum number of required pages before page jump box is shown. (0 to always show!)
 	'ShowPageJump'         => true,                     // Whether or not to show the "Page Jump" box.

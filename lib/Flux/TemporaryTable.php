@@ -167,7 +167,6 @@ class Flux_TemporaryTable {
 
 		$sql  = rtrim($sql, ', ');
 		$sql .= "\n);";
-		
 		$sth = $this->connection->getStatement($sql);
 		$res = $sth->execute($bind);
 		
