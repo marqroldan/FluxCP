@@ -1,5 +1,18 @@
 
+function _valChange(selector, next, past='') {
+    $({ Counter: (past=='') ? selector.html() : past }).animate(
+    {   Counter: next },
+    {
+            duration: 1000,
+            easing: 'swing',
+            queue: false,
+            step: function() {selector.text(Math.ceil(this.Counter));},
+            complete: function() {selector.text(next);},
+    });
+}
+
 $.fn.isInViewport = function(element) {
+    if(!$(this).is(':visible')) return false;
     var elementTop = $(this).offset().top;
     var elementBottom = elementTop + $(this).outerHeight();
     var viewportTop = $(element).scrollTop() + 76;

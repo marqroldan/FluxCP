@@ -209,19 +209,33 @@
 		</nav>
 		
 		<main>
+			<?php if (count(Flux::$appConfig->get('ThemeName', false)) > 1): ?>
+					<span>Theme:
+					<select name="preferred_theme" onchange="updatePreferredTheme(this)">
+						<?php foreach (Flux::$appConfig->get('ThemeName', false) as $themeName): ?>
+						<option value="<?php echo htmlspecialchars($themeName) ?>"<?php if ($session->theme == $themeName) echo ' selected="selected"' ?>><?php echo htmlspecialchars($themeName) ?></option>
+						<?php endforeach ?>
+					</select>
+					</span>
+					
+					<form action="<?php echo $this->urlWithQs ?>" method="post" name="preferred_theme_form" style="display: none">
+					<input type="hidden" name="preferred_theme" value="" />
+					</form>
+			<?php endif ?>
             <?php if(!in_array($params->get('module'), array('main'))): ?>
             <section class="botongui">
                             <header class="topbar d-flex w-100 justify-content-space-between align-items-center">
                                 <h1 class="page_title"><?php echo $title ?></h1>
                                 <div class="pagemenu">
-                                <div class="pagemenu_bar" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-caret-down"></i></div>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-								<?php include $this->themePath('main/submenu.php', true) ?>
-								<?php include $this->themePath('main/pagemenu.php', true) ?>
+                                    <div class="dropdown_container" >
+                                    <div class="menu_container " id="pagemenu_bar" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="toggle"><div  data-toggle="tooltip" title="Menu" ><i class="fas fa-caret-down"></i></div></div>
+                                    <div class="dropdown-menu" aria-labelledby="pagemenu_bar">
+                                                                    <?php include $this->themePath('main/submenu.php', true) ?><div class="dropdown-divider"></div>
+                                                                    <?php include $this->themePath('main/pagemenu.php', true) ?>
+                                    </div>
+                                    </div>
                                 </div>
-								<!-- Sub menu -->
-                                </div>
-                            </header>
+                            </header> 
             </section>
             <?php endif ?>
 								<?php if (Flux::config('DebugMode') && @gethostbyname(Flux::config('ServerAddress')) == '127.0.0.1'): ?>

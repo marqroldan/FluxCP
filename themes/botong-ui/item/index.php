@@ -2,15 +2,22 @@
 <script>
         $(document).ready(function() {
                 _delay = 0;
-                data = <?php echo json_encode($json_arr) ?>;
                 dontLoad = false;
                 listview = true;
+                data = <?php echo json_encode($json_arr) ?>;
                 items_url = '<?php echo FLUX_DATA_DIR."/items/" ?>';
                 loader = $(".item_container[item-type=t_loader]");
-                
-                //create an element in the pagemenu class
-                $('.pagemenu_bar').before(`<div class="search_count"><span id="partial_res">0</span>/<span id="total_res">0</span></div>`);
-                $('.pagemenu_bar').before(`<div class="view_toggler"><i class="fas fa-bars"></i></div>`);
+                loader.hide();
+
+
+                $('.pagemenu div').first().before(`<div class="menu_container view_toggler"><div  data-toggle="tooltip" title="Toggle View"><i class="fas fa-bars"></i></div></div>`);
+                $('.pagemenu div').first().before(`<div class="dropdown_container"><div class="menu_container" id="menu_sort" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="toggle"><div data-toggle="tooltip" title="Sort By"><i class="fas fa-sort"></i></div></div>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="menu_sort">
+                        <?php foreach($sortable as $key2 => $sort): $key = is_numeric($key2) ? $sort : $key2; ?>
+                        <div class='sort_order dropdown-item' sort-param="<?php echo $key ?>" sort-val="<?php echo !is_numeric($key2) ? array_search(strtoupper($sort),$json_arr['sortable']): 2 ?>"><i class="fas <?php echo !is_numeric($key2) ? (array_search(strtoupper($sort),$json_arr['sortable'])==0 ? 'fa-arrow-up' : 'fa-arrow-down') : ''?>"></i><?php echo $json_arr['labels'][$key]; ?></div>
+                        <?php  endforeach; ?>
+                </div></div>`);
+                $('.pagemenu div').first().before(`<div class="search_count"><span id="partial_res">0</span>/<span id="total_res">0</span></div>`);
 
                 $('.view_toggler').on('click',function() {
                         if(!listview) {
@@ -23,6 +30,27 @@
                         }
                         listview = !listview;
                         viewToggle();
+                });
+
+                $('.sort_order').on('click', function() {
+                        $this = $(this);
+                        $val = ($this.attr('sort-val')+1) % 3;
+                        $this.attr('sort-val',$val);
+                        switch ($val) {
+                                case 1:
+                                        $this.find('i').removeClass('fa-arrow-up');
+                                        $this.find('i').addClass('fa-arrow-down');
+                                        break;
+                                case 2:
+                                        $this.find('i').removeClass('fa-arrow-down fa-arrow-up');
+                                        break;
+                                default:
+                                        $this.find('i').removeClass('fa-arrow-down');
+                                        $this.find('i').addClass('fa-arrow-up');
+                        }
+                        data._params[$this.attr('sort-param')+"_order"] = data.sortable[$this.attr('sort-val')];
+                        if (_delay) clearTimeout(_delay);
+                        _delay = setTimeout(dataUpdate, 700);
                 });
 
                 function viewToggle() {
@@ -44,28 +72,18 @@
                         }
                 }
 
-                s = $('.__it, .search').overlayScrollbars({
-                                className       : "os-theme-dark",
-                                sizeAutoCapable : true,
-                                paddingAbsolute : true,
-                                scrollbars : {
-                                        clickScrolling : true,
-                                        autoHide: 'leave', 
-                                        autoHideDelay: 400, 
-                                },
-	                        callbacks : {
-                                        onScroll: whilescrolling,
-                                        onScrollStop : scrollChecky,
-                                        onContentSizeChanged: scrollChecky,
-                                }
-                        }); 
+
                 function whilescrolling() {
                         if (_delay) clearTimeout(_delay);
                         $('.tooltip').remove();
                 }
+
                 function scrollChecky() {
-                        if(_delay) clearTimeout(_delay);
-                        if(loader.isInViewport('.item_data_container')) _delay = setTimeout(dataUpdate(true), 700);
+                        if(dontLoad) return;
+                        if(loader.isInViewport('.item_data_container'))  {
+                                if(_delay) clearTimeout(_delay);
+                                _delay = setTimeout(dataUpdate(true), 700);
+                        }
                 }
 
                 $('.search_reset').on('click',function(){ 
@@ -79,6 +97,8 @@
                         });
                         data._params['p'] = 1;
                         data._params_default['p'] = 1;
+                        $('.search_tb').val('').change();
+                        window.history.pushState("", "<?php echo Flux::config('SiteTitle'); if (isset($title)) echo ": $title" ?>", "<?php echo $this->url('item') ?>");
                         if (_delay) clearTimeout(_delay);
                         _delay = setTimeout(dataUpdate, 700);
                 });
@@ -89,26 +109,28 @@
                         drawSlider();
                         checkboxCountSelected();
                         showResults(data.items);
-                        valChange($('#partial_res'),Object.keys(data.items).length);
-                        valChange($('#total_res'),data.total);
-                }
-
-                function valChange(selector, next, past='') {
-                        $({ Counter: (past=='') ? selector.html() : past }).animate(
-                        {   Counter: next },
-                        {
-                                duration: 1000,
-                                easing: 'swing',
-                                queue: false,
-                                step: function() {selector.text(Math.ceil(this.Counter));},
-                                complete: function() {selector.text(next);},
+                        $.when(_valChange($('#partial_res'),Object.keys(data.items).length),_valChange($('#total_res'),data.total)).then(function() {
+                                s = $('.__it, .search').overlayScrollbars({
+                                        className       : "os-theme-dark",
+                                        sizeAutoCapable : true,
+                                        paddingAbsolute : true,
+                                        scrollbars : {
+                                                clickScrolling : true,
+                                                autoHide: 'leave', 
+                                                autoHideDelay: 400, 
+                                        },
+                                        callbacks : {
+                                                onScroll: whilescrolling,
+                                                onScrollStop : scrollChecky,
+                                                onUpdated: scrollChecky,
+                                        }
+                                }); 
                         });
                 }
-
+                
                 function dataUpdate(stat=false) { 
                         $('.tooltip').remove();
                         if(dontLoad) return;
-                        dontLoad = true;
                         if(stat) {
                                 if(data.total >= data.perPage) data._params['p'] += 1;
                         }
@@ -124,42 +146,33 @@
                                 }
                         }
                         if(dUp) {
+                                dontLoad = true;
                                 $tmp = $('.search_count').html();
                                 $('.search_count').html('Searching...');
-                                $.get("<?php echo $this->url('item', 'index', array('output' => 'json', 'data_output' => 'items,search_params,total')) ?>", data._params, function(new_data) {    
+                                $.get("<?php echo $this->url('item', 'index', array('output' => 'json', 'data_output' => 'items,total')) ?>", data._params, function(new_data) {    
                                         $('.search_count').html($tmp);
                                         new_data = JSON.parse(new_data);
                                         data.total = new_data.total
                                         d = new_data.items;
                                         if(stat) {
-                                                if(data.total > 0) {
-                                                        for (key in d) data.items[key] = d[key];
-                                                        loader.show();
-                                                        showResults(d);
-                                                }
-                                                else {
-                                                        loader.hide();
-                                                }
+                                                for (key in d) data.items[Object.keys(data.items).length+key] = d[key];
+                                                showResults(d);
                                         }
                                         else {
                                                 data.items = d;
                                                 $('.item_container:not([item-type])').remove()
-                                                if(data.total==0 || data.total < data.perPage ) {
-                                                        loader.hide();
-                                                }
-                                                else {
-                                                        loader.show(); 
-                                                }
-                                                        showResults(data.items);
+                                                showResults(data.items);
                                         }
-                                        valChange($('#partial_res'),Object.keys(data.items).length);
-                                        valChange($('#total_res'),data.total);
+                                        _valChange($('#partial_res'),Object.keys(data.items).length);
+                                        _valChange($('#total_res'),data.total);
                                         dontLoad = false;
                                 });
                         }
                 }
 
                 function showResults(n_items) {
+                        if(data.total==0 || Object.keys(data.items).length < data.perPage ) { loader.hide();}
+                        else { loader.show(); }
                         $.each(n_items, function(index, item) {
                                 $equip_location = (item.equip_locations > 0) ? `Equip Locations: ${data.equip_locations[item.equip_locations]} <br>`: '' ;
                                 $slots = (item.slots>0) ? `[${item.slots}] ` : '';
@@ -200,10 +213,10 @@
                                                 <div class="item list align-items-center" item-view="list" data-html="true" data-toggle="tooltip" data-placement="bottom" title="${$list_title}">
                                                         <div class="list_name"><div class="list_icon" style="background-image: url('${$icon}')"></div>${$slots}${item.name}</div>
                                                         <div class="list_cats">
-                                                        <img src="<?php echo $this->themePath('css/icons') ?>/${item.type}.png" data-toggle="tooltip" title="Type: ${data.item_types[item.type]}"/>
                                                         ${$refineable}
                                                         ${$for_sale}
                                                         ${$custom}
+                                                        <img src="<?php echo $this->themePath('css/icons') ?>/${item.type}.png" data-toggle="tooltip" title="Type: ${data.item_types[item.type]}"/>
                                                         </div>
                                                 </div>
                                                 <div class="item thumbnail align-items-center" item-view="thumbnail" data-html="true" data-toggle="tooltip" data-placement="bottom" title="${$thumbnail_title}">
@@ -290,10 +303,13 @@
                         _delay = setTimeout(dataUpdate, 700);
                 });
 
-                $(".search_tb").on('keypress', function(e){ 
+                $(".search_tb").on('input change', function(e){ 
                         data._params[$(this).attr('name')] = $(this).val();
-                        if (_delay)  clearTimeout(_delay);
-                        _delay = setTimeout(dataUpdate, 400); 
+                        if (_delay) clearTimeout(_delay);  
+                        _delay = setTimeout(dataUpdate, 500); 
+                        if($(this).val()=='' && <?php echo ($params->get('item_id')!='') ? 'true' : 'false' ?>) {
+                         window.history.pushState("", "<?php echo Flux::config('SiteTitle'); if (isset($title)) echo ": $title" ?>", "<?php echo $this->url('item') ?>");
+                        }
                 });
 
                 init();
@@ -305,10 +321,10 @@
                 <div class="row h-100 overflow-hidden">
                         <div class="col search">
                                 <div class="text-center mx-auto">
-                                        <input type="text" name="itemText" class="search_tb" placeholder="Search for Item ID or Name" />
+                                        <input type="text" name="itemText" class="search_tb" placeholder="Search for Item ID or Name" value="<?php echo $params->get('item_id') ?>"/>
                                         <span class="search_reset">Reset Filter</span>
                                 </div>
-                                <?php foreach ($json_arr['search_params'] as $key => $data) : ?>
+                                <?php foreach ($search_params as $key => $data) : ?>
                                         <?php foreach ($data as $name => $param_data) : $name = str_replace("`", "", $name); ?>
 
                                                 <div class="search_param" sp_type="<?php echo $key ?>" sp_name="<?php echo $name ?>" <?php echo array_key_exists('choices', $param_data) ? 'sp_total_choices="' . count($param_data['choices']) . '"' : '' ?>>

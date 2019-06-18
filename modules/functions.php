@@ -28,6 +28,9 @@ function prepareColumnsString($columns=array()) {
             }
             $new_columns['s_params']['search'][$sValue][$spcsr] = $pseudo;
         }
+        if(array_key_exists('label',$pseudo)) {
+            $new_columns['labels'][$pseudo['pseudo']] = $pseudo['label'];
+        }
         $new_columns['res_column'][] = $pseudo;
         $new_columns['items_query'][] = $name." AS ".$spcsr;
     }
@@ -72,7 +75,7 @@ function forJSON($flux,$data,$col_data) {
 
 			$tmp[$cols['pseudo']] = $val;
         }
-		$tmp_arr[$tmp['item_id']] = $tmp;
+		$tmp_arr[] = $tmp;
     }
     return $tmp_arr;
 }

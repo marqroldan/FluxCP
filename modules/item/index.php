@@ -47,10 +47,12 @@ include_once(FLUX_ROOT.'/'.FLUX_MODULE_DIR.'/functions.php');
 		'items.id' => 
 			array(
 				'pseudo' => 'item_id',
+				'label' => "Item ID",
 			),
 		'name_japanese' => 
 			array(
 				'pseudo' => 'name',
+				'label' => "Name",
 			),
 		'type' =>
 			array(
@@ -181,12 +183,17 @@ include_once(FLUX_ROOT.'/'.FLUX_MODULE_DIR.'/functions.php');
 		$sqlpartial .= "WHERE 1=1 ";
 
 		$itemText = $params->get('itemText');
+		$itemID = $params->get('item_id');
 
-		if($itemText!='') {
+		if($itemText!='' && $itemID=='') {
 			$itemText = "%".str_replace(" ","%",$itemText)."%";
 			$sqlpartial .= "AND (items.id LIKE ? OR name_japanese LIKE ?) ";
 			$bind[]      = $itemText;
 			$bind[]      = $itemText;
+		}
+		if($itemID!='') {
+			$sqlpartial .= "AND (items.id LIKE ?) ";
+			$bind[]      = $itemID;
 		}
 
 		$itemTypeP     = $params->get('type');
@@ -324,30 +331,23 @@ include_once(FLUX_ROOT.'/'.FLUX_MODULE_DIR.'/functions.php');
 		
 		$sortable = array(
 			'item_id' => 'asc', 'name', 'type', 'equip_locations', 'price_buy', 'price_sell', 'weight',
-			'atk', 'matk', 'defence', 'range', 'slots', 'refineable', 'cost', 'origin_table'
+			'atk', 'matk', 'defence', 'range', 'slots', 'refineable', 'cost', 'custom'
 		);
 
-		// Get total count and feed back to the paginator.
+		//Get total count and feed back to the paginator.
 		$sql = "SELECT COUNT(DISTINCT items.id) AS total, ". implode(", ",$col_data['s_params']['columns'])." FROM $tableName $sqlpartial";
 		$sth = $server->connection->getStatement($sql);
 		$sth->execute($bind);
 		$res = $sth->fetch();
-		$json_arr['search_params']['checkbox'] = $col_data['s_params']['search']['checkbox'];
+		$search_params['checkbox'] = $col_data['s_params']['search']['checkbox'];
 		$json_arr['total'] = $res->total;
 
 		$json_arr['defaults'] = $col_data['defaults'];
 
-		if(false) {
-			echo $sth->debugDumpParams();
-			echo "<pre>";
-			print_r($res);
-			echo "</pre>";
-			exit();
-		}
 
 		foreach($col_data['s_params']['search']['range'] as $key => $label) {
 			$key2 = str_replace("`","",$key);
-			$json_arr['search_params']['range'][$key2] = array(
+			$search_params['range'][$key2] = array(
 				'label' => $label['label'],
 				'min' => (is_numeric($g=$res->{"min_".$key2})) ? $g+=0 : $g,
 				'max' => (is_numeric($g=$res->{"max_".$key2})) ? $g+=0 : $g,
@@ -359,6 +359,7 @@ include_once(FLUX_ROOT.'/'.FLUX_MODULE_DIR.'/functions.php');
 		$sql  = "SELECT ".implode(", ",$col_data['items_query'])." FROM $tableName $sqlpartial GROUP BY items.id";
 		$sql  = $paginator->getSQL($sql);
 		$sth  = $server->connection->getStatement($sql);
+		if(is_array($paginator->currentSortOrder))	$sortable = array_merge($sortable,$paginator->currentSortOrder);
 
 		$sth->execute($bind);
 		$items = $sth->fetchAll();
@@ -371,12 +372,19 @@ include_once(FLUX_ROOT.'/'.FLUX_MODULE_DIR.'/functions.php');
 		*/
 
 		$json_arr['items'] = forJSON($this,$items,$col_data);
-		foreach($json_arr['search_params']['checkbox'] as $r => $d) { $t[$r] = '-1'; }
+		foreach($search_params['checkbox'] as $r => $d) { $t[$r] = '-1'; }
+		if($params->get('item_id')!='') {
+			$t['itemText'] = $params->get('item_id');
+		}
 		$json_arr['_params'] = $t;
 		$json_arr['_params_default'] = $t;
+		foreach($sortable as $k => $v) {if(!is_numeric($k)) $json_arr['_params'][$k."_order"] = $v; }
 		$json_arr['equip_locations'] = Flux::config('EquipLocationCombinations')->toArray();
 		$json_arr['item_types'] = Flux::config('ItemTypes')->toArray();
 		$json_arr['perPage'] = Flux::config('ResultsPerPage');
+		$json_arr['labels'] = $col_data['labels'];
+		$json_arr['sortable'] = array('ASC','DESC','NONE',); 
+
 		if($params->get('output')=='json') {
 			$tmp = array();
 			$data_output = $params->get('data_output');

@@ -284,19 +284,41 @@ main {
   line-height: 50.42px;
 }
 .botongui header.topbar .pagemenu {
-  height: 26px;
+  min-height: 26px;
   float: right;
   text-align: right;
   margin-right: 17px;
 }
-.botongui header.topbar .pagemenu_bar, .botongui header.topbar .pagemenu .view_toggler {
+.botongui header.topbar .pagemenu .dropdown_container {
+  display: inline-block;
+}
+.botongui header.topbar .pagemenu .sort_order {
+  cursor: pointer;
+}
+.botongui header.topbar .pagemenu .sort_order i {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  float: left;
+  margin-left: -16px;
+  margin-right: 6px;
+  padding: 3px;
+  text-align: center;
+}
+.botongui header.topbar .pagemenu > div {
+  margin: 0 5px;
+}
+.botongui header.topbar .pagemenu > div:last-child() {
+  margin-right: 0px;
+}
+.botongui header.topbar .pagemenu .menu_container {
   padding: 3px;
   border-radius: 3px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: inset 0 0 3px rgba(255, 255, 255, 0.8);
   text-align: center;
-  width: 30px;
-  max-width: 30px;
+  min-width: 30px;
+  height: 30px;
   display: inline-block;
   color: #adb5bd;
 }
@@ -386,6 +408,7 @@ main {
   max-width: 258px;
 }
 .botongui .search input[type=text] {
+  outline: 0;
   border-radius: 3px;
   background: #fbfbf7;
   border: 1px solid rgba(0, 0, 0, 0.1);
