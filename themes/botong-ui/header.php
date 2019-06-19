@@ -62,6 +62,7 @@
 		
 	</head>
 	<body>
+        <?php include_once('main/modal.php') ?>
         <nav class="naviBottom">
             <nav class="pageNavi">
                 <ul>

@@ -40,6 +40,10 @@ body {
     font-family: $font-family !important;
 }
 
+a, a *{
+    color: $pageTitleColor;
+}
+
 .nomargin {
     margin: 0 !important;
 }
@@ -392,6 +396,76 @@ main {
         }
     }
 
+    &.modal {
+
+        table {
+            td, th {
+                padding: 1px 5px!important;
+            }
+        }
+
+        .close_btn_container {
+            min-height: 100px;
+            height: 100%;
+        }
+
+        &-header {
+            min-height: 100px;
+        }
+
+
+        .title_container {
+            text-align: left;
+            max-width: 340px;
+            width: 100%;
+
+            .buy_now {
+                font-size: 14px;
+                vertical-align: bottom;
+                line-height: 21px;
+                
+                .buy_button {
+                    width: 72px;
+                    height: 21px;
+                    border-radius: 3px;
+                    color: #fff;
+                    font-size: 12px;
+                    line-height: 19px;
+                    padding: 0;
+                    margin-right: 10px;
+                    background: #1ea200;
+                    text-transform: uppercase;
+                }
+            }
+        }
+
+        .item {
+            &_icon {
+                width: 24px;
+                height: 24px;
+            }
+
+            &_image {
+                width: 75px;
+                height: 100px;
+            }
+
+            &_image_both {
+                width: 75px;
+                height: 100px;
+                position: relative;
+                margin-right: 15px;
+
+                .icon {
+                    position: absolute;
+                    bottom: 0;
+                    right: 0;
+                }
+            }
+        
+        }
+
+    }
 
     %thumbnail-style {
         padding: 4px;
@@ -415,6 +489,16 @@ main {
 
     .item_data_container {
         flex-direction:row;
+
+        a {
+            display: block;
+            margin: 0 auto;
+            
+            &:hover {
+                text-decoration: none;
+            }
+        }
+
 
         & .item_container {
             margin: 0 auto; 
@@ -642,7 +726,10 @@ main {
 }
 
 [item-type=t_loader] {
-    
+    &.modal-loader {
+        margin: 10px auto !important;
+    }
+
     &.thumbnail {
         @extend %thumbnail-style;
         .loader,

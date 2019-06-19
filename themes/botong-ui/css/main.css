@@ -37,6 +37,10 @@ body {
   font-family: "Montserrat", sans-serif !important;
 }
 
+a, a * {
+  color: #6a6a6a;
+}
+
 .nomargin {
   margin: 0 !important;
 }
@@ -326,6 +330,57 @@ main {
   display: inline-block;
   margin-right: 10px;
 }
+.botongui.modal table td, .botongui.modal table th {
+  padding: 1px 5px !important;
+}
+.botongui.modal .close_btn_container {
+  min-height: 100px;
+  height: 100%;
+}
+.botongui.modal-header {
+  min-height: 100px;
+}
+.botongui.modal .title_container {
+  text-align: left;
+  max-width: 340px;
+  width: 100%;
+}
+.botongui.modal .title_container .buy_now {
+  font-size: 14px;
+  vertical-align: bottom;
+  line-height: 21px;
+}
+.botongui.modal .title_container .buy_now .buy_button {
+  width: 72px;
+  height: 21px;
+  border-radius: 3px;
+  color: #fff;
+  font-size: 12px;
+  line-height: 19px;
+  padding: 0;
+  margin-right: 10px;
+  background: #1ea200;
+  text-transform: uppercase;
+}
+.botongui.modal .item_icon {
+  width: 24px;
+  height: 24px;
+}
+.botongui.modal .item_image {
+  width: 75px;
+  height: 100px;
+}
+.botongui.modal .item_image_both {
+  width: 75px;
+  height: 100px;
+  position: relative;
+  margin-right: 15px;
+}
+.botongui.modal .item_image_both .icon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
 .botongui [item-type=t_loader].thumbnail, .botongui .item_data_container .item_container .thumbnail {
   padding: 4px;
   border-radius: 3px;
@@ -346,6 +401,13 @@ main {
 }
 .botongui .item_data_container {
   flex-direction: row;
+}
+.botongui .item_data_container a {
+  display: block;
+  margin: 0 auto;
+}
+.botongui .item_data_container a:hover {
+  text-decoration: none;
 }
 .botongui .item_data_container .item_container {
   margin: 0 auto;
@@ -520,6 +582,9 @@ main {
   background-position: center bottom -10px, center bottom -5px;
 }
 
+[item-type=t_loader].modal-loader {
+  margin: 10px auto !important;
+}
 [item-type=t_loader].thumbnail .loader,
 [item-type=t_loader].thumbnail .loader:after {
   border-radius: 50%;

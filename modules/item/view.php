@@ -167,5 +167,99 @@ if ($item) {
 	
 	// Sort so that monsters are ordered by drop chance and name.
 	usort($itemDrops, '__tmpSortDrops');
+
+}
+if($params->get('output')=='json') {
+	$json_arr = array();
+	if($item) {
+
+		$json_arr['labels']['item'] = array(
+			'item_id' => "Item ID",
+			'identifier' => "Identifier",
+			'name' => "Name",
+			'type' => "Type",
+			/*
+			'for_sale' => "For Sale",
+			'cost' => "Cost",
+			*/
+			'buy_sell' => "Buy/Sell",
+			'weight' => "Weight",
+			'defense' => "Defense",
+			'atk_matk' => "ATK/MATK",
+			'weapon_level' => "Weapon Level",
+			'range' => "Range",
+			'slots' => "Slots",
+			'refineable' => "Refineable",
+			'equip_level' => "Min/Max Equip Level",
+			'equip_locations' => "Equip Locations",
+			'equip_upper' => "Equip Upper",
+			'equip_jobs' => "Equip Jobs",
+			'equip_gender' => "Equip Gender",
+			'item_use_script' => "Item Use Script",
+			'equip_script' => "Equip Script",
+			'unequip_script' => "Unequip Script",
+		);
+		$json_arr['labels']['itemDrops'] = array(
+			'monster_id' => "ID",
+			'monster_name' => "Name",
+			'drop_chance' => "Drop Chance",
+			'monster_level' => "Level",
+			'monster_race' => "Race",
+			'monster_element' => "Element",
+		);
+		
+
+		$json_arr['item']['item_id'] = $item->item_id;
+		if($g=$this->iconImage($item->item_id)) {
+			$json_arr['item']['icon'] = $g;
+		}
+		if($g=$this->itemImage($item->item_id)) {
+			$json_arr['item']['image'] = $g;
+		}
+		$json_arr['item']['identifier'] = htmlspecialchars($item->identifier);
+		if ($item->cost)  {
+			$json_arr['item']['shop_item_id'] = $item->shop_item_id;
+			$json_arr['item']['cost'] = number_format((int)$item->cost);
+		}
+		$json_arr['item']['name'] = htmlspecialchars($item->name);
+		$json_arr['item']['type'] = $this->itemTypeText($item->type, $item->view);
+		$json_arr['item']['buy_sell'] = number_format((int)$item->price_buy)."/".((is_null($item->price_sell) && $item->price_buy) ? number_format(floor($item->price_buy / 2)) : number_format((int)$item->price_sell));
+		$json_arr['item']['weight'] = round($item->weight, 1);
+		$json_arr['item']['atk_matk'] = number_format((int)$item->atk)."/".number_format((int)$item->matk);
+		$json_arr['item']['weapon_level'] = number_format((int)$item->weapon_level);
+		$json_arr['item']['range'] = number_format((int)$item->range);
+		$json_arr['item']['defense'] = number_format((int)$item->defence);
+		$json_arr['item']['slots'] = number_format((int)$item->slots);
+		$json_arr['item']['refineable'] = ($item->refineable) ? "Yes" : "No";
+		$json_arr['item']['equip_level'] = number_format((int)$item->equip_level_min)."/".(($item->equip_level_max == 0) ? "None" : number_format((int)$item->equip_level_max));
+		$json_arr['item']['equip_locations'] = ($locs=$this->equipLocations($item->equip_locations)) ? htmlspecialchars(implode(' + ', $locs)) : "None";
+		$json_arr['item']['equip_upper'] = ($upper=$this->equipUpper($item->equip_upper)) ? htmlspecialchars(implode(' / ', $upper)) : "None";
+		$json_arr['item']['equip_jobs'] = ($jobs=$this->equippableJobs($item->equip_jobs)) ? htmlspecialchars(implode(' / ', $jobs)) : "None";
+		$json_arr['item']['equip_gender'] = ($item->equip_genders === '0') ? "Female" : (($item->equip_genders === '1') ? "Male" : (($item->equip_genders === '2') ? "Both (Male and Female)" : "Unknown"));
+
+		if (($isCustom && $auth->allowedToSeeItemDb2Scripts) || (!$isCustom && $auth->allowedToSeeItemDbScripts)) {
+		$json_arr['item']['item_use_script'] = ($script=$this->displayScript($item->script)) ? $script : "None";
+		$json_arr['item']['equip_script'] = (($script=$this->displayScript($item->equip_script))) ? $script : "None";
+		$json_arr['item']['unequip_script'] = (($script=$this->displayScript($item->unequip_script))) ? $script : "None";
+		}
+
+ 		if ($itemDrops) {
+			foreach ($itemDrops as $itemDrop) {
+				$tmp = array();
+				$tmp['monster_id'] = $itemDrop['monster_id'];
+				if($auth->actionAllowed('monster', 'view')) {
+					$tmp['monster_link'] = 1;
+				}
+				$tmp['monster_name'] = (($itemDrop['type'] == 'mvp') ? '<span class="mvp">MVP!</span>' : '').$itemDrop['monster_name'];
+				$tmp['drop_chance'] = $itemDrop['drop_chance']."%";
+				$tmp['monster_level'] = number_format($itemDrop['monster_level']);
+				$tmp['monster_race'] =  Flux::monsterRaceName($itemDrop['monster_race']);
+				$tmp['monster_element'] = "Level " . floor($itemDrop['monster_ele_lv']) ." ". Flux::elementName($itemDrop['monster_element']);
+				$json_arr['itemDrops'][] = $tmp;
+			}
+		}
+	}
+	echo json_encode($json_arr);
+	exit();
 }
 ?>

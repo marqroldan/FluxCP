@@ -1,14 +1,4 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-
-
-<script>
-
-$(document).ready(function() {
-	const x = localStorage;
-	console.log(x.getItem('item_db'));
-});
-
-	</script>
 <h2>Viewing Item</h2>
 <?php if ($item): ?>
 <?php $icon = $this->iconImage($item->item_id); ?>
