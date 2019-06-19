@@ -211,7 +211,7 @@
                                                 Custom:  ${(item.custom =='yes') ? "Yes" : "No"} <br>
                                 `;
                                 string_lit = `
-                                        <a href="<?php echo $this->url('item','index') ?>&action=view&id=${item.item_id}" data-toggle="modal" data-target="#modal_botongui" class="link_ako"><div class="item_container">
+                                        <a href="<?php echo $this->url('item','index') ?>&action=view&id=${item.item_id}" item-id="${item.item_id}" data-toggle="modal" data-target="#modal_botongui" class="link_ako"><div class="item_container">
                                                 <div class="item list align-items-center" item-view="list" data-html="true" data-toggle="tooltip" data-placement="bottom" title="${$list_title}">
                                                         <div class="list_name"><div class="list_icon" style="background-image: url('${$icon}')"></div>${$slots}${item.name}</div>
                                                         <div class="list_cats">
@@ -231,88 +231,96 @@
                         viewToggle();
                 }
 
+                function ItemViewRender(modal, content, m) {
+                        modal.find('[item-type=t_loader]').hide();
+                        if('item' in m) {
+                                r = m.item;
+                                g = ('itemDrops' in m) ? m.itemDrops : null;
+                                
+                                item_desc[r.item_id] = m;
+                                $icon = ('icon' in r) ? `<div class="item_icon icon" style="background-image: url('${r.icon}')"></div>` : ``;
+                                if('image' in r) {
+                                        $image = `<div class="item_image_both"><div class="item_image" style="background-image: url('${r.image}')"></div>${$icon}</div>`;
+                                        modal.find('.title_container').before($image);
+                                }
+                                else {
+                                        modal.find('.modal-title').before($icon);
+                                }
+                                modal.find('.modal-title').html(r.name);
+                                if('shop_item_id' in r) {
+                                        modal.find('.modal-title').after(`<div class="buy_now"><button type="button" class="btn buy_button">Buy</button>Cost: ${r.cost}</div>`);
+                                }
+
+                                $table = `<div id="info_${r.item_id}" class="tab-pane fade show active"><table class="table table-bordered">`;
+                                t = ['item'];
+                                if('scripts' in m) t.push('scripts');
+                                for(key of t) {
+                                        label = m.labels[key];
+                                        for(keys in label) {
+                                                if(!m[key][keys]) continue;
+                                                $table += `<tr><th>${label[keys]}</th><td>${m[key][keys]}</td></tr>`;
+                                        }
+                                }
+                                $table += '</table></div>';
+                                content.find('.modal-body').html((g) ? `<div class="tab-content">${$table}</div>`: $table);
+                                
+                                $nav = `
+                                <ul class="nav nav-tabs">
+                                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#info_${r.item_id}">Info</a></li>
+                                <li class="nav-item"><a  class="nav-link" data-toggle="tab" href="#dropped_${r.item_id}">Dropped By</a></li>
+                                </ul><br/>
+                                `;
+                                if(g) {
+                                        content.find('.modal-body .tab-content').before($nav);
+                                        $table = `<div id="dropped_${r.item_id}" class="tab-pane fade"><table class="table table-bordered">`;
+                                        titles = m.labels.itemDrops;
+                                        $table += `<thead><tr>`;
+                                        for(key in titles) {
+                                                $table += `<th>${titles[key]}</th>`;
+                                        }
+                                        $table += `</tr></thead><tbody>`;
+                                        for(i in g) {
+                                                $m_id = `<td>${g[i].monster_id}</td>`;
+                                                if('monster_link' in g[i]) {
+                                                        $m_id = `<td><a href="<?php echo $this->url('monster','view') ?>&id=${g[i].monster_id}">${g[i].monster_id}</a></td>`;
+                                                }
+                                                
+
+                                                $table += `<tr>
+                                                ${$m_id}
+                                                <td>${g[i].monster_name}</td>
+                                                <td>${g[i].drop_chance}</td>
+                                                <td>${g[i].monster_level}</td>
+                                                <td>${g[i].monster_race}</td>
+                                                <td>${g[i].monster_element}</td>
+                                                </tr>`;
+                                        }
+                                        $table += `</tbody></table></div>`;
+                                        content.find('.modal-body .tab-content').append($table);
+                                }
+                                $('.tooltip').remove();
+                                content.show();
+                        }
+                        else {
+                                modal.find('.no_result').show();
+                        }
+                }
+
                 $('#modal_botongui').on('show.bs.modal', function (event) {
                         var button = $(event.relatedTarget);
-                        var recipient = button.data('whatever');
                         var modal = $(this);
                         var content = modal.find('.modal-main-content');
                         content.hide();
                         $('.tooltip').remove();
-                        $.get(button.attr('href')+"&output=json",function(m) {
-                                m = JSON.parse(m);
-                                modal.find('[item-type=t_loader]').hide();
-                                if('item' in m) {
-                                        r = m.item;
-                                        g = ('itemDrops' in m) ? m.itemDrops : null;
-                                        
-                                        item_desc[r.item_id] = m;
-                                        $icon = ('icon' in r) ? `<div class="item_icon icon" style="background-image: url('${r.icon}')"></div>` : ``;
-                                        if('image' in r) {
-                                                $image = `<div class="item_image_both"><div class="item_image" style="background-image: url('${r.image}')"></div>${$icon}</div>`;
-                                                modal.find('.title_container').before($image);
-                                        }
-                                        else {
-                                                modal.find('.modal-title').before($icon);
-                                        }
-                                        modal.find('.modal-title').html(r.name);
-                                        if('shop_item_id' in r) {
-                                                modal.find('.modal-title').after(`<div class="buy_now"><button type="button" class="btn buy_button">Buy</button>Cost: ${r.cost}</div>`);
-                                        }
-
-                                        $table = `<div id="info_${r.item_id}" class="tab-pane fade show active"><table class="table table-bordered">`;
-                                        t = ['item'];
-                                        if('scripts' in m) t.push('scripts');
-                                        for(key of t) {
-                                                label = m.labels[key];
-                                                for(keys in label) {
-                                                        if(!m[key][keys]) continue;
-                                                        $table += `<tr><th>${label[keys]}</th><td>${m[key][keys]}</td></tr>`;
-                                                }
-                                        }
-                                        $table += '</table></div>';
-                                        content.find('.modal-body').html((g) ? `<div class="tab-content">${$table}</div>`: $table);
-                                        
-                                        $nav = `
-                                        <ul class="nav nav-tabs">
-                                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#info_${r.item_id}">Info</a></li>
-                                        <li class="nav-item"><a  class="nav-link" data-toggle="tab" href="#dropped_${r.item_id}">Dropped By</a></li>
-                                        </ul><br/>
-                                        `;
-                                        if(g) {
-                                                content.find('.modal-body .tab-content').before($nav);
-                                                $table = `<div id="dropped_${r.item_id}" class="tab-pane fade"><table class="table table-bordered">`;
-                                                titles = m.labels.itemDrops;
-                                                $table += `<thead><tr>`;
-                                                for(key in titles) {
-                                                        $table += `<th>${titles[key]}</th>`;
-                                                }
-                                                $table += `</tr></thead><tbody>`;
-                                                for(i in g) {
-                                                        $m_id = `<td>${g[i].monster_id}</td>`;
-                                                        if('monster_link' in g[i]) {
-                                                                $m_id = `<td><a href="<?php echo $this->url('monster','view') ?>&id=${g[i].monster_id}">${g[i].monster_id}</a></td>`;
-                                                        }
-                                                        
-
-                                                        $table += `<tr>
-                                                        ${$m_id}
-                                                        <td>${g[i].monster_name}</td>
-                                                        <td>${g[i].drop_chance}</td>
-                                                        <td>${g[i].monster_level}</td>
-                                                        <td>${g[i].monster_race}</td>
-                                                        <td>${g[i].monster_element}</td>
-                                                        </tr>`;
-                                                }
-                                                $table += `</tbody></table></div>`;
-                                                content.find('.modal-body .tab-content').append($table);
-                                        }
-                                        $('.tooltip').remove();
-                                        content.show();
-                                }
-                                else {
-                                        modal.find('.no_result').show();
-                                }
-                        });
+                        if(button.attr('item-id') in item_desc) {
+                                ItemViewRender(modal, content, item_desc[button.attr('item-id')]);
+                        }
+                        else {
+                                $.get(button.attr('href')+"&output=json",function(m) {
+                                        m = JSON.parse(m);
+                                        ItemViewRender(modal, content, m);
+                                });
+                        }
                 });
                 
                 $('#modal_botongui').on('hidden.bs.modal', function (event) {
