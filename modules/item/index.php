@@ -293,7 +293,7 @@ include_once(FLUX_ROOT.'/'.FLUX_MODULE_DIR.'/functions.php');
 		}
 
 		if ($refineable) {
-			if(count(explode(",",$custom))!=2 || $custom !== -1) {
+			if(count(explode(",",$refineable))!=2 || $refineable !== -1) {
 				if ($refineable == 'yes') {
 					$sqlpartial .= "AND refineable > 0 ";
 				}
