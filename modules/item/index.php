@@ -3,11 +3,7 @@ if (!defined('FLUX_ROOT')) exit;
 include_once(FLUX_ROOT.'/'.FLUX_MODULE_DIR.'/functions.php');
 //$this->loginRequired();
 
-
-	if($params->get('output')=='json' && $params->get('data_output')=='') {
-		echo "[]1";
-		exit();
-	}
+	if($params->get('output')=='json' && $params->get('data_output')=='') { echo "[]"; exit(); }
 
 	$title = 'Items Database';
 
@@ -33,7 +29,7 @@ include_once(FLUX_ROOT.'/'.FLUX_MODULE_DIR.'/functions.php');
 
 	$columns_ = array(
 		'origin_table',
-		'IF(origin_table like "%item_db2", "yes", "no")' => 
+		'IF(origin_table like "%_db2", "yes", "no")' => 
 			array(
 				'pseudo' => 'custom',
 				'default' => "no",

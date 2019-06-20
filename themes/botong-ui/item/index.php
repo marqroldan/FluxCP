@@ -263,31 +263,25 @@
                                 }
                                 $table += '</table></div>';
                                 content.find('.modal-body').html((g) ? `<div class="tab-content">${$table}</div>`: $table);
-                                
-                                $nav = `
-                                <ul class="nav nav-tabs">
-                                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#info_${r.item_id}">Info</a></li>
-                                <li class="nav-item"><a  class="nav-link" data-toggle="tab" href="#dropped_${r.item_id}">Dropped By</a></li>
-                                </ul><br/>
-                                `;
                                 if(g) {
-                                        content.find('.modal-body .tab-content').before($nav);
+                                        content.find('.modal-body .tab-content').before(`
+                                        <ul class="nav nav-tabs">
+                                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#info_${r.item_id}">Info</a></li>
+                                        <li class="nav-item"><a  class="nav-link" data-toggle="tab" href="#dropped_${r.item_id}">Dropped By</a></li>
+                                        </ul><br/>
+                                        `);
                                         $table = `<div id="dropped_${r.item_id}" class="tab-pane fade"><table class="table table-bordered">`;
                                         titles = m.labels.itemDrops;
                                         $table += `<thead><tr>`;
-                                        for(key in titles) {
-                                                $table += `<th>${titles[key]}</th>`;
-                                        }
+                                        for(key in titles) $table += `<th>${titles[key]}</th>`;
                                         $table += `</tr></thead><tbody>`;
                                         for(i in g) {
-                                                $m_id = `<td>${g[i].monster_id}</td>`;
+                                                $m_id = `${g[i].monster_id}`;
                                                 if('monster_link' in g[i]) {
-                                                        $m_id = `<td><a href="<?php echo $this->url('monster','view') ?>&id=${g[i].monster_id}">${g[i].monster_id}</a></td>`;
+                                                        $m_id = `<a href="<?php echo $this->url('monster','view') ?>&id=${g[i].monster_id}">${g[i].monster_id}</a>`;
                                                 }
-                                                
-
                                                 $table += `<tr>
-                                                ${$m_id}
+                                                <td>${$m_id}</td>
                                                 <td>${g[i].monster_name}</td>
                                                 <td>${g[i].drop_chance}</td>
                                                 <td>${g[i].monster_level}</td>
@@ -307,9 +301,9 @@
                 }
 
                 $('#modal_botongui').on('show.bs.modal', function (event) {
-                        var button = $(event.relatedTarget);
-                        var modal = $(this);
-                        var content = modal.find('.modal-main-content');
+                        button = $(event.relatedTarget);
+                        modal = $(this);
+                        content = modal.find('.modal-main-content');
                         content.hide();
                         $('.tooltip').remove();
                         if(button.attr('item-id') in item_desc) {
