@@ -336,7 +336,7 @@ include_once(FLUX_ROOT.'/'.FLUX_MODULE_DIR.'/functions.php');
 		$sth->execute($bind);
 		$res = $sth->fetch();
 		$search_params['checkbox'] = $col_data['s_params']['search']['checkbox'];
-		$json_arr['total'] = $res->total;
+		$json_arr['total'] = $res->total ? $res->total : 0;
 
 		$json_arr['defaults'] = $col_data['defaults'];
 

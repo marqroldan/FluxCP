@@ -160,7 +160,7 @@
                                         }
                                         else {
                                                 data.items = d;
-                                                $('.link_ako').remove()
+                                                $('.item_master').remove()
                                                 showResults(data.items);
                                         }
                                         _valChange($('#partial_res'),Object.keys(data.items).length);
@@ -190,14 +190,14 @@
                                 $icon = (item.iconImage != 0) ? item.iconImage : '';
 
                                 $title = `
-                                                Item ID: ${item.item_id} <br>
-                                                Type: ${data.item_types[item.type]} <br>
-                                                ${$equip_location}
-                                                NPC Buy/Sell: ${$price_buy}/${$price_sell}<br>
-                                                Weight: ${$weight}<br>
-                                                ATK/MATK: ${$atk}/${$matk}<br>
-                                                Defense: ${$defense}<br>
-                                                Range: ${$range}<br>
+                                        Item ID: ${item.item_id} <br>
+                                        Type: ${data.item_types[item.type]} <br>
+                                        ${$equip_location}
+                                        NPC Buy/Sell: ${$price_buy}/${$price_sell}<br>
+                                        Weight: ${$weight}<br>
+                                        ATK/MATK: ${$atk}/${$matk}<br>
+                                        Defense: ${$defense}<br>
+                                        Range: ${$range}<br>
                                         `;
 
                                 $list_title = `${$title}`;
@@ -209,7 +209,7 @@
                                                 Custom:  ${(item.custom =='yes') ? "Yes" : "No"} <br>
                                 `;
                                 string_lit = `
-                                        <a href="<?php echo $this->url('item','index') ?>&action=view&id=${item.item_id}" item-id="${item.item_id}" data-toggle="modal" data-target="#modal_botongui" class="link_ako"><div class="item_container">
+                                        <div item-id="${item.item_id}" data-toggle="modal" data-target="#modal_botongui" class="item_master item_container">
                                                 <div class="item list align-items-center" item-view="list" data-html="true" data-toggle="tooltip" data-placement="bottom" title="${$list_title}">
                                                         <div class="list_name"><div class="list_icon" style="background-image: url('${$icon}')"></div>${$slots}${item.name}</div>
                                                         <div class="list_cats">
@@ -222,13 +222,16 @@
                                                 <div class="item thumbnail align-items-center" item-view="thumbnail" data-html="true" data-toggle="tooltip" data-placement="bottom" title="${$thumbnail_title}">
                                                        <div class="thumbnail_image" style="background-image:url('${$img}')" ></div>
                                                 </div>
-                                        </div></a>
+                                        </div>
                                 `;
                                 loader.before(string_lit);
                         });
                         viewToggle();
                 }
-
+                $('.link_ako').click(function(e) {
+                        e.preventDefault();
+                        console.log('yo1');
+                });
                 function ItemViewRender(modal, content, m) {
                         modal.find('[item-type=t_loader]').hide();
                         if('item' in m) {
@@ -244,7 +247,7 @@
                                 else {
                                         modal.find('.modal-title').before($icon);
                                 }
-                                modal.find('.modal-title').html(r.name);
+                                modal.find('.modal-title').html(`${r.name} <a href="<?php echo $this->url('item','view') ?>&id=${r.item_id}"><span class="permalink">Permalink<span></a>`);
                                 if('shop_item_id' in r) {
                                         modal.find('.modal-title').after(`<div class="buy_now"><button type="button" class="btn buy_button">Buy</button>Cost: ${r.cost}</div>`);
                                 }
@@ -299,16 +302,17 @@
                 }
 
                 $('#modal_botongui').on('show.bs.modal', function (event) {
-                        button = $(event.relatedTarget);
+			button = $(event.relatedTarget);
+			item_id = button.attr('item-id');
                         modal = $(this);
                         content = modal.find('.modal-main-content');
                         content.hide();
                         $('.tooltip').remove();
-                        if(button.attr('item-id') in item_desc) {
-                                ItemViewRender(modal, content, item_desc[button.attr('item-id')]);
+                        if(item_id in item_desc) {
+                                ItemViewRender(modal, content, item_desc[item_id]);
                         }
                         else {
-                                $.get(button.attr('href')+"&output=json",function(m) {
+                                $.get(`<?php echo $this->url('item','view') ?>&id=${item_id}&output=json`,function(m) {
                                         m = JSON.parse(m);
                                         ItemViewRender(modal, content, m);
                                 });
