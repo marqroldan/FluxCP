@@ -34,4 +34,12 @@ Botong-ui Theme by Marq Roldan (Hyvraine)
 -----------------------------------------------
 `;
 console.log(text+$('.fluxDetails').html());
+
+
+modal_original = $('.modal-main-content').html();
+
+$('#modal_botongui').on('hidden.bs.modal', function (event) {
+    $(this).find('.modal-main-content').html(modal_original);
+    $(this).find('[item-type=t_loader]').show();
+});
 });
