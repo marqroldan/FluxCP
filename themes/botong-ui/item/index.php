@@ -7,10 +7,8 @@
                 data = <?php echo json_encode($json_arr) ?>;
                 items_url = '<?php echo FLUX_DATA_DIR."/items/" ?>';
                 item_desc = {};
-                modal_original = $('.modal-main-content').html();
                 loader = $(".item_container[item-type=t_loader]");
                 loader.hide();
-
 
                 $('.pagemenu div').first().before(`<div class="menu_container view_toggler"><div  data-toggle="tooltip" title="Toggle View"><i class="fas ${(listview) ? 'fa-bars' : 'fa-th'}"></i></div></div>`);
                 $('.pagemenu div').first().before(`<div class="dropdown_container"><div class="menu_container" id="menu_sort" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="toggle"><div data-toggle="tooltip" title="Sort By"><i class="fas fa-sort"></i></div></div>
@@ -162,7 +160,7 @@
                                         }
                                         else {
                                                 data.items = d;
-                                                $('.item_container:not([item-type])').remove()
+                                                $('.link_ako').remove()
                                                 showResults(data.items);
                                         }
                                         _valChange($('#partial_res'),Object.keys(data.items).length);
@@ -317,10 +315,6 @@
                         }
                 });
                 
-                $('#modal_botongui').on('hidden.bs.modal', function (event) {
-                        $(this).find('.modal-main-content').html(modal_original);
-                        $(this).find('[item-type=t_loader]').show();
-                });
 
                 function checkboxCountSelected(group_ = '') {
                         group = (group_ != '') ? `[sp_name=${group_}]` : '';
