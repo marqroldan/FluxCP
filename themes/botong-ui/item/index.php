@@ -183,9 +183,9 @@
                                 $matk = (item.matk > 0) ? item.matk : data.defaults.matk;
                                 $defense = (item.defence > 0) ? item.defence : data.defaults.defence;
                                 $range = (item.range > 0) ? item.range : data.defaults.range;
-                                $refineable = (item.refineable == 'yes') ? '<img src="<?php echo $this->themePath('css/icons/refineable.png') ?>" data-toggle="tooltip" title="Refineable"/>' : '';
-                                $for_sale = (item.for_sale > 0) ? '<img src="<?php echo $this->themePath('css/icons/forsale.png') ?>" data-toggle="tooltip" title="For Sale"/>' : '';
-                                $custom = (item.custom =='yes') ? '<img src="<?php echo $this->themePath('css/icons/custom.png') ?>" data-toggle="tooltip" title="Custom Item"/>' : '';
+                                $refineable = (item.refineable == 'yes') ? '<img src="<?php echo $this->themePath('css/icons/item_refineable.png') ?>" data-toggle="tooltip" title="Refineable"/>' : '';
+                                $for_sale = (item.for_sale > 0) ? '<img src="<?php echo $this->themePath('css/icons/item_forsale.png') ?>" data-toggle="tooltip" title="For Sale"/>' : '';
+                                $custom = (item.custom =='yes') ? '<img src="<?php echo $this->themePath('css/icons/item_custom.png') ?>" data-toggle="tooltip" title="Custom Item"/>' : '';
                                 $img = (item.itemImage !=  0) ? item.itemImage : "<?php echo $this->themePath('img/noImage.png') ?>";
                                 $icon = (item.iconImage != 0) ? item.iconImage : '';
 
@@ -216,7 +216,7 @@
                                                         ${$refineable}
                                                         ${$for_sale}
                                                         ${$custom}
-                                                        <img src="<?php echo $this->themePath('css/icons') ?>/${item.type}.png" data-toggle="tooltip" title="Type: ${data.item_types[item.type]}"/>
+                                                        <img src="<?php echo $this->themePath('css/icons') ?>/item_${item.type}.png" data-toggle="tooltip" title="Type: ${data.item_types[item.type]}"/>
                                                         </div>
                                                 </div>
                                                 <div class="item thumbnail align-items-center" item-view="thumbnail" data-html="true" data-toggle="tooltip" data-placement="bottom" title="${$thumbnail_title}">
