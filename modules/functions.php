@@ -69,10 +69,10 @@ function forJSON($flux,$data,$col_data) {
 					$val = $flux->{$cols['function']}($val);
 				}
             }
-            
-            $tmp['iconImage'] = ($g=$flux->iconImage($item->item_id)) ? $g : '';
-            $tmp['itemImage'] = ($g=$flux->itemImage($item->item_id)) ? $g : '';
-
+            if(strpos($item->origin_table,"item_db")!==FALSE) {
+                $tmp['iconImage'] = ($g=$flux->iconImage($item->item_id)) ? $g : '';
+                $tmp['itemImage'] = ($g=$flux->itemImage($item->item_id)) ? $g : '';
+            }
 			$tmp[$cols['pseudo']] = $val;
         }
 		$tmp_arr[] = $tmp;
