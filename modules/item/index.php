@@ -231,7 +231,7 @@ include_once(FLUX_ROOT.'/'.FLUX_MODULE_DIR.'/functions.php');
 			$sqlpartial .= ") ";
 		}
 
-		if ($equipLocsP !== false && $equipLocsP !== '-1') {
+		if ($equipLocsP && $equipLocsP !== '-1') {
 			$sqlpartial.= "AND (1=0 ";
 			foreach(explode(",",$equipLocsP) as $equipLocs) {
 				if(is_numeric($equipLocs) && (floatval($equipLocs) == intval($equipLocs))) {
