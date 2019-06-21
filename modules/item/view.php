@@ -169,6 +169,7 @@ if ($item) {
 	usort($itemDrops, '__tmpSortDrops');
 
 }
+
 if($params->get('output')=='json') {
 	$json_arr = array();
 	if($item) {

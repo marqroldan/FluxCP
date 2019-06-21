@@ -9,6 +9,10 @@
                 item_desc = {};
                 loader = $(".item_container[item-type=t_loader]");
                 loader.hide();
+		push = {
+                       title: "<?php echo Flux::config('SiteTitle'); if (isset($title)) echo ": $title" ?>", 
+                        page: "<?php echo $this->url('item') ?>"
+                };
 
                 $('.pagemenu div').first().before(`<div class="menu_container view_toggler"><div  data-toggle="tooltip" title="Toggle View"><i class="fas ${(listview) ? 'fa-bars' : 'fa-th'}"></i></div></div>`);
                 $('.pagemenu div').first().before(`<div class="dropdown_container"><div class="menu_container" id="menu_sort" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="toggle"><div data-toggle="tooltip" title="Sort By"><i class="fas fa-sort"></i></div></div>
@@ -98,7 +102,7 @@
                         data._params['p'] = 1;
                         data._params_default['p'] = 1;
                         $('.search_tb').val('').change();
-                        window.history.pushState("", "<?php echo Flux::config('SiteTitle'); if (isset($title)) echo ": $title" ?>", "<?php echo $this->url('item') ?>");
+                        window.history.pushState("", push.title, push.page);
                         if (_delay) clearTimeout(_delay);
                         _delay = setTimeout(dataUpdate, 700);
                 });
@@ -279,7 +283,7 @@
                                         for(i in g) {
                                                 $m_id = `${g[i].monster_id}`;
                                                 if('monster_link' in g[i]) {
-                                                        $m_id = `<a href="<?php echo $this->url('monster','view') ?>&id=${g[i].monster_id}">${g[i].monster_id}</a>`;
+                                                        $m_id = `<a href="<?php echo $this->url('monster','index') ?>&monster_id=${g[i].monster_id}">${g[i].monster_id}</a>`;
                                                 }
                                                 $table += `<tr>
                                                 <td>${$m_id}</td>
@@ -397,7 +401,7 @@
                         if (_delay) clearTimeout(_delay);  
                         _delay = setTimeout(dataUpdate, 500); 
                         if($(this).val()=='' && <?php echo ($params->get('item_id')!='') ? 'true' : 'false' ?>) {
-                         window.history.pushState("", "<?php echo Flux::config('SiteTitle'); if (isset($title)) echo ": $title" ?>", "<?php echo $this->url('item') ?>");
+                        window.history.pushState("", push.title, push.page);
                         }
                 });
 
