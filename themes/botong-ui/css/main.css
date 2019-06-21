@@ -38,7 +38,7 @@ body {
 }
 
 a, a * {
-  color: #6a6a6a;
+  color: #6a6a6a !important;
 }
 
 .nomargin {
@@ -57,6 +57,13 @@ a, a * {
 
 .flex-basis-none {
   flex-basis: 0%;
+}
+
+.permalink {
+  font-size: 11px;
+  color: #6a6a6a;
+  display: block;
+  text-transform: uppercase;
 }
 
 .fcp {
@@ -402,15 +409,19 @@ main {
 .botongui .item_data_container {
   flex-direction: row;
 }
-.botongui .item_data_container a {
-  display: block;
-  margin: 0 auto;
-}
-.botongui .item_data_container a:hover {
-  text-decoration: none;
+.botongui .item_data_container .item_master {
+  cursor: pointer;
 }
 .botongui .item_data_container .item_container {
   margin: 0 auto;
+}
+.botongui .item_data_container .item_container a {
+  display: block;
+  margin: 0 auto;
+  color: #6a6a6a !important;
+}
+.botongui .item_data_container .item_container a:hover {
+  text-decoration: none;
 }
 .botongui .item_data_container .item_container > div {
   justify-content: space-between;

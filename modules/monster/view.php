@@ -158,4 +158,106 @@ if ($monster) {
 	$sth->execute(array($mobID));
 	$mobSkills = $sth->fetchAll();
 }
+
+if($params->get('output')=='json') {
+	$json_arr = array();
+	if($monster) {
+		$json_arr['labels']['monster'] = array(
+			'monster_id' => "Monster ID",
+			'kro_name' => "kRO Name",
+			'iro_name' => "iRO Name",
+			'sprite' => "Sprite",
+			'custom' => "Custom",
+			'size' => "Size",
+			'race' => "Race",
+			'level' => "Level",
+			'element' => "Element",
+			'speed' => "Speed",
+			'mvp_exp' => "MVP EXP",
+			'base_job' => "Base/Job EXP",
+			'attack' => "Attack",
+			'def_mdef' => "DEF/MDEF",
+			'delay' => "Attack Delay",
+			'attack_motion' => "Attack Motion",
+			'defense_motion' => "Defense Motion",
+			'attack_range' => "Attack Range",
+			'spell_range' => "Spell Range",
+			'vision_range' => "Vision Range",
+			'hp_sp' => "HP/SP",
+			'monster_mode' => "Monster Mode",
+			'monster_stats' => 'Monster Stats',
+		);
+		$json_arr['labels']['itemDrops'] = array(
+			'item_id' => "ID",
+			'name' => "Name",
+			'chance' => "Drop Chance",
+		);
+		$json_arr['labels']['mobSkills'] = array(
+			'info' => "Name",
+			'skill_lvl' => "Level",
+			'state' => "State",
+			'rate' => "Rate",
+			'casttime' => "Cast Time",
+			'delay' =>  "Delay",
+			'cancellable' => "Cancellable",
+			'target' => "Target",
+			'condition' => "Condition",
+			'value' => "Value",
+		);
+		$json_arr['monster']['monster_id'] = $monster->monster_id;
+		$json_arr['monster']['kro_name'] = $monster->kro_name;
+		$json_arr['monster']['iro_name'] = $monster->iro_name;
+		$json_arr['monster']['sprite'] = $monster->sprite;
+		$json_arr['monster']['custom'] = (preg_match('/mob_db2$/', $monster->origin_table)) ? "Yes" : "No";
+		$json_arr['monster']['size'] = ($size=Flux::monsterSizeName($monster->size)) ? $size : "Unknown";
+		$json_arr['monster']['race'] = ($race=Flux::monsterSizeName($monster->race)) ? $race : "Unknown";
+		$json_arr['monster']['level'] = number_format($monster->level);
+		$json_arr['monster']['element'] = Flux::elementName($monster->level). " (Lv ".floor($monster->element_level).")";
+		$json_arr['monster']['speed'] = number_format($monster->speed);
+		$json_arr['monster']['mvp_exp'] = $monster->mvp_exp ? $monster->mvp_exp : 0;
+		$json_arr['monster']['base_job'] = number_format($monster->base_exp)."/".number_format($monster->job_exp);
+		$json_arr['monster']['attack'] = number_format($monster->attack1).'~'.number_format($monster->attack2);
+		$json_arr['monster']['def_mdef'] = number_format($monster->defense)."/".number_format($monster->magic_defense);
+		$json_arr['monster']['delay'] = number_format($monster->attack_delay);
+		$json_arr['monster']['attack_motion'] = number_format($monster->attack_motion);
+		$json_arr['monster']['defense_motion'] = number_format($monster->defense_motion);
+		$json_arr['monster']['attack_range'] = number_format($monster->range1);
+		$json_arr['monster']['spell_range'] = number_format($monster->range2);
+		$json_arr['monster']['vision_range'] = number_format($monster->range3);
+		$json_arr['monster']['hp_sp'] = number_format($monster->hp)."/".number_format($monster->sp);
+		$json_arr['monster']['monster_mode'] = $this->monsterMode($monster->mode);
+		$json_arr['monster']['monster_stats'] = array (
+			'str' => number_format((int)$monster->strength),
+			'agi' => number_format((int)$monster->agility),
+			'vit' => number_format((int)$monster->vitality),
+			'int' => number_format((int)$monster->intelligence),
+			'dex' => number_format((int)$monster->dexterity),
+			'luk' => number_format((int)$monster->luck),
+		);	
+
+		if ($image=$this->monsterImage($monster->monster_id)) {
+			$json_arr['monster']['monster_image'] = $image;
+		}
+
+		$json_arr['itemDrops'] = $itemDrops;
+
+		foreach ($mobSkills as $skill) {
+			$tmp = array(
+				'info' => $skill->INFO,
+				'skill_lvl' => $skill->SKILL_LV,
+				'state' => ucfirst($skill->STATE),
+				'rate' => $skill->RATE,
+				'casttime' => $skill->CASTTIME,
+				'delay' =>  $skill->DELAY,
+				'cancellable' => ucfirst($skill->CANCELABLE),
+				'target' => ucfirst($skill->TARGET),
+				'condition' => $skill->CONDITION.((!is_null($skill->CONDITION_VALUE) && trim($skill->CONDITION_VALUE) !== '') ? "(".$skill->CONDITION_VALUE.")" : ""),
+			);
+			$json_arr['mobSkills'][] = $tmp;
+		}
+	}
+	echo json_encode($json_arr);
+	exit();
+}
+
 ?>

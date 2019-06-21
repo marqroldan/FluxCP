@@ -48,6 +48,7 @@ $columns_ = array(
 		),
 	'LV' => 
 		array(
+			'original' => 'LV',
 			'pseudo' => 'level',
 			'search' => 'range',
 			'label' => "Level",
@@ -77,28 +78,30 @@ $columns_ = array(
 			'pseudo' => 'element_type',
 			'search' => 'checkbox',
 			'choices' => Flux::config('Elements')->toArray(),
-			'label' => "Element",
+			'label' => "Element Type",
 		),
-	'(Element/20)' => 
+	'FLOOR(Element/20)' => 
 		array(
+			'original' => 'FLOOR(Element/20)',
 			'pseudo' => 'element_level',
-			'label' => "iRO Name",
+			'label' => "Element Level",
 			'search' => 'range',
 		),
-	'EXP' => 
+	'(EXP * '.$server->expRates['Base'].' / 100)' => 
 		array(
 			'pseudo' => 'exp',
 			'label' => "Base Exp",
 			'search' => 'range',
 		),
-	'JEXP' => 
+	'(JEXP * '.$server->expRates['Job'].' / 100)' => 
 		array(
 			'pseudo' => 'jexp',
 			'label' => "Job Exp",
 			'search' => 'range',
 		),
-	'mexp' => 
+	'(mexp * '.$server->expRates['Mvp'].' / 100)' => 
 		array(
+			'original' => 'mexp',
 			'pseudo' => 'mvp_exp',
 			'label' => "MVP Exp",
 			'search' => 'range',
@@ -114,13 +117,14 @@ try {
 	$bind        = array();
 	$sqlpartial  = "WHERE 1=1 ";
 
-	$search_text    = $params->get('search_text');
+	$search_text    = $params->get('itemText');
 	$sizeP           = $params->get('size');
 	$raceP           = $params->get('race');
 	$elementP        = $params->get('element_type');
-	$customP         = $params->get('custom');
-	
-	if ($search_text) {
+	$custom         = $params->get('custom');
+	$monster_id = $params->get('monster_id');
+
+	if ($search_text && $monster=='') {
 		$search_text = "%".str_replace(" ","%",$search_text)."%";
 		$sqlpartial .= "AND ((ID LIKE ?) OR (kName LIKE ?) OR (iName LIKE ?) OR (DropCardid LIKE ?)) ";
 		$bind[]      = $search_text;
@@ -128,7 +132,11 @@ try {
 		$bind[]      = $search_text;
 		$bind[]      = $search_text;
 	}
-	if ($size && $size !== '-1') {
+	if($monster_id!='') {
+		$sqlpartial .= "AND (ID LIKE ?) ";
+		$bind[]      = $monster_id;
+	}
+	if ($sizeP && $sizeP !== '-1') {
 		$sqlpartial .= "AND (1=0 ";
 		foreach(explode(",",$sizeP) as $size) {
 			if(is_numeric($size) && (floatval($size) == intval($size))) {
@@ -197,6 +205,7 @@ try {
 		if($val!='') {
 			$g = explode(",",$val);
 			if(count($g)==2) {
+				if(array_key_exists('original',$label)) $rItem = $label['original'];
 				if(array_key_exists('useOr',$label)) {
 					$tmp = "OR ($rItem >= ? AND $rItem <= ?)";
 				}
@@ -215,7 +224,7 @@ try {
 	$sth->execute($bind);
 	$res = $sth->fetch();
 	$search_params['checkbox'] = $col_data['s_params']['search']['checkbox'];
-	$json_arr['total'] = $res->total;
+	$json_arr['total'] = $res->total ? $res->total : 0;
 	if(false) {
 		echo $sth->debugDumpParams();
 		echo "<hr>";
@@ -245,6 +254,36 @@ try {
 	$monsters = $sth->fetchAll();
 
 	$json_arr['monsters'] = forJSON($this,$monsters,$col_data);
+	foreach($search_params['checkbox'] as $r => $d) { $t[$r] = '-1'; }
+	if($params->get('item_id')!='') {
+		$t['itemText'] = $params->get('item_id');
+	}
+	$json_arr['_params'] = $t;
+	$json_arr['_params_default'] = $t;
+	foreach($sortable as $k => $v) {if(!is_numeric($k)) $json_arr['_params'][$k."_order"] = $v; }
+	$json_arr['perPage'] = Flux::config('ResultsPerPage');
+	$json_arr['labels'] = $col_data['labels'];
+	$json_arr['sortable'] = array('ASC','DESC','NONE',); 
+	$json_arr['sizes'] = Flux::config('MonsterSizes')->toArray();
+	$json_arr['races'] = Flux::config('MonsterRaces')->toArray();
+	$json_arr['elements'] = Flux::config('Elements')->toArray();
+
+	if($params->get('output')=='json') {
+		$tmp = array();
+		$data_output = $params->get('data_output');
+		if($data_output!='') {
+			$output = explode(",",$data_output);
+			foreach($output as $opt) {
+				if(array_key_exists($opt, $json_arr)) {
+					$tmp[$opt] = $json_arr[$opt];
+				}
+			}
+		}
+		echo json_encode($tmp);
+		exit();
+	}
+
+
 	/*
 	$authorized = $auth->actionAllowed('monster', 'view');
 	

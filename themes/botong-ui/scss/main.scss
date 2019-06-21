@@ -41,7 +41,7 @@ body {
 }
 
 a, a *{
-    color: $pageTitleColor;
+    color: $pageTitleColor !important;
 }
 
 .nomargin {
@@ -60,6 +60,13 @@ a, a *{
 
 .flex-basis-none {
     flex-basis: 0%;
+}
+
+.permalink {
+    font-size: 11px;
+    color: #6a6a6a;
+    display: block;
+    text-transform: uppercase;
 }
 
 .fcp {
@@ -423,7 +430,7 @@ main {
                 font-size: 14px;
                 vertical-align: bottom;
                 line-height: 21px;
-                
+
                 .buy_button {
                     width: 72px;
                     height: 21px;
@@ -490,19 +497,22 @@ main {
     .item_data_container {
         flex-direction:row;
 
-        a {
-            display: block;
-            margin: 0 auto;
-            
-            &:hover {
-                text-decoration: none;
-            }
+        & .item_master {
+            cursor: pointer;
         }
-
 
         & .item_container {
             margin: 0 auto; 
-
+            a {
+                display: block;
+                margin: 0 auto;
+                color: $pageTitleColor !important;
+                
+                &:hover {
+                    text-decoration: none;
+                }
+            }
+            
             & > div {
                 justify-content: space-between;
             }
