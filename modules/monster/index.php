@@ -29,7 +29,7 @@ $columns_ = array(
 	'monsters.id' => 
 		array(
 			'pseudo' => 'monster_id',
-			'label' => "Item ID",
+			'label' => "Monster ID",
 		),
 	'kName' => 
 		array(
@@ -244,12 +244,15 @@ try {
 		);
 	}
 	$paginator = $this->getPaginator($res->total);
-	$paginator->setSortableColumns(array(
+	$sortable = array(
 		'monster_id' => 'asc', 'kro_name', 'iro_name', 'level', 'hp', 'size', 'race', 'exp', 'jexp', 'dropcard_id', 'origin_table'
-	));
+	);
+	$paginator->setSortableColumns($sortable);
 	$sql  = $paginator->getSQL("SELECT ".implode(", ",$col_data['items_query'])." FROM $tableName $sqlpartial");
 	$sth  = $server->connection->getStatement($sql);
 	
+	if(is_array($paginator->currentSortOrder))	$sortable = array_merge($sortable,$paginator->currentSortOrder);
+
 	$sth->execute($bind);
 	$monsters = $sth->fetchAll();
 

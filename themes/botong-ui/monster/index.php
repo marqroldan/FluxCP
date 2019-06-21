@@ -30,6 +30,27 @@
                         $('.tooltip').remove();
                 }
 
+                $('.sort_order').on('click', function() {
+                        $this = $(this);
+                        $val = ($this.attr('sort-val')+1) % 3;
+                        $this.attr('sort-val',$val);
+                        switch ($val) {
+                                case 1:
+                                        $this.find('i').removeClass('fa-arrow-up');
+                                        $this.find('i').addClass('fa-arrow-down');
+                                        break;
+                                case 2:
+                                        $this.find('i').removeClass('fa-arrow-down fa-arrow-up');
+                                        break;
+                                default:
+                                        $this.find('i').removeClass('fa-arrow-down');
+                                        $this.find('i').addClass('fa-arrow-up');
+                        }
+                        data._params[$this.attr('sort-param')+"_order"] = data.sortable[$this.attr('sort-val')];
+                        if (_delay) clearTimeout(_delay);
+                        _delay = setTimeout(dataUpdate, 700);
+                });
+                
                 function scrollChecky() {
                         if(dontLoad) return;
                         if(loader.isInViewport('.item_data_container'))  {
