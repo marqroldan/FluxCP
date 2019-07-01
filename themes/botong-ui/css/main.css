@@ -163,6 +163,13 @@ a, a * {
   margin-bottom: 10px;
 }
 
+.rotator, nav.naviBottom nav.mainNaviBottom ul.status_circles li .status_content, nav.naviBottom nav.mainNaviBottom ul.status_circles li {
+  display: inline-block;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+}
+
 nav.naviBottom {
   position: fixed;
   bottom: 0;
@@ -212,12 +219,6 @@ nav.naviBottom nav.mainNaviBottom ul.status_circles {
   margin: 0 auto;
   text-align: center;
 }
-nav.naviBottom nav.mainNaviBottom ul.status_circles li .rotator, nav.naviBottom nav.mainNaviBottom ul.status_circles li .status_content, nav.naviBottom nav.mainNaviBottom ul.status_circles li {
-  display: inline-block;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-}
 nav.naviBottom nav.mainNaviBottom ul.status_circles li {
   margin: 10px;
   border: 1px solid rgba(0, 0, 0, 0.3);
@@ -230,54 +231,6 @@ nav.naviBottom nav.mainNaviBottom ul.status_circles li .status_content {
   margin-top: -42px;
   margin-left: -1px;
   z-index: 99;
-}
-nav.naviBottom nav.mainNaviBottom ul.status_circles li .rotator {
-  position: relative;
-  z-index: 1;
-  margin-left: -1px;
-  margin-top: -1px;
-  background: rgba(255, 0, 100, 0);
-  transition: all 1s;
-  -webkit-animation: goTo0 2s linear forwards;
-  -moz-animation: goTo0 2s linear forwards;
-  animation: goTo0 2s linear forwards;
-}
-nav.naviBottom nav.mainNaviBottom ul.status_circles li .rotator.woe_on {
-  -webkit-animation: spin 4s linear infinite;
-  -moz-animation: spin 4s linear infinite;
-  animation: spin 4s linear infinite;
-}
-@-moz-keyframes goTo0 {
-  100% {
-    -moz-transform: rotate(0deg);
-  }
-}
-@-webkit-keyframes goTo0 {
-  100% {
-    -webkit-transform: rotate(0deg);
-  }
-}
-@keyframes goTo0 {
-  100% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-}
-@-moz-keyframes spin {
-  100% {
-    -moz-transform: rotate(360deg);
-  }
-}
-@-webkit-keyframes spin {
-  100% {
-    -webkit-transform: rotate(360deg);
-  }
-}
-@keyframes spin {
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
 }
 nav.naviBottom nav.mainNaviBottom ul.status_circles li #botongui_rotator {
   fill: #94d31b;
@@ -781,8 +734,83 @@ main {
   }
 }
 
+.rotator {
+  position: relative;
+  z-index: 1;
+  margin-left: -1px;
+  margin-top: -1px;
+  background: rgba(255, 0, 100, 0);
+}
+.rotator.rotate {
+  -webkit-animation: spin 2.2s linear running infinite;
+  -moz-animation: spin 2.2s linear running infinite;
+  animation: spin 2.2s linear running infinite;
+}
+
+@-moz-keyframes spin {
+  100% {
+    -moz-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
 .fluxDetails {
   display: none;
+}
+
+@-webkit-keyframes "loader" {
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+.loader-wrapper {
+  margin-bottom: 30px;
+}
+
+.loader-wrapper span.loader-active {
+  -webkit-animation-name: loader;
+  -moz-animation-name: loader;
+  -ms-animation-name: loader;
+  -o-animation-name: loader;
+  animation-name: loader;
+  -webkit-animation-duration: 1200ms;
+  -moz-animation-duration: 1200ms;
+  -ms-animation-duration: 1200ms;
+  -o-animation-duration: 1200ms;
+  -webkit-animation-timing-function: linear;
+  -moz-animation-timing-function: linear;
+  -ms-animation-timing-function: linear;
+  -o-animation-timing-function: linear;
+  animation-timing-function: linear;
+  -webkit-animation-play-state: running;
+  -moz-animation-play-state: running;
+  -ms-animation-play-state: running;
+  -o-animation-play-state: running;
+  animation-play-state: running;
+  -webkit-animation-iteration-count: infinite;
+  -moz-animation-iteration-count: infinite;
+  -ms-animation-iteration-count: infinite;
+  -o-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+}
+
+.loader-wrapper span {
+  margin-right: 5px;
+  display: inline-block;
+  vertical-align: middle;
+  background: transparent;
+  border-right: 1px solid #000;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
 }
 
 /*# sourceMappingURL=main.css.map */

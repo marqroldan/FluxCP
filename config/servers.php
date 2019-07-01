@@ -55,7 +55,7 @@ return array(
 				'ServerName'      => 'FluxRO',
 				'Renewal'         => true,
 				'MaxCharSlots'    => 9,
-				'DateTimezone'    => "Asia/Manila", // Specifies game server's timezone for this char/map pair. (See: http://php.net/timezones)
+				'DateTimezone'    => null, // Specifies game server's timezone for this char/map pair. (See: http://php.net/timezones)
 				//'ResetDenyMaps'   => 'sec_pri', // Defaults to 'sec_pri'. This value can be an array of map names.
 				//'Database'        => 'ragnarok', // Defaults to DbConfig.Database
 				'MaxBaseLevel'    => 150,
@@ -100,7 +100,7 @@ return array(
 					// ** The latest item is followed if there's a duplicate start and end times.
 					// ** (Note, invalid times are ignored silently.)
 					array(3, '14:00', 3, '15:00', 2),  // Example: Starts Wednesday 2:00 PM and ends Wednesday 3:00 PM
-					array(1, '01:00', 1, '15:00', 1), // Example: Starts Sunday 12:00 PM and ends Sunday 2:00 PM
+					array(1, '15:20', 1, '16:00', 1), // Example: Starts Sunday 12:00 PM and ends Sunday 2:00 PM
 					array(2, '03:00', 2, '07:00'), // Example: Starts Sunday 12:00 PM and ends Sunday 2:00 PM
 					array(3, '03:00', 3, '07:00', "All"), // Example: Starts Sunday 12:00 PM and ends Sunday 2:00 PM
 					array(4, '03:00', 4, '07:00', array(5,6,4,3)), // Example: Starts Sunday 12:00 PM and ends Sunday 2:00 PM
