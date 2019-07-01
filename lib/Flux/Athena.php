@@ -206,8 +206,8 @@ class Flux_Athena {
 				if (!is_array($dayTime) || count($dayTime) < 4) {
 					continue;
 				}
-				
-				list ($sDay, $sTime, $eDay, $eTime) = array_slice($dayTime, 0, 4);
+				$default = array(NULL,NULL,NULL,NULL,NULL);
+				list ($sDay, $sTime, $eDay, $eTime, $castleID) = array_slice($dayTime, 0, 5) + $default;
 				$sTime = trim($sTime);
 				$eTime = trim($eTime);
 				
@@ -216,11 +216,12 @@ class Flux_Athena {
 					continue;
 				}
 				
-				$this->woeDayTimes[] = array(
+				$this->woeDayTimes[$sDay.$sTime.$eDay.$eTime] = array(
 					'startingDay'  => $sDay,
 					'startingTime' => $sTime,
 					'endingDay'    => $eDay,
-					'endingTime'   => $eTime
+					'endingTime'   => $eTime,
+					'castleID'   => ($castleID) ? $castleID : '',
 				);
 			}
 		}

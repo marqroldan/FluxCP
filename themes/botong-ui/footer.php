@@ -1,4 +1,7 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
+<?php if(!isset($json_arr) && empty($json_arr)): ?>
+</div></div></div></section>
+<?php endif ?>
 </main>
 <span class="fluxDetails">
 Powered by FluxCP (https://github.com/HerculesWS/FluxCP) and Hercules (https://github.com/HerculesWS/Hercules)

@@ -1,18 +1,101 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
 <script>
+        _delay = 0;
+        dontLoad = false;
+        listview = true;
+        data = <?php echo json_encode($json_arr) ?>;
+        items_url = '<?php echo FLUX_DATA_DIR."/items/" ?>';
+        item_desc = {};
+	push = {
+               title: "<?php echo Flux::config('SiteTitle'); if (isset($title)) echo ": $title" ?>", 
+                page: "<?php echo $this->url('item') ?>"
+        };
+
+        function itemModal(button) {
+                item_id = button.attr('item-id');
+               if(item_id in item_desc) {
+                       ItemViewRender(modal, content, item_desc[item_id]);
+               }
+               else {
+                       $.get(`<?php echo $this->url('item','view') ?>&id=${item_id}&output=json`,function(m) {
+                               m = JSON.parse(m);
+                               ItemViewRender(modal, content, m);
+                       });
+               }
+        }
+
+        function ItemViewRender(modal, content, m) {
+                modal.find('[item-type=t_loader]').hide();
+                if('item' in m) {
+                        r = m.item;
+                        g = ('itemDrops' in m) ? m.itemDrops : null;
+                        
+                        item_desc[r.item_id] = m;
+                        $icon = ('icon' in r) ? `<div class="item_icon icon" style="background-image: url('${r.icon}')"></div>` : ``;
+                        if('image' in r) {
+                                $image = `<div class="item_image_both"><div class="item_image" style="background-image: url('${r.image}')"></div>${$icon}</div>`;
+                                modal.find('.title_container').before($image);
+                        }
+                        else {
+                                modal.find('.modal-title').before($icon);
+                        }
+                        modal.find('.modal-title').html(`${r.name} <a href="<?php echo $this->url('item','view') ?>&id=${r.item_id}"><span class="permalink">Permalink<span></a>`);
+                        if('shop_item_id' in r) {
+                                modal.find('.modal-title').after(`<div class="buy_now"><button type="button" class="btn buy_button">Buy</button>Cost: ${r.cost}</div>`);
+                        }
+
+                        $table = `<div id="info_${r.item_id}" class="tab-pane fade show active"><table class="table table-bordered">`;
+                        t = ['item'];
+                        if('scripts' in m) t.push('scripts');
+                        for(key of t) {
+                                label = m.labels[key];
+                                for(keys in label) {
+                                        if(!m[key][keys]) continue;
+                                        $table += `<tr><th>${label[keys]}</th><td>${m[key][keys]}</td></tr>`;
+                                }
+                        }
+                        $table += '</table></div>';
+                        content.find('.modal-body').html((g) ? `<div class="tab-content">${$table}</div>`: $table);
+                        if(g) {
+                                content.find('.modal-body .tab-content').before(`
+                                <ul class="nav nav-tabs">
+                                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#info_${r.item_id}">Info</a></li>
+                                <li class="nav-item"><a  class="nav-link" data-toggle="tab" href="#dropped_${r.item_id}">Dropped By</a></li>
+                                </ul><br/>
+                                `);
+                                $table = `<div id="dropped_${r.item_id}" class="tab-pane fade"><table class="table table-bordered">`;
+                                titles = m.labels.itemDrops;
+                                $table += `<thead><tr>`;
+                                for(key in titles) $table += `<th>${titles[key]}</th>`;
+                                $table += `</tr></thead><tbody>`;
+                                for(i in g) {
+                                        $m_id = `${g[i].monster_id}`;
+                                        if('monster_link' in g[i]) {
+                                                $m_id = `<a href="<?php echo $this->url('monster','index') ?>&monster_id=${g[i].monster_id}">${g[i].monster_id}</a>`;
+                                        }
+                                        $table += `<tr>
+                                        <td>${$m_id}</td>
+                                        <td>${g[i].monster_name}</td>
+                                        <td>${g[i].drop_chance}</td>
+                                        <td>${g[i].monster_level}</td>
+                                        <td>${g[i].monster_race}</td>
+                                        <td>${g[i].monster_element}</td>
+                                        </tr>`;
+                                }
+                                $table += `</tbody></table></div>`;
+                                content.find('.modal-body .tab-content').append($table);
+                        }
+                        $('.tooltip').remove();
+                        content.show();
+                }
+                else {
+                        modal.find('.no_result').show();
+                }
+        }
+
         $(document).ready(function() {
-                _delay = 0;
-                dontLoad = false;
-                listview = true;
-                data = <?php echo json_encode($json_arr) ?>;
-                items_url = '<?php echo FLUX_DATA_DIR."/items/" ?>';
-                item_desc = {};
                 loader = $(".item_container[item-type=t_loader]");
                 loader.hide();
-		push = {
-                       title: "<?php echo Flux::config('SiteTitle'); if (isset($title)) echo ": $title" ?>", 
-                        page: "<?php echo $this->url('item') ?>"
-                };
 
                 $('.pagemenu div').first().before(`<div class="menu_container view_toggler"><div  data-toggle="tooltip" title="Toggle View"><i class="fas ${(listview) ? 'fa-bars' : 'fa-th'}"></i></div></div>`);
                 $('.pagemenu div').first().before(`<div class="dropdown_container"><div class="menu_container" id="menu_sort" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="toggle"><div data-toggle="tooltip" title="Sort By"><i class="fas fa-sort"></i></div></div>
@@ -75,7 +158,6 @@
                                 loader.removeClass('list');
                         }
                 }
-
 
                 function whilescrolling() {
                         if (_delay) clearTimeout(_delay);
@@ -143,6 +225,7 @@
                                 if(data._params[key]!=data._params_default[key]) {
                                         dUp = true;
                                         data._params_default[key] = data._params[key];
+
                                         if(key!='p' && !stat) {
                                                 data._params['p'] = 1;
                                                 data._params_default['p'] = 1;
@@ -213,7 +296,7 @@
                                                 Custom:  ${(item.custom =='yes') ? "Yes" : "No"} <br>
                                 `;
                                 string_lit = `
-                                        <div item-id="${item.item_id}" data-toggle="modal" data-target="#modal_botongui" class="item_master item_container">
+                                        <div item-id="${item.item_id}" data-toggle="modal" data-target="#modal_botongui" data-function="itemModal" class="item_master item_container">
                                                 <div class="item list align-items-center" item-view="list" data-html="true" data-toggle="tooltip" data-placement="bottom" title="${$list_title}">
                                                         <div class="list_name"><div class="list_icon" style="background-image: url('${$icon}')"></div>${$slots}${item.name}</div>
                                                         <div class="list_cats">
@@ -232,98 +315,7 @@
                         });
                         viewToggle();
                 }
-                $('.link_ako').click(function(e) {
-                        e.preventDefault();
-                        console.log('yo1');
-                });
-                function ItemViewRender(modal, content, m) {
-                        modal.find('[item-type=t_loader]').hide();
-                        if('item' in m) {
-                                r = m.item;
-                                g = ('itemDrops' in m) ? m.itemDrops : null;
-                                
-                                item_desc[r.item_id] = m;
-                                $icon = ('icon' in r) ? `<div class="item_icon icon" style="background-image: url('${r.icon}')"></div>` : ``;
-                                if('image' in r) {
-                                        $image = `<div class="item_image_both"><div class="item_image" style="background-image: url('${r.image}')"></div>${$icon}</div>`;
-                                        modal.find('.title_container').before($image);
-                                }
-                                else {
-                                        modal.find('.modal-title').before($icon);
-                                }
-                                modal.find('.modal-title').html(`${r.name} <a href="<?php echo $this->url('item','view') ?>&id=${r.item_id}"><span class="permalink">Permalink<span></a>`);
-                                if('shop_item_id' in r) {
-                                        modal.find('.modal-title').after(`<div class="buy_now"><button type="button" class="btn buy_button">Buy</button>Cost: ${r.cost}</div>`);
-                                }
-
-                                $table = `<div id="info_${r.item_id}" class="tab-pane fade show active"><table class="table table-bordered">`;
-                                t = ['item'];
-                                if('scripts' in m) t.push('scripts');
-                                for(key of t) {
-                                        label = m.labels[key];
-                                        for(keys in label) {
-                                                if(!m[key][keys]) continue;
-                                                $table += `<tr><th>${label[keys]}</th><td>${m[key][keys]}</td></tr>`;
-                                        }
-                                }
-                                $table += '</table></div>';
-                                content.find('.modal-body').html((g) ? `<div class="tab-content">${$table}</div>`: $table);
-                                if(g) {
-                                        content.find('.modal-body .tab-content').before(`
-                                        <ul class="nav nav-tabs">
-                                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#info_${r.item_id}">Info</a></li>
-                                        <li class="nav-item"><a  class="nav-link" data-toggle="tab" href="#dropped_${r.item_id}">Dropped By</a></li>
-                                        </ul><br/>
-                                        `);
-                                        $table = `<div id="dropped_${r.item_id}" class="tab-pane fade"><table class="table table-bordered">`;
-                                        titles = m.labels.itemDrops;
-                                        $table += `<thead><tr>`;
-                                        for(key in titles) $table += `<th>${titles[key]}</th>`;
-                                        $table += `</tr></thead><tbody>`;
-                                        for(i in g) {
-                                                $m_id = `${g[i].monster_id}`;
-                                                if('monster_link' in g[i]) {
-                                                        $m_id = `<a href="<?php echo $this->url('monster','index') ?>&monster_id=${g[i].monster_id}">${g[i].monster_id}</a>`;
-                                                }
-                                                $table += `<tr>
-                                                <td>${$m_id}</td>
-                                                <td>${g[i].monster_name}</td>
-                                                <td>${g[i].drop_chance}</td>
-                                                <td>${g[i].monster_level}</td>
-                                                <td>${g[i].monster_race}</td>
-                                                <td>${g[i].monster_element}</td>
-                                                </tr>`;
-                                        }
-                                        $table += `</tbody></table></div>`;
-                                        content.find('.modal-body .tab-content').append($table);
-                                }
-                                $('.tooltip').remove();
-                                content.show();
-                        }
-                        else {
-                                modal.find('.no_result').show();
-                        }
-                }
-
-                $('#modal_botongui').on('show.bs.modal', function (event) {
-			button = $(event.relatedTarget);
-			item_id = button.attr('item-id');
-                        modal = $(this);
-                        content = modal.find('.modal-main-content');
-                        content.hide();
-                        $('.tooltip').remove();
-                        if(item_id in item_desc) {
-                                ItemViewRender(modal, content, item_desc[item_id]);
-                        }
-                        else {
-                                $.get(`<?php echo $this->url('item','view') ?>&id=${item_id}&output=json`,function(m) {
-                                        m = JSON.parse(m);
-                                        ItemViewRender(modal, content, m);
-                                });
-                        }
-                });
                 
-
                 function checkboxCountSelected(group_ = '') {
                         group = (group_ != '') ? `[sp_name=${group_}]` : '';
                         $('.search_param[sp_type=checkbox]' + group).each(function() {
@@ -410,7 +402,7 @@
         });
 </script>
 
-<section class="botongui ">
+<section class="botongui">
         <div class="container-fluid nopadding max_height">
                 <div class="row h-100 overflow-hidden">
                         <div class="col search">

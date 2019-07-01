@@ -40,9 +40,9 @@ return array(
 	'MaxUsernameLength'    => 23,                       // Maximum username length.
 	'MinPasswordLength'    => 8,                        // Minimum password length.
 	'MaxPasswordLength'    => 31,                       // Maximum password length.
-	'PasswordMinUpper'     => 1,                        // Number of upper-case letters to require in passwords.
-	'PasswordMinLower'     => 1,                        // Number of lower-case letters to require in passwords.
-	'PasswordMinNumber'    => 1,                        // Number of numbers to require in passwords.
+	'PasswordMinUpper'     => 0,                        // Number of upper-case letters to require in passwords.
+	'PasswordMinLower'     => 0,                        // Number of lower-case letters to require in passwords.
+	'PasswordMinNumber'    => 0,                        // Number of numbers to require in passwords.
 	'PasswordMinSymbol'    => 0,                        // Number of symbols to require in passwords.
 	'EmailStrictCheck'     => false,                    // Whether to enable stricter checks for email addresses. (NOTE: there are perfectly valid email addresses that will be rejected if this setting is enabled).
 	'GMMinPasswordLength'  => 8,                        // Minimum password length for GM accounts.
@@ -76,7 +76,7 @@ return array(
 	'ShowCopyright'        => true,                     // Whether or not to show the copyright footer.
 	'ShowRenderDetails'    => true,                     // Shows the "page rendered in X seconds" and "number of queries executed: X" in the default theme.
 	'UseCleanUrls'         => false,                    // Set to true if you're running Apache and it supports mod_rewrite and .htaccess files.
-	'DebugMode'            => false,                    // Set to false to minimize technical details from being output by Flux. WARNING: DO NOT USE THIS OPTION ON A PUBLICALLY-ACCESSIBLE CP.
+	'DebugMode'            => true,                    // Set to false to minimize technical details from being output by Flux. WARNING: DO NOT USE THIS OPTION ON A PUBLICALLY-ACCESSIBLE CP.
 	'UseCaptcha'           => true,                     // Use CAPTCHA image for account registration to prevent automated account creations. (Requires GD2/FreeType2)
 	'UseLoginCaptcha'      => false,                    // Use CAPTCHA image for account logins. (Requires GD2/FreeType2)
 	'EnableReCaptcha'      => false,                    // Enables the use of reCAPTCHA instead of Flux's native GD2 library (http://www.google.com/recaptcha)

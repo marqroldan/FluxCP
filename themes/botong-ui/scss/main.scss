@@ -41,7 +41,8 @@ body {
 }
 
 a, a *{
-    color: $pageTitleColor !important;
+    cursor: pointer !important;
+    text-decoration: none !important;
 }
 
 .nomargin {
@@ -109,12 +110,6 @@ a, a *{
             }
 
             &_market {
-                .currency-flex-box {
-                    flex-basis: 0%;
-                    margin-left: 8px;
-                    margin-right: -10px;
-                }
-
                 & span .fas {
                     color: #adb5bd;
                     font-size: 29px;
@@ -123,8 +118,23 @@ a, a *{
                     }
                 }
 
+                &_links {
+                    flex: 1 1 36px;
+                    max-width: 90px;
+
+                    i {
+                        font-size: 22px !important;
+                        margin: 10px !important;
+                    }
+                }
+
+                &_values {
+                    flex: 1 1 130px;
+                    padding: 10px;
+                }
+
                 &_currency {
-                    flex: 0 0 130px;
+                    flex: 1 1 auto;
                     margin: 2px 3px;
                     font-size: 14px;
                     vertical-align: middle;
@@ -160,7 +170,7 @@ a, a *{
                 font-weight: 500;
                 text-transform: uppercase;
                 color: #6a6a6a;
-                padding: 0 14px 0 4px;
+                padding: 1px 14px 1px 4px;
             }
 
             & tr {
@@ -202,9 +212,22 @@ nav.naviBottom {
                 letter-spacing: 1.5px;
                 margin: 0 5px;
 
-                &:hover {
-                    color: #ffffff;
+                %color-white {
+                    color: #ffffff !important;
+                }
+                
+                a {
+                    color: $pageTitleColor !important;
+                }
+
+                &:hover{
+                    @extend %color-white;
                     background: rgba(0,0,0,0.5);
+
+                    a {
+                        @extend %color-white;
+                        text-decoration: none;
+                    }
                 }
             }
         }
@@ -216,7 +239,7 @@ nav.naviBottom {
         background: #ffffff linear-gradient(to bottom, rgba(255,255,255,0.15) 0%, rgba(192,192,192,0.15) 100%); 
         box-shadow: 0 0px 10px 0 rgba(0,0,0,0.1);
 
-        & ul {
+        & ul.status_circles {
             display: flex;
             height: 100%;
             justify-content: center;
@@ -224,12 +247,60 @@ nav.naviBottom {
             margin: 0 auto;
             text-align: center;
 
-            li {
+            %status-items {
                 display: inline-block;
-                width: 44px;
-                height: 44px;
+                width: 42px;
+                height: 42px;
+                border-radius: 50%;
+            }
+            
+            li {
+                @extend %status-items;
                 margin: 10px;
-                background: red;
+                border: 1px solid rgba(0,0,0,0.3);
+                background: transparent;
+                & .status_content {
+                    @extend %status-items;
+                    position: relative;
+                    background: rgba(255,100,50,0.2);
+                    float: left;
+                    margin-top: -42px;
+                    margin-left: -1px;
+                    z-index: 99;
+                }
+                & .rotator {
+                    @extend %status-items;
+                    position: relative;
+                    z-index: 1;
+                    margin-left: -1px;
+                    margin-top: -1px;
+                    background: rgba(255,0,100,0);
+                    transition: all 1s;    
+                    -webkit-animation:goTo0 2s linear forwards;
+                    -moz-animation:goTo0 2s linear forwards;
+                    animation:goTo0 2s linear forwards;
+
+                    &.woe_on {
+                        -webkit-animation:spin 4s linear infinite;
+                        -moz-animation:spin 4s linear infinite;
+                        animation:spin 4s linear infinite;
+                    }
+                }
+
+                @-moz-keyframes goTo0 { 100% { -moz-transform: rotate(0deg); } }
+                @-webkit-keyframes goTo0 { 100% { -webkit-transform: rotate(0deg); } }
+                @keyframes goTo0 { 100% { -webkit-transform: rotate(0deg); transform:rotate(0deg); } }
+                @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+                @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+                @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+                & #botongui_rotator {
+                    fill: #94d31b; 
+                    margin-top: 9px;
+                    margin-left: -1px;
+                    width: 44px; 
+                    height: 44px;
+                }
             }
         }
 
@@ -291,10 +362,10 @@ nav.naviBottom {
                     background-position: center center;
                     background-size: contain;
                 }
-
-                &:hover + .fcp {
-                    display: block;
-                }
+            }
+            
+            &:hover + .fcp {
+                display: block;
             }
         }
     }

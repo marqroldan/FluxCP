@@ -47,7 +47,7 @@ function forJSON($flux,$data,$col_data) {
 			$val = $item->{$cols['pseudo']};
             if(is_numeric($val)) $val += 0;
             if($val===0 || $val=='' || $val==null) {
-                if($cols['leaveDefault']) {
+                if(array_key_exists('leaveDefault',$cols) && $cols['leaveDefault']) {
                     $val = $cols['default'];
                 }
                 else {
@@ -55,7 +55,10 @@ function forJSON($flux,$data,$col_data) {
                 }
             }
 			if(array_key_exists('putTempt',$cols) && $cols['putTempt']) {
-                $temp_orig[$cols['pseudo']] = array('function'=> $cols['function'], 'val_'.$cols['pseudo'] => $val);
+                $temp_orig[$cols['pseudo']] = array(
+                    'function'=> (array_key_exists('function',$cols)) ? $cols['function'] : null, 
+                    'val_'.$cols['pseudo'] => $val
+                );
 			}
 			else {
 				if(array_key_exists('baseOn',$cols)) {

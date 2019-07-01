@@ -38,7 +38,8 @@ body {
 }
 
 a, a * {
-  color: #6a6a6a !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
 }
 
 .nomargin {
@@ -100,11 +101,6 @@ a, a * {
 .fcp .fcp_modal .user_info_menu span:hover {
   color: #70777e;
 }
-.fcp .fcp_modal .user_info_market .currency-flex-box {
-  flex-basis: 0%;
-  margin-left: 8px;
-  margin-right: -10px;
-}
 .fcp .fcp_modal .user_info_market span .fas {
   color: #adb5bd;
   font-size: 29px;
@@ -112,8 +108,20 @@ a, a * {
 .fcp .fcp_modal .user_info_market span .fas:hover {
   color: #70777e;
 }
+.fcp .fcp_modal .user_info_market_links {
+  flex: 1 1 36px;
+  max-width: 90px;
+}
+.fcp .fcp_modal .user_info_market_links i {
+  font-size: 22px !important;
+  margin: 10px !important;
+}
+.fcp .fcp_modal .user_info_market_values {
+  flex: 1 1 130px;
+  padding: 10px;
+}
 .fcp .fcp_modal .user_info_market_currency {
-  flex: 0 0 130px;
+  flex: 1 1 auto;
   margin: 2px 3px;
   font-size: 14px;
   vertical-align: middle;
@@ -143,7 +151,7 @@ a, a * {
   font-weight: 500;
   text-transform: uppercase;
   color: #6a6a6a;
-  padding: 0 14px 0 4px;
+  padding: 1px 14px 1px 4px;
 }
 .fcp .fcp_modal table.m_user_info tr th:last-child, .fcp .fcp_modal table.m_user_info tr td:last-child {
   padding: 0 4px;
@@ -178,9 +186,17 @@ nav.naviBottom nav.pageNavi ul li {
   letter-spacing: 1.5px;
   margin: 0 5px;
 }
+nav.naviBottom nav.pageNavi ul li:hover a, nav.naviBottom nav.pageNavi ul li li:hover {
+  color: #ffffff !important;
+}
+nav.naviBottom nav.pageNavi ul li a {
+  color: #6a6a6a !important;
+}
 nav.naviBottom nav.pageNavi ul li:hover {
-  color: #ffffff;
   background: rgba(0, 0, 0, 0.5);
+}
+nav.naviBottom nav.pageNavi ul li:hover a {
+  text-decoration: none;
 }
 nav.naviBottom nav.mainNaviBottom {
   height: 71px;
@@ -188,7 +204,7 @@ nav.naviBottom nav.mainNaviBottom {
   background: #ffffff linear-gradient(to bottom, rgba(255, 255, 255, 0.15) 0%, rgba(192, 192, 192, 0.15) 100%);
   box-shadow: 0 0px 10px 0 rgba(0, 0, 0, 0.1);
 }
-nav.naviBottom nav.mainNaviBottom ul {
+nav.naviBottom nav.mainNaviBottom ul.status_circles {
   display: flex;
   height: 100%;
   justify-content: center;
@@ -196,12 +212,79 @@ nav.naviBottom nav.mainNaviBottom ul {
   margin: 0 auto;
   text-align: center;
 }
-nav.naviBottom nav.mainNaviBottom ul li {
+nav.naviBottom nav.mainNaviBottom ul.status_circles li .rotator, nav.naviBottom nav.mainNaviBottom ul.status_circles li .status_content, nav.naviBottom nav.mainNaviBottom ul.status_circles li {
   display: inline-block;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+}
+nav.naviBottom nav.mainNaviBottom ul.status_circles li {
+  margin: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  background: transparent;
+}
+nav.naviBottom nav.mainNaviBottom ul.status_circles li .status_content {
+  position: relative;
+  background: rgba(255, 100, 50, 0.2);
+  float: left;
+  margin-top: -42px;
+  margin-left: -1px;
+  z-index: 99;
+}
+nav.naviBottom nav.mainNaviBottom ul.status_circles li .rotator {
+  position: relative;
+  z-index: 1;
+  margin-left: -1px;
+  margin-top: -1px;
+  background: rgba(255, 0, 100, 0);
+  transition: all 1s;
+  -webkit-animation: goTo0 2s linear forwards;
+  -moz-animation: goTo0 2s linear forwards;
+  animation: goTo0 2s linear forwards;
+}
+nav.naviBottom nav.mainNaviBottom ul.status_circles li .rotator.woe_on {
+  -webkit-animation: spin 4s linear infinite;
+  -moz-animation: spin 4s linear infinite;
+  animation: spin 4s linear infinite;
+}
+@-moz-keyframes goTo0 {
+  100% {
+    -moz-transform: rotate(0deg);
+  }
+}
+@-webkit-keyframes goTo0 {
+  100% {
+    -webkit-transform: rotate(0deg);
+  }
+}
+@keyframes goTo0 {
+  100% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+}
+@-moz-keyframes spin {
+  100% {
+    -moz-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+nav.naviBottom nav.mainNaviBottom ul.status_circles li #botongui_rotator {
+  fill: #94d31b;
+  margin-top: 9px;
+  margin-left: -1px;
   width: 44px;
   height: 44px;
-  margin: 10px;
-  background: red;
 }
 nav.naviBottom nav.mainNaviBottom section.logo {
   display: flex;
@@ -256,7 +339,7 @@ nav.naviBottom nav.mainNaviBottom section.user .user_picture_area .user_picture 
   background-position: center center;
   background-size: contain;
 }
-nav.naviBottom nav.mainNaviBottom section.user .user_picture_area:hover + .fcp {
+nav.naviBottom nav.mainNaviBottom section.user:hover + .fcp {
   display: block;
 }
 

@@ -1,4 +1,5 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
+<?php include_once('main/settings.php') ?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -17,6 +18,7 @@
 		<link href="<?php echo $this->themePath('css/flux/recaptcha.css') ?>" rel="stylesheet" type="text/css" media="screen" title="" charset="utf-8" />
 		<?php endif ?>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="<?php echo $this->themePath('js/countdown.js') ?>"></script>
         <script src="<?php echo $this->themePath('js/flux.console.js') ?>"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="<?php echo $this->themePath('css/OverlayScrollbars.min.css') ?>">
@@ -31,6 +33,20 @@
                     selector: '[data-toggle=tooltip]',
                     delay: {"show":200, "hide":0},
                 });
+
+
+                $('[data-toggle=tooltip]').on('shown.bs.tooltip', function (e) {
+                    $(this).removeAttr('title');
+                    $(this).attr('tooltip-replacealso',`#${$('.tooltip').attr('id')}`);
+                })
+                $('[data-toggle=tooltip]').on('show.bs.tooltip', function (e) {
+                    $(this).removeAttr('title');
+                })
+                $('[data-toggle=tooltip]').on('hidden.bs.tooltip', function (e) {
+                    $(this).removeAttr('tooltip-replacealso');
+                    $(this).attr('title',$(this).attr('data-original-title'));
+                })
+                $('[data-toggle="popover"]').popover()
             });
         </script>
 		<script type="text/javascript">
@@ -65,150 +81,16 @@
         <?php include_once('main/modal.php') ?>
         <nav class="naviBottom">
             <nav class="pageNavi">
-                <ul>
-                    <li>Home</li>
-                    <li>Forums</li>
-                    <li>Ranking</li>
-                    <li><a href="database.html">Database</a></li>
-                    <li>FAQ</li>
-                </ul>
+                <?php echo mainNavigation($mainNavigation); ?>
             </nav>
             <nav class="mainNaviBottom">
                 <section class="logo">
                     <img src="<?php echo $this->themePath('images/logo.png') ?>" />
                 </section>
-                <ul>
-                    <li>Emperium</li>
-                    <li>2</li>
-                    <li>3</li>
-                </ul>
-                <section class="user">
-                    <div class="user_details">
-                        <span class="user_name">
-                            <?php echo $session->account->userid ?>
-                        </span>
-                        <span class="user_notifications">
-                            0 Notifications
-                        </span>
-                    </div>
-                    <div class="user_picture_area">
-                        <div class="user_picture" style="background: url('https://www.gravatar.com/avatar/<?php echo md5($session->account->email) ?>?s=47') ">
-                        </div>
-                    </div>
-                    <div class="fcp">
-                            <div class="fcp_modal">
-                                <div class="row h-100 nomargin user_info_market">
-                                        <div class="d-flex flex-column justify-content-center align-items-center">
-                                            <span data-toggle="tooltip" data-placement="left" title="Go to Marketplace">
-                                                <i class="fas fa-store"></i>
-                                            </span>
-                                        </div>
-                                        <div class="d-flex flex-grow-1 currency-flex-box justify-content-center align-items-center">
-                                                <div class="d-flex flex-row justify-content-center align-items-center flex-wrap">
-                                                    <div class="user_info_market_currency">
-                                                        <span class="fluxicon-Zeny"></span>
-                                                        <span class="value">9,999,999,999</span>
-                                                    </div>
-                                                    <div class="user_info_market_currency">
-                                                        <span class="fluxicon-Credits"></span>
-                                                        <span class="value">9,999,999,999</span>
-                                                    </div>
-                                                    <div class="user_info_market_currency">
-                                                        <span class="fluxicon-Vote"></span>
-                                                        <span class="value">9,999,999,999</span>
-                                                    </div>
-                                                    <div class="user_info_market_currency">
-                                                        <span class="fluxicon-Events"></span>
-                                                        <span class="value">9,999,999,999</span>
-                                                    </div>
-                                                </div>
-                                        </div>
-                                </div>
-                            </div>
-                        <div class="fcp_modal">
-                            <div class="row h-100 nomargin user_info">
-                                    <div class="d-flex flex-column justify-content-center align-items-center user_info_menu">
-                                        <span data-toggle="tooltip" data-placement="left" title="Account Settings">
-                                            <i class="fas fa-cog"></i>
-                                        </span>
-                                        <span data-toggle="tooltip" data-placement="left" title="The account gender is male.">
-                                            <i class="fas fa-mars"></i>
-                                        </span>
-                                        <span data-toggle="tooltip" data-placement="left" title="Account Characters">
-                                            <i class="fas fa-user"></i>
-                                        </span>
-                                        <span data-toggle="tooltip" data-placement="left" title="Storage">
-                                            <i class="fas fa-briefcase"></i>
-                                        </span>
-                                    </div>
-                                    <div class="v_divider"></div>
-                                    <div class="d-flex flex-column justify-content-center align-items-center">
-                                            <table class="m_user_info">
-                                                    <tr>
-                                                        <th>
-                                                            Birthday
-                                                        </th>
-                                                        <td>
-                                                            SEPTEMBER 29, 2019
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>
-                                                            GAME LAST LOGIN
-                                                        </th>
-                                                        <td>
-                                                            SEPTEMBER 29, 2019 08:56PM
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>
-                                                            GAME LAST IP
-                                                        </th>
-                                                        <td>
-                                                                192.168.8.254, USA
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>
-                                                            GAME CURRENT IP
-                                                        </th>
-                                                        <td>
-                                                                192.168.8.254, USA
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>
-                                                            CP LAST LOGIN
-                                                        </th>
-                                                        <td>
-                                                            SEPTEMBER 29, 2019 08:56PM
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>
-                                                            CP LAST IP
-                                                        </th>
-                                                        <td>
-                                                                192.168.8.254, USA
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>
-                                                            CP CURRENT IP
-                                                        </th>
-                                                        <td>
-                                                            192.168.8.254, USA
-                                                        </td>
-                                                    </tr>
-                                            </table>
-                                    </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                <?php include_once('main/status_circles.php') ?>
+                <?php include_once('main/user.php') ?>
             </nav>
 		</nav>
-		
 		<main>
 			<?php if (count(Flux::$appConfig->get('ThemeName', false)) > 1): ?>
 					<span>Theme:
@@ -238,6 +120,13 @@
                                 </div>
                             </header> 
             </section>
+            <?php endif ?>
+
+            <?php if(!isset($json_arr) && empty($json_arr)): ?>
+            <section class="botongui">
+                    <div class="container-fluid">
+                            <div class="row">
+                                <div class="col">
             <?php endif ?>
 								<?php if (Flux::config('DebugMode') && @gethostbyname(Flux::config('ServerAddress')) == '127.0.0.1'): ?>
 									<p class="notice">Please change your <strong>ServerAddress</strong> directive in your application config to your server's real address (e.g., myserver.com).</p>

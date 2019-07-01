@@ -25,6 +25,9 @@
 			<?php echo htmlspecialchars($time['endingDay']) ?>
 			@ <?php echo htmlspecialchars($time['endingHour']) ?>
 		</td>
+		<td>
+			<?php echo $time['castle'] ?>
+		</td>
 	</tr>
 	<?php endforeach ?>
 	<?php endforeach ?>

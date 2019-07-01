@@ -20,6 +20,8 @@ $.fn.isInViewport = function(element) {
     return elementBottom > viewportTop && elementTop < viewportBottom;
 };
 
+
+
 $(document).ready(function() {
 let text = `
  ______ _     _    ___   _______ _____  
@@ -42,4 +44,21 @@ $('#modal_botongui').on('hidden.bs.modal', function (event) {
     $(this).find('.modal-main-content').html(modal_original);
     $(this).find('[item-type=t_loader]').show();
 });
+
+
+$('#modal_botongui').on('show.bs.modal', function (event) {
+    $('.tooltip').remove();
+    button = $(event.relatedTarget);
+    modal = $(this);
+    content = modal.find('.modal-main-content');
+    content.hide();
+    func = button.attr('data-function');
+    if(typeof window[func] === "function") {
+            window[func](button);
+    }
+    else { return; }
+});
+
+
+
 });

@@ -5,17 +5,17 @@
                 <div class="thumbnail modal-loader" item-type="t_loader" data-toggle="tooltip" data-placement="top" title="Loading..."><div class="loader"></div></div>
                 <div class="no_result d-none">No Result</div>
                 <div class="modal-main-content">    
-                <div class="modal-header d-flex align-items-center justify-content-start">
-                    <div class="title_container">
-                        <h5 class="modal-title" id="modal_botonguiLabel"></h5>
+                    <div class="modal-header d-flex align-items-center justify-content-start">
+                        <div class="title_container">
+                            <h5 class="modal-title" id="modal_botonguiLabel"></h5>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                 </div>
-                <div class="modal-body">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
             </div>
         </div>
         </div>

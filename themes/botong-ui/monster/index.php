@@ -1,5 +1,146 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
 <script>
+
+        function monsterModal(button) {
+                item_id = button.attr('item-id');
+               if(item_id in monster_desc) {
+                       ItemViewRender(modal, content, monster_desc[item_id]);
+               }
+               else {
+                       $.get(`<?php echo $this->url('monster','view') ?>&id=${item_id}&output=json`,function(m) {
+                               m = JSON.parse(m);
+                               ItemViewRender(modal, content, m);
+                       });
+               }
+        }
+
+        function ItemViewRender(modal, content, m) {
+                modal.find('[item-type=t_loader]').hide();
+                if('monster' in m) {
+                        r = m.monster;
+                        g = m.itemDrops;
+                        b = m.mobSkills;
+                        id = r.monster_id;
+                        monster_desc[id] = m;
+                        console.log(m);
+                        modal.find('.modal-title').html(`${r[default_name+'_name']} <span class="permalink"><a href="<?php echo $this->url('monster','view') ?>&id=${id}">Permalink</a> | Card ID: <a href="<?php echo $this->url('item','index') ?>&item_id=${g.dropcard.id}">${g.dropcard.id}</a></span>`);
+                        $table = `<div id="info_${id}" class="tab-pane fade show active"><table class="table table-bordered">`;
+                        label = m.labels['monster'];
+                        for(keys in label) {
+                                if(!label[keys]) continue;
+                                if(keys=='monster_mode') {
+                                        $table += `<tr><th>${label[keys]}</th><td>`;
+                                        for (value of r[keys]) {
+                                                $table += `<li>${value}</li>`;
+                                        }
+                                        $table+= `</td></tr>`;
+                                }
+                                else if(keys=='monster_stats'){
+                                        $table += `<tr><th>${label[keys]}</th>
+                                        <td>
+                                                <table class="table table-borderless my-0">
+                                                        <tr>
+                                                                <th>STR</th>
+                                                                <td>${r[keys]['str']}</td>
+                                                                <th>AGI</th>
+                                                                <td>${r[keys]['agi']}</td>
+                                                                <th>VIT</th>
+                                                                <td>${r[keys]['vit']}</td>
+                                                        </tr>
+                                                        <tr>
+                                                                <th>INT</th>
+                                                                <td>${r[keys]['int']}</td>
+                                                                <th>DEX</th>
+                                                                <td>${r[keys]['dex']}</td>
+                                                                <th>LUK</th>
+                                                                <td>${r[keys]['luk']}</td>
+                                                        </tr>
+                                                </table>                                                        
+                                        </td></tr>`;
+                                }
+                                else {
+                                        $table += `<tr><th>${label[keys]}</th><td>${r[keys]}</td></tr>`;
+                                }
+                        }
+                        $table += '</table></div>';
+                        content.find('.modal-body').html((g) ? `<div class="tab-content">${$table}</div>`: $table);
+                        if('itemDrops' in m || 'mobSkills' in m) {
+                                content.find('.modal-body .tab-content').before(`
+                                        <ul class="nav nav-tabs">
+                                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#info_${id}">Info</a></li>
+                                        </ul><br/>
+                                        `);
+                        }
+                        if(g) {
+                                $('.nav-tabs').append(`<li class="nav-item"><a  class="nav-link" data-toggle="tab" href="#dropped_${id}">Item Drops</a></li>`);
+                                $table = `<div id="dropped_${id}" class="tab-pane fade"><table class="table table-bordered">`;
+                                titles = m.labels.itemDrops;
+                                $table += `<thead><tr>`;
+                                for(key in titles) $table += `<th>${titles[key]}</th>`;
+                                $table += `</tr></thead><tbody>`;
+                                for(i in g) {
+                                        $m_id = `${g[i].monster_id}`;
+                                        if('monster_link' in g[i]) {
+                                                $m_id = `<a href="<?php echo $this->url('monster','view') ?>&id=${g[i].monster_id}">${g[i].monster_id}</a>`;
+                                        }
+                                        $table += `<tr>
+                                        <td><a href="<?Php echo $this->url('item','index') ?>&item_id=${g[i].id}">${g[i].id}</a></td>
+                                        <td>${g[i].name}</td>
+                                        <td>${g[i].chance}</td>
+                                        </tr>`;
+                                }
+                                $table += `</tbody></table></div>`;
+                                content.find('.modal-body .tab-content').append($table);
+                        }
+                        if(b) {
+                                $('.nav-tabs').append(`<li class="nav-item"><a  class="nav-link" data-toggle="tab" href="#skills_${id}">Monster Skills</a></li>`);
+                                $table = `<div id="skills_${id}" class="tab-pane fade">`;
+                                titles = m.labels.mobSkills;
+                                $table += `<table class="table table-bordered my-0">`;
+                                for(i in b) {
+                                        $m_id = `${b[i].monster_id}`;
+                                        if('monster_link' in b[i]) {
+                                                $m_id = `<a href="<?php echo $this->url('monster','view') ?>&id=${b[i].monster_id}">${b[i].monster_id}</a>`;
+                                        }
+                                        $table += `
+                                                        <tr>
+                                                                <th>${titles.info}</th>
+                                                                <td>${b[i].info}</td>
+                                                                <th>${titles.skill_lvl}</th>
+                                                                <td>${b[i].skill_lvl}</td>
+                                                                <th>${titles.state}</th>
+                                                                <td>${b[i].state}</td>
+                                                        </tr>
+                                                        <tr>
+                                                                <th>${titles.casttime}</th>
+                                                                <td>${b[i].casttime}</td>
+                                                                <th>${titles.rate}</th>
+                                                                <td>${b[i].rate}</td>
+                                                                <th>${titles.delay}</th>
+                                                                <td>${b[i].delay}</td>
+                                                        </tr>
+                                                        <tr>
+                                                                <th>${titles.cancellable}</th>
+                                                                <td>${b[i].cancellable}</td>
+                                                                <th>${titles.target}</th>
+                                                                <td>${b[i].target}</td>
+                                                                <th>${titles.condition}</th>
+                                                                <td>${b[i].condition}</td>
+                                                        </tr>
+                                                        <tr><td colspan="8"><div style="height:10px;"></div></td></tr>
+                                                `;
+                                }
+                                $table += `</table></div>`;
+                                content.find('.modal-body .tab-content').append($table);
+                        }
+                        $('.tooltip').remove();
+                        content.show();
+                }
+                else {
+                        modal.find('.no_result').show();
+                }
+        }
+
         $(document).ready(function() {
                 _delay = 0;
                 dontLoad = false;
@@ -16,7 +157,7 @@
 
                 $('.pagemenu div').first().before(`<div class="dropdown_container"><div class="menu_container" id="menu_sort" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="toggle"><div data-toggle="tooltip" title="Sort By"><i class="fas fa-sort"></i></div></div>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="menu_sort">
-                        <?php foreach($sortable as $key2 => $sort): $key = is_numeric($key2) ? $sort : $key2; ?>
+                        <?php foreach($sortable as $key2 => $sort): $key = is_numeric($key2) ? $sort : $key2; if(!in_array($key, $json_arr['labels'])) continue; ?>
                         <div class='sort_order dropdown-item' sort-param="<?php echo $key ?>" sort-val="<?php echo !is_numeric($key2) ? array_search(strtoupper($sort),$json_arr['sortable']): 2 ?>"><i class="fas <?php echo !is_numeric($key2) ? (array_search(strtoupper($sort),$json_arr['sortable'])==0 ? 'fa-arrow-up' : 'fa-arrow-down') : ''?>"></i><?php echo $json_arr['labels'][$key]; ?></div>
                         <?php  endforeach; ?>
                 </div></div>`);
@@ -164,7 +305,7 @@
                                     Custom:  ${(item.custom =='yes') ? "Yes" : "No"} <br>
                                         `;
                                 string_lit = `
-                                        <div item-id="${item.monster_id}" data-toggle="modal" data-target="#modal_botongui" class="item_container item_master">
+                                        <div item-id="${item.monster_id}" data-toggle="modal" data-target="#modal_botongui" data-function="monsterModal" class="item_container item_master">
                                                 <div class="item list align-items-center d-flex" item-view="list" data-html="true" data-toggle="tooltip" data-placement="bottom" title="${$title}">
                                                         <div class="list_name">${item[default_name+'_name']}</div>
                                                         <div class="list_cats">
@@ -178,153 +319,6 @@
                         });
                 }
 
-                function ItemViewRender(modal, content, m) {
-                        modal.find('[item-type=t_loader]').hide();
-                        if('monster' in m) {
-                                r = m.monster;
-                                g = m.itemDrops;
-                                b = m.mobSkills;
-                                id = r.monster_id;
-                                monster_desc[id] = m;
-                                console.log(m);
-                                modal.find('.modal-title').html(`${r[default_name+'_name']} <span class="permalink"><a href="<?php echo $this->url('monster','view') ?>&id=${id}">Permalink</a> | Card ID: <a href="<?php echo $this->url('item','index') ?>&item_id=${g.dropcard.id}">${g.dropcard.id}</a></span>`);
-
-                                $table = `<div id="info_${id}" class="tab-pane fade show active"><table class="table table-bordered">`;
-                                label = m.labels['monster'];
-                                for(keys in label) {
-                                        if(!label[keys]) continue;
-                                        if(keys=='monster_mode') {
-                                                $table += `<tr><th>${label[keys]}</th><td>`;
-                                                for (value of r[keys]) {
-                                                        $table += `<li>${value}</li>`;
-                                                }
-                                                $table+= `</td></tr>`;
-                                        }
-                                        else if(keys=='monster_stats'){
-                                                $table += `<tr><th>${label[keys]}</th>
-                                                <td>
-                                                        <table class="table table-borderless my-0">
-                                                                <tr>
-                                                                        <th>STR</th>
-                                                                        <td>${r[keys]['str']}</td>
-                                                                        <th>AGI</th>
-                                                                        <td>${r[keys]['agi']}</td>
-                                                                        <th>VIT</th>
-                                                                        <td>${r[keys]['vit']}</td>
-                                                                </tr>
-                                                                <tr>
-                                                                        <th>INT</th>
-                                                                        <td>${r[keys]['int']}</td>
-                                                                        <th>DEX</th>
-                                                                        <td>${r[keys]['dex']}</td>
-                                                                        <th>LUK</th>
-                                                                        <td>${r[keys]['luk']}</td>
-                                                                </tr>
-                                                        </table>                                                        
-                                                </td></tr>`;
-                                        }
-                                        else {
-                                                $table += `<tr><th>${label[keys]}</th><td>${r[keys]}</td></tr>`;
-                                        }
-                                }
-                                $table += '</table></div>';
-                                content.find('.modal-body').html((g) ? `<div class="tab-content">${$table}</div>`: $table);
-                                if('itemDrops' in m || 'mobSkills' in m) {
-                                        content.find('.modal-body .tab-content').before(`
-                                                <ul class="nav nav-tabs">
-                                                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#info_${id}">Info</a></li>
-                                                </ul><br/>
-                                                `);
-                                }
-                                if(g) {
-                                        $('.nav-tabs').append(`<li class="nav-item"><a  class="nav-link" data-toggle="tab" href="#dropped_${id}">Item Drops</a></li>`);
-                                        $table = `<div id="dropped_${id}" class="tab-pane fade"><table class="table table-bordered">`;
-                                        titles = m.labels.itemDrops;
-                                        $table += `<thead><tr>`;
-                                        for(key in titles) $table += `<th>${titles[key]}</th>`;
-                                        $table += `</tr></thead><tbody>`;
-                                        for(i in g) {
-                                                $m_id = `${g[i].monster_id}`;
-                                                if('monster_link' in g[i]) {
-                                                        $m_id = `<a href="<?php echo $this->url('monster','view') ?>&id=${g[i].monster_id}">${g[i].monster_id}</a>`;
-                                                }
-                                                $table += `<tr>
-                                                <td><a href="<?Php echo $this->url('item','index') ?>&item_id=${g[i].id}">${g[i].id}</a></td>
-                                                <td>${g[i].name}</td>
-                                                <td>${g[i].chance}</td>
-                                                </tr>`;
-                                        }
-                                        $table += `</tbody></table></div>`;
-                                        content.find('.modal-body .tab-content').append($table);
-                                }
-                                if(b) {
-                                        $('.nav-tabs').append(`<li class="nav-item"><a  class="nav-link" data-toggle="tab" href="#skills_${id}">Monster Skills</a></li>`);
-                                        $table = `<div id="skills_${id}" class="tab-pane fade">`;
-                                        titles = m.labels.mobSkills;
-                                        $table += `<table class="table table-bordered my-0">`;
-                                        for(i in b) {
-                                                $m_id = `${b[i].monster_id}`;
-                                                if('monster_link' in b[i]) {
-                                                        $m_id = `<a href="<?php echo $this->url('monster','view') ?>&id=${b[i].monster_id}">${b[i].monster_id}</a>`;
-                                                }
-                                                $table += `
-                                                                <tr>
-                                                                        <th>${titles.info}</th>
-                                                                        <td>${b[i].info}</td>
-                                                                        <th>${titles.skill_lvl}</th>
-                                                                        <td>${b[i].skill_lvl}</td>
-                                                                        <th>${titles.state}</th>
-                                                                        <td>${b[i].state}</td>
-                                                                </tr>
-                                                                <tr>
-                                                                        <th>${titles.casttime}</th>
-                                                                        <td>${b[i].casttime}</td>
-                                                                        <th>${titles.rate}</th>
-                                                                        <td>${b[i].rate}</td>
-                                                                        <th>${titles.delay}</th>
-                                                                        <td>${b[i].delay}</td>
-                                                                </tr>
-                                                                <tr>
-                                                                        <th>${titles.cancellable}</th>
-                                                                        <td>${b[i].cancellable}</td>
-                                                                        <th>${titles.target}</th>
-                                                                        <td>${b[i].target}</td>
-                                                                        <th>${titles.condition}</th>
-                                                                        <td>${b[i].condition}</td>
-                                                                </tr>
-                                                                <tr><td colspan="8"><div style="height:10px;"></div></td></tr>
-
-                                                        `;
-                                        }
-                                        $table += `</table></div>`;
-                                        content.find('.modal-body .tab-content').append($table);
-                                }
-                                $('.tooltip').remove();
-                                content.show();
-                        }
-                        else {
-                                modal.find('.no_result').show();
-                        }
-                }
-
-                $('#modal_botongui').on('show.bs.modal', function (event) {
-						button = $(event.relatedTarget);
-						item_id = button.attr('item-id');
-                        modal = $(this);
-                        content = modal.find('.modal-main-content');
-                        content.hide();
-                        $('.tooltip').remove();
-                        if(item_id in monster_desc) {
-                                ItemViewRender(modal, content, monster_desc[item_id]);
-                        }
-                        else {
-                                $.get(`<?php echo $this->url('monster','view') ?>&id=${item_id}&output=json`,function(m) {
-                                        m = JSON.parse(m);
-                                        ItemViewRender(modal, content, m);
-                                });
-                        }
-                });
-                
 
                 function checkboxCountSelected(group_ = '') {
                         group = (group_ != '') ? `[sp_name=${group_}]` : '';
