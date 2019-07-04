@@ -60,12 +60,6 @@ foreach ($session->loginAthenaGroup->athenaServers as $athenaServer) {
 	}
 }
 
-if(false) {
-	echo "<pre>";
-	print_r($woeTimes);
-	echo '</pre>';
-}
-
 if($params->get('output')=='json') {
 	echo json_encode(
 		array(

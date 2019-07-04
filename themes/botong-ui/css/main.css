@@ -42,14 +42,6 @@ a, a * {
   text-decoration: none !important;
 }
 
-.nomargin {
-  margin: 0 !important;
-}
-
-.nopadding {
-  margin: 0 !important;
-}
-
 .v_divider {
   min-height: 100%;
   width: 1px;
@@ -223,21 +215,16 @@ nav.naviBottom nav.mainNaviBottom ul.status_circles li {
   margin: 10px;
   border: 1px solid rgba(0, 0, 0, 0.3);
   background: transparent;
+  position: relative;
 }
 nav.naviBottom nav.mainNaviBottom ul.status_circles li .status_content {
-  position: relative;
   background: rgba(255, 100, 50, 0.2);
-  float: left;
-  margin-top: -42px;
+  position: absolute;
+  top: 0;
+  left: 0;
   margin-left: -1px;
+  margin-top: -1px;
   z-index: 99;
-}
-nav.naviBottom nav.mainNaviBottom ul.status_circles li #botongui_rotator {
-  fill: #94d31b;
-  margin-top: 9px;
-  margin-left: -1px;
-  width: 44px;
-  height: 44px;
 }
 nav.naviBottom nav.mainNaviBottom section.logo {
   display: flex;
@@ -319,6 +306,9 @@ main {
   max-height: calc(calc(100vh - 101px) - 76px);
 }
 
+.botongui {
+  /** Pages **/
+}
 .botongui header.topbar {
   height: 76px;
 }
@@ -628,6 +618,26 @@ main {
   background-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.04) 0%, rgba(0, 0, 0, 0) 60%), radial-gradient(ellipse at center, rgba(0, 0, 0, 0.04) 0%, rgba(0, 0, 0, 0) 70%);
   background-position: center bottom -10px, center bottom -5px;
 }
+.botonguiPage {
+  max-width: 700px;
+  min-width: 350px;
+  width: 26vw;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(1, 1, 1, 0.13);
+  box-sizing: content-box;
+  padding: 15px;
+}
+.botonguiPageCaption {
+  padding: 0px;
+  opacity: 0.8;
+  font-size: 12px;
+  box-shadow: none;
+  text-align: center;
+}
+.botonguiPageCaptionError {
+  color: red !important;
+}
 
 [item-type=t_loader].modal-loader {
   margin: 10px auto !important;
@@ -742,9 +752,47 @@ main {
   background: rgba(255, 0, 100, 0);
 }
 .rotator.rotate {
-  -webkit-animation: spin 2.2s linear running infinite;
-  -moz-animation: spin 2.2s linear running infinite;
-  animation: spin 2.2s linear running infinite;
+  -webkit-animation: spin 2.2s ease-in-out running infinite;
+  -moz-animation: spin 2.2s ease-in-out running infinite;
+  animation: spin 2.2s ease-in-out running infinite;
+}
+.rotator.linear {
+  animation-timing-function: linear !important;
+  animation-duration: 1.5s;
+}
+.rotator #botongui_rotator {
+  margin-top: 9px;
+  margin-left: -1px;
+  width: 44px;
+  height: 44px;
+  fill: black;
+  transition: fill 0.4s ease-in-out;
+}
+.rotator #botongui_rotator.green {
+  fill: #94d31b !important;
+}
+.rotator #botongui_rotator.grey {
+  fill: gray !important;
+}
+.rotator #botongui_rotator.orange {
+  fill: orange !important;
+}
+.rotator #botongui_rotator.empColor {
+  fill: yellow !important;
+}
+
+.tooltipAlignLeft {
+  text-align: left !important;
+}
+
+.generic-form {
+  margin: 15px;
+}
+.generic-form label {
+  text-transform: uppercase;
+  font-weight: 300;
+  letter-spacing: 1px;
+  font-size: 13px;
 }
 
 @-moz-keyframes spin {
@@ -764,53 +812,6 @@ main {
 }
 .fluxDetails {
   display: none;
-}
-
-@-webkit-keyframes "loader" {
-  100% {
-    -webkit-transform: rotate(360deg);
-  }
-}
-.loader-wrapper {
-  margin-bottom: 30px;
-}
-
-.loader-wrapper span.loader-active {
-  -webkit-animation-name: loader;
-  -moz-animation-name: loader;
-  -ms-animation-name: loader;
-  -o-animation-name: loader;
-  animation-name: loader;
-  -webkit-animation-duration: 1200ms;
-  -moz-animation-duration: 1200ms;
-  -ms-animation-duration: 1200ms;
-  -o-animation-duration: 1200ms;
-  -webkit-animation-timing-function: linear;
-  -moz-animation-timing-function: linear;
-  -ms-animation-timing-function: linear;
-  -o-animation-timing-function: linear;
-  animation-timing-function: linear;
-  -webkit-animation-play-state: running;
-  -moz-animation-play-state: running;
-  -ms-animation-play-state: running;
-  -o-animation-play-state: running;
-  animation-play-state: running;
-  -webkit-animation-iteration-count: infinite;
-  -moz-animation-iteration-count: infinite;
-  -ms-animation-iteration-count: infinite;
-  -o-animation-iteration-count: infinite;
-  animation-iteration-count: infinite;
-}
-
-.loader-wrapper span {
-  margin-right: 5px;
-  display: inline-block;
-  vertical-align: middle;
-  background: transparent;
-  border-right: 1px solid #000;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
 }
 
 /*# sourceMappingURL=main.css.map */

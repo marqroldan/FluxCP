@@ -1,5 +1,6 @@
 <?php
 if (!defined('FLUX_ROOT')) exit;
+$hideEverything = true;
 
 if (Flux::config('UseLoginCaptcha') && Flux::config('EnableReCaptcha')) {
 	require_once 'recaptcha/recaptchalib.php';

@@ -406,7 +406,7 @@
         });
 </script>
 <section class="botongui ">
-        <div class="container-fluid nopadding max_height">
+        <div class="container-fluid p-0 max_height">
                 <div class="row h-100 overflow-hidden">
                         <div class="col search">
                                 <div class="text-center mx-auto">

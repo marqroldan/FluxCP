@@ -24,6 +24,7 @@ $.fn.isInViewport = function(element) {
 
 $(document).ready(function() {
 modal = $('#modal_botongui');
+content = modal.find('.modal-main-content');
 let text = `
  ______ _     _    ___   _______ _____  
 |  ____| |   | |  | \\ \\ / / ____|  __ \\ 
@@ -43,14 +44,13 @@ modal_original = $('.modal-main-content').html();
 
 $('#modal_botongui').on('hidden.bs.modal', function (event) {
     $(this).find('.modal-main-content').html(modal_original);
-    $(this).find('[item-type=t_loader]').show();
 });
 
 
 $('#modal_botongui').on('show.bs.modal', function (event) {
     $('.tooltip').remove();
+    $(this).find('[item-type=t_loader]').show();
     button = $(event.relatedTarget);
-    content = modal.find('.modal-main-content');
     content.hide();
     func = button.attr('data-function');
     if(typeof window[func] === "function") {

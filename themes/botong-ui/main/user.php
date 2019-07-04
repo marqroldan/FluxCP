@@ -107,7 +107,7 @@ if ($session->isLoggedIn()) {
 </section>
 <div class="fcp">
         <div class="fcp_modal">
-            <div class="row h-100 nomargin user_info_market d-flex justify-content-center align-items-center">
+            <div class="row h-100 m-0 user_info_market d-flex justify-content-center align-items-center">
                     <div class="d-flex flex-wrap flex-row justify-content-center align-items-center user_info_market_links">
                         <span data-toggle="tooltip" data-placement="top" title="Go to Marketplace">
                             <a href="<?php echo $this->url('purchase') ?>"><i class="fas fa-store"></i></a>

@@ -1,63 +1,86 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<h2><?php echo htmlspecialchars(Flux::message('LoginHeading')) ?></h2>
-<?php if (isset($errorMessage)): ?>
-<p class="red"><?php echo htmlspecialchars($errorMessage) ?></p>
-<?php else: ?>
-
-<?php if ($auth->actionAllowed('account', 'create')): ?>
-<p><?php printf(Flux::message('LoginPageMakeAccount'), $this->url('account', 'create')); ?></p>
-<?php endif ?>
-
-<?php endif ?>
-<form action="<?php echo $this->url('account', 'login', array('return_url' => $params->get('return_url'))) ?>" method="post" class="generic-form">
-	<?php if (count($serverNames) === 1): ?>
-	<input type="hidden" name="server" value="<?php echo htmlspecialchars($session->loginAthenaGroup->serverName) ?>">
+<script>
+	$(document).ready(function() {
+		$('.botonguiPage').overlayScrollbars({
+                className       : "os-theme-dark",
+                sizeAutoCapable : true,
+                paddingAbsolute : false,
+                scrollbars : {
+                        clickScrolling : true,
+                        autoHide: 'leave', 
+                        autoHideDelay: 400, 
+                },
+        }); 
+	});
+</script>
+<div class="container-fluid p-0 h-100 d-flex flex-wrap justify-content-center align-items-center">
+	<div class="botonguiPage d-flex flex-wrap justify-content-center align-items-center">
+	<?php if (isset($errorMessage)): ?>
+	<div class="botonguiPageCaption botonguiPageCaptionError"><?php echo htmlspecialchars($errorMessage) ?></div>
 	<?php endif ?>
-	<table class="generic-form-table">
-		<tr>
-			<th><label for="login_username"><?php echo htmlspecialchars(Flux::message('AccountUsernameLabel')) ?></label></th>
-			<td><input type="text" name="username" id="login_username" value="<?php echo htmlspecialchars($params->get('username')) ?>" /></td>
-		</tr>
-		<tr>
-			<th><label for="login_password"><?php echo htmlspecialchars(Flux::message('AccountPasswordLabel')) ?></label></th>
-			<td><input type="password" name="password" id="login_password" /></td>
-		</tr>
+	<form action="<?php echo $this->url('account', 'login', array('return_url' => $params->get('return_url'))) ?>" method="post" class="generic-form">
+		<?php if (count($serverNames) === 1): ?>
+		<input type="hidden" name="server" value="<?php echo htmlspecialchars($session->loginAthenaGroup->serverName) ?>">
+		<?php endif ?>
+		<div class="form-group">
+			<label for="validationServerUsername"><?php echo htmlspecialchars(Flux::message('AccountUsernameLabel')) ?></label>
+			<div class="input-group">
+				<div class="input-group-prepend">
+				<span class="input-group-text" id="loginUsername"><i class="fas fa-user"></i></span>
+				</div>
+				<input type="text" class="form-control<?php // is-invalid ?>" id="validationServerUsername" aria-describedby="loginUsername" required>
+				<?php /*
+				<div class="invalid-feedback">
+				Please choose a username.
+				</div> */
+				?>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="validationServerUsername"><?php echo htmlspecialchars(Flux::message('AccountPasswordLabel')) ?></label>
+			<div class="input-group">
+				<div class="input-group-prepend">
+				<span class="input-group-text" id="loginPassword"><i class="fas fa-lock"></i></span>
+				</div>
+				<input type="text" class="form-control" id="validationServerUsername" aria-describedby="loginPassword" required>
+			</div>
+		</div>
 		<?php if (count($serverNames) > 1): ?>
-		<tr>
-			<th><label for="login_server"><?php echo htmlspecialchars(Flux::message('AccountServerLabel')) ?></label></th>
-			<td>
-				<select name="server" id="login_server"<?php if (count($serverNames) === 1) echo ' disabled="disabled"' ?>>
+		<div class="form-group">
+			<label for="login_server"><?php echo htmlspecialchars(Flux::message('AccountServerLabel')) ?></label>
+			<div class="input-group">
+				<select name="server" id="login_server"<?php if (count($serverNames) === 1) echo ' disabled="disabled"' ?> class="form-control">
 					<?php foreach ($serverNames as $serverName): ?>
 					<option value="<?php echo htmlspecialchars($serverName) ?>"><?php echo htmlspecialchars($serverName) ?></option>
 					<?php endforeach ?>
 				</select>
-			</td>
-		</tr>
+			</div>
+		</div>
 		<?php endif ?>
 		<?php if (Flux::config('UseLoginCaptcha')): ?>
-		<tr>
-			<?php if (Flux::config('EnableReCaptcha')): ?>
-			<th><label for="register_security_code"><?php echo htmlspecialchars(Flux::message('AccountSecurityLabel')) ?></label></th>
-			<td><?php echo $recaptcha ?></td>
-			<?php else: ?>
-			<th><label for="register_security_code"><?php echo htmlspecialchars(Flux::message('AccountSecurityLabel')) ?></label></th>
-			<td>
-				<div class="security-code">
-					<img src="<?php echo $this->url('captcha') ?>" />
+		<div class="form-group">
+			<label for="register_security_code"><?php echo htmlspecialchars(Flux::message('AccountSecurityLabel')) ?></label>
+			<div class="input-group">
+				<?php if (Flux::config('EnableReCaptcha')): ?>
+					<?php echo $recaptcha ?>
+				<?php else: ?>
+					<div class="security-code"><img src="<?php echo $this->url('captcha') ?>" /></div>
+					<input type="text" name="security_code" id="register_security_code" />
+					<div style="font-size: smaller;" class="action">
+						<strong><a href="javascript:refreshSecurityCode('.security-code img')"><?php echo htmlspecialchars(Flux::message('RefreshSecurityCode')) ?></a></strong>
+					</div>
+				<?php endif ?>
+				<div class="valid-feedback">
+				Looks good!
 				</div>
-				<input type="text" name="security_code" id="register_security_code" />
-				<div style="font-size: smaller;" class="action">
-					<strong><a href="javascript:refreshSecurityCode('.security-code img')"><?php echo htmlspecialchars(Flux::message('RefreshSecurityCode')) ?></a></strong>
-				</div>
-			</td>
-			<?php endif ?>
-		</tr>
+			</div>
+		</div>
 		<?php endif ?>
-		<tr>
-			<td></td>
-			<td>
-				<input type="submit" value="<?php echo htmlspecialchars(Flux::message('LoginButton')) ?>" />
-			</td>
-		</tr>
-	</table>
-</form>
+		<hr/>
+		<div class="text-center">
+			<button class="btn btn-secondary" type="submit"><?php echo htmlspecialchars(Flux::message('LoginButton')) ?></button>
+			<a href="<?php echo $this->url('account','create') ?>"><button class="btn btn-warning" type="button">Register</button></a>
+		</div>
+	</form>
+	</div>
+</div>

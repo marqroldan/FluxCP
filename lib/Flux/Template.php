@@ -721,7 +721,7 @@ class Flux_Template {
 	 * @param int $backwardYears
 	 * @return string
 	 */
-	public function dateField($name, $value = null, $fowardYears = null, $backwardYears = null)
+	public function dateField($name, $value = null, $fowardYears = null, $backwardYears = null, $addClass = null, $template = '<span class="date-field">%s-%s-%s</span>')
 	{
 		if(!isset($fowardYears)) {
 			$fowardYears = (int)Flux::config('ForwardYears');
@@ -738,7 +738,7 @@ class Flux_Template {
 		$bw    = $year - $backwardYears;
 		
 		// Get years.
-		$years = sprintf('<select name="%s_year">', $name);
+		$years = sprintf('<select class="'.$addClass.'" name="%s_year">', $name);
 		for ($i = $fw; $i >= $bw; --$i) {
 			if ($year == $i) {
 				$years .= sprintf('<option value="%04d" selected="selected">%04d</option>', $i, $i);
@@ -750,7 +750,7 @@ class Flux_Template {
 		$years .= '</select>';
 		
 		// Get months.
-		$months = sprintf('<select name="%s_month">', $name);
+		$months = sprintf('<select class="'.$addClass.'" name="%s_month">', $name);
 		for ($i = 1; $i <= 12; ++$i) {
 			if ($month == $i) {
 				$months .= sprintf('<option value="%02d" selected="selected">%02d</option>', $i, $i);
@@ -762,7 +762,7 @@ class Flux_Template {
 		$months .= '</select>';
 		
 		// Get days.
-		$days = sprintf('<select name="%s_day">', $name);
+		$days = sprintf('<select class="'.$addClass.'" name="%s_day">', $name);
 		for ($i = 1; $i <= 31; ++$i) {
 			if ($day == $i) {
 				$days .= sprintf('<option value="%02d" selected="selected">%02d</option>', $i, $i);
@@ -773,7 +773,7 @@ class Flux_Template {
 		}
 		$days .= '</select>';
 		
-		return sprintf('<span class="date-field">%s-%s-%s</span>', $years, $months, $days);
+		return sprintf($template, $years, $months, $days);
 	}
 	
 	/**

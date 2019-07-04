@@ -28,12 +28,18 @@
         <script src="<?php echo $this->themePath('js/jquery-ui.js') ?>"></script>
         <?php endif ?>
         <script>
+			function refreshSecurityCode(imgSelector){
+				var clean = <?php echo Flux::config('UseCleanUrls') ? 'true' : 'false' ?>;
+				var image = new Image();
+				image.src = "<?php echo $this->url('captcha') ?>"+(clean ? '?nocache=' : '&nocache=')+Math.random();
+				$(imgSelector).attr('src', image.src);
+            }
+            
             $(document).ready(function() {
                 $('body').tooltip({
                     selector: '[data-toggle=tooltip]',
                     delay: {"show":200, "hide":0},
                 });
-
 
                 $('[data-toggle=tooltip]').on('shown.bs.tooltip', function (e) {
                     $(this).removeAttr('title');
@@ -104,7 +110,8 @@
 					<form action="<?php echo $this->urlWithQs ?>" method="post" name="preferred_theme_form" style="display: none">
 					<input type="hidden" name="preferred_theme" value="" />
 					</form>
-			<?php endif ?>
+            <?php endif ?>
+            <?php if(!isset($hideEverything)): ?>
             <?php if(!in_array($params->get('module'), array('main'))): ?>
             <section class="botongui">
                             <header class="topbar d-flex w-100 justify-content-space-between align-items-center">
@@ -127,6 +134,7 @@
                     <div class="container-fluid">
                             <div class="row">
                                 <div class="col">
+            <?php endif ?>
             <?php endif ?>
 								<?php if (Flux::config('DebugMode') && @gethostbyname(Flux::config('ServerAddress')) == '127.0.0.1'): ?>
 									<p class="notice">Please change your <strong>ServerAddress</strong> directive in your application config to your server's real address (e.g., myserver.com).</p>
