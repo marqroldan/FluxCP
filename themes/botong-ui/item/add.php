@@ -1,5 +1,4 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<h2>Add Item</h2>
 <p>The only required fields are the <em>Item ID</em>, <em>Identifier</em>, <em>Name</em> and <em>Type</em> fields.</p>
 <p><strong>Note:</strong> An empty <em>NPC Sell</em> price defaults to half of the buy price in-game.</p>
 <?php if (!empty($errorMessage)): ?>
@@ -8,7 +7,7 @@
 <form action="<?php echo $this->urlWithQs ?>" method="post">
 	<input type="hidden" name="additem" value="1" />
 	<?php echo Flux_Security::csrfGenerate('ItemAdd', true) ?>
-	<table class="vertical-table">
+	<table class="table table-bordered vertical-table">
 		<tr>
 			<th><label for="item_id">Item ID</label></th>
 			<td><input type="text" name="item_id" id="item_id" value="<?php echo htmlspecialchars($itemID) ?>" /></td>

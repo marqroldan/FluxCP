@@ -1,11 +1,10 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<h2><?php echo htmlspecialchars(Flux::message('ResendHeading')) ?></h2>
 <?php if (!empty($errorMessage)): ?>
 <p class="red"><?php echo htmlspecialchars($errorMessage) ?></p>
 <?php endif ?>
 <p><?php echo htmlspecialchars(Flux::message('ResendInfo')) ?></p>
 <form action="<?php echo $this->urlWithQs ?>" method="post" class="generic-form">
-	<table class="generic-form-table">
+	<table class="table table-bordered generic-form-table">
 		<?php if (count($serverNames) > 1): ?>
 		<tr>
 			<th><label for="login"><?php echo htmlspecialchars(Flux::message('ResendServerLabel')) ?></label></th>

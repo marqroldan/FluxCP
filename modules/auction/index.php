@@ -1,1 +1,3 @@
-<?php if (!defined('FLUX_ROOT')) exit; ?>
+<?php if (!defined('FLUX_ROOT')) exit; 
+
+$title = "Auction";

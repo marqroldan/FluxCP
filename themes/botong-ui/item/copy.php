@@ -1,5 +1,4 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<h2>Duplicate Item</h2>
 <?php if ($item): ?>
 <?php if (!empty($errorMessage)): ?>
 <p class="red"><?php echo htmlspecialchars($errorMessage) ?></p>
@@ -10,7 +9,7 @@
 	<input type="hidden" name="copyitem" value="1" />
 	<?php echo Flux_Security::csrfGenerate('ItemCopy', true) ?>
 
-	<table class="generic-form-table">
+	<table class="table table-bordered generic-form-table">
 		<tr>
 			<th><label>Item Name (Item ID)</label></th>
 			<td>

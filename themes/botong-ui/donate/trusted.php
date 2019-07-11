@@ -1,9 +1,8 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<h2>Trusted PayPal E-mails</h2>
 <?php if ($emails): ?>
 <p>Below is a list of your trusted PayPal e-mail addresses.</p>
 <p>Trusted e-mails do not undergo any holding process, therefore donations made by them will allow you to receive your credits <strong>instantly</strong>.</p>
-<table class="vertical-table">
+<table class="table table-bordered vertical-table">
 	<tr>
 		<th>E-mail Address</th>
 		<th>Date/Time Established</th>

@@ -1,5 +1,4 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<h2>Preferences</h2>
 <?php if ($char): ?>
 <?php if (!empty($errorMessage)): ?>
 <p class="red"><?php echo htmlspecialchars($errorMessage) ?></p>
@@ -9,7 +8,7 @@
 	<input type="hidden" name="charprefs" value="1" />
 	<?php echo Flux_Security::csrfGenerate('CharacterPreferences', true) ?>
 
-	<table class="generic-form-table">
+	<table class="table table-bordered generic-form-table">
 		<tr>
 			<th><label for="hide_from_whos_online">Hide Character From "Who's Online"</label></th>
 			<td><input type="checkbox" name="hide_from_whos_online" id="hide_from_whos_online"<?php if ($hideFromWhosOnline) echo ' checked="checked"' ?> /></td>

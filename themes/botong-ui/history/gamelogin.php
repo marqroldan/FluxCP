@@ -1,8 +1,7 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<h2><?php echo htmlspecialchars(Flux::message('HistoryGameLoginHeading')) ?></h2>
 <?php if ($logins): ?>
 <?php echo $paginator->infoText() ?>
-<table class="horizontal-table">
+<table class="table table-bordered horizontal-table">
 	<tr>
 		<th><?php echo $paginator->sortableColumn('time', Flux::message('HistoryLoginDateLabel')) ?></th>
 		<th><?php echo $paginator->sortableColumn('ip', Flux::message('HistoryIpAddrLabel')) ?></th>

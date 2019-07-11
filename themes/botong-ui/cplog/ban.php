@@ -1,15 +1,13 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<h2>Account Bans</h2>
-<p class="toggler"><a href="javascript:toggleSearchForm()">Search...</a></p>
 <form action="<?php echo $this->url ?>" method="get" class="search-form">
 	<?php echo $this->moduleActionFormInputs($params->get('module'), $params->get('action')) ?>
 	<p>
 		<label for="account">Account:</label>
 		<input type="text" name="account" id="account" value="<?php echo htmlspecialchars($params->get('account')) ?>" />
-		...
+		
 		<label for="banned_by">Banned By:</label>
 		<input type="text" name="banned_by" id="banned_by" value="<?php echo htmlspecialchars($params->get('banned_by')) ?>" />
-		...
+		
 		<label for="ban_type">Ban Type:</label>
 		<select name="ban_type" id="ban_type">
 			<option value=""<?php if (!($ban_type=$params->get('ban_type'))) echo ' selected="selected"' ?>><?php echo htmlspecialchars(Flux::message('AllLabel')) ?></option>
@@ -21,7 +19,7 @@
 		<label for="use_ban">Ban Date:</label>
 		<input type="checkbox" name="use_ban" id="use_ban"<?php if ($params->get('use_ban')) echo ' checked="checked"' ?> />
 		<?php echo $this->dateTimeField('ban') ?>
-		...
+		
 		<label for="use_ban_until">Ban Until:</label>
 		<input type="checkbox" name="use_ban_until" id="use_ban_until"<?php if ($params->get('use_ban_until')) echo ' checked="checked"' ?> />
 		<?php echo $this->dateTimeField('ban_until') ?>
@@ -33,7 +31,7 @@
 </form>
 <?php if ($bans): ?>
 <?php echo $paginator->infoText() ?>
-<table class="horizontal-table">
+<table class="table table-bordered horizontal-table">
 	<tr>
 		<th><?php echo $paginator->sortableColumn('account', 'Account') ?></th>
 		<th><?php echo $paginator->sortableColumn('banned_by', 'Banned By') ?></th>

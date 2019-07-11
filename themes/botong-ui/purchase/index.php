@@ -23,7 +23,7 @@
 	<p class="cart-total-text">Your current subtotal is <span class="cart-sub-total"><?php echo number_format($server->cart->getTotal()) ?></span> credit(s).</p>
 <?php endif ?>
 <?php echo $paginator->infoText() ?>
-<table class="shop-table">
+<table class="table table-bordered shop-table">
 	<?php foreach ($items as $item): ?>
 	<tr>
 		<td class="shop-item-image">

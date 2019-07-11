@@ -5,7 +5,7 @@ include 'status.php';
 $dom  = new DomDocument('1.0', 'utf-8');
 $root = $dom->createElement('ServerStatus'); // Root element.
 
-foreach ($serverStatus as $privServerName => $gameServers) {
+foreach ($serverStatus['serverStatus'] as $privServerName => $gameServers) {
 	$group  = $dom->createElement('Group');
 	$name   = $dom->createAttribute('name');
 	$name->nodeValue = $privServerName;

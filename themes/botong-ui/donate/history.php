@@ -1,9 +1,8 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<h2>Donation History</h2>
 <h3>Transactions: Completed</h3>
 <?php if ($completedTxn): ?>
 <p>You have <?php echo number_format($completedTotal) ?> completed transaction(s).</p>
-<table class="vertical-table">
+<table class="table table-bordered vertical-table">
 	<tr>
 		<th>Transaction</th>
 		<th>Payment Date</th>
@@ -30,7 +29,7 @@
 <h3>Transactions: Held</h3>
 <?php if ($heldTxn): ?>
 <p>You have <?php echo number_format($heldTotal) ?> held transaction(s).</p>
-<table class="vertical-table">
+<table class="table table-bordered vertical-table">
 	<tr>
 		<th>Transaction</th>
 		<th>Payment Date</th>
@@ -63,7 +62,7 @@
 <h3>Transactions: Failed</h3>
 <?php if ($failedTxn): ?>
 <p>You have <?php echo number_format($failedTotal) ?> held transaction(s).</p>
-<table class="vertical-table">
+<table class="table table-bordered vertical-table">
 	<tr>
 		<th>Transaction</th>
 		<th>Payment Date</th>

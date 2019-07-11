@@ -1,8 +1,7 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<h2>Checkout</h2>
 <p>The checkout process is fairly simple, and when you're done you'll be ready to redeem your items in-game through our <span class="keyword">Redemption NPC</span>.</p>
 
-<h3>Purchase Information</h3>
+<h2>Purchase Information</h2>
 <p class="cart-total-text">Your current subtotal is <span class="cart-sub-total"><?php echo number_format($total=$server->cart->getTotal()) ?></span> credit(s).</p>
 <p class="checkout-info-text">Your remaining balance after this purchase will be <span class="remaining-balance"><?php echo number_format($session->account->balance - $total) ?></span> credit(s).</p>
 <p>After reviewing the below item information, you can proceed with your checkout by clicking the “Purchase Items” button.</p>
@@ -12,7 +11,7 @@
 		<?php echo $this->moduleActionFormInputs($params->get('module'), 'checkout') ?>
 		<input type="hidden" name="process" value="1" />
 		<?php echo Flux_Security::csrfGenerate('PurchaseCheckOut', true) ?>
-		<button type="submit" onclick="return confirm('Are you sure you want to continue purchasing the below item(s)?')">
+		<button type="submit" class="btn btn-warning" onclick="return confirm('Are you sure you want to continue purchasing the below item(s)?')">
 			<strong>Purchase Items</strong>
 		</button>
 	</form>
@@ -20,7 +19,7 @@
 
 <h3>Items Currently in Your Cart:</h3>
 <p class="cart-info-text">You have <span class="cart-item-count"><?php echo number_format(count($items)) ?></span> item(s) in your cart.</p>
-<table class="vertical-table cart">
+<table class="table table-bordered vertical-table cart">
 	<?php foreach ($items as $item): ?>
 	<tr>
 		<td>

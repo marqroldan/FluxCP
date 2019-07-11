@@ -1,12 +1,11 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<h2>Map Statistics</h2>
 <?php if ($maps): ?>
 <?php $playerTotal = 0; foreach ($maps as $map) $playerTotal += $map->player_count ?>
 <p>This page shows how many online players are located a specific map, for all maps that have <em>any</em> online players at all.</p>
 <p><strong><?php echo number_format($playerTotal) ?></strong> online player(s) were found
 distributed across <strong><?php echo number_format(count($maps)) ?></strong> map(s).</p>
 <div class="generic-form-div">
-	<table class="generic-form-table">
+	<table class="table table-bordered generic-form-table">
 		<?php foreach ($maps as $map): ?>
 		<tr>
 			<td align="right"><p class="important"><strong><?php echo htmlspecialchars(basename($map->map_name, '.gat')) ?></strong></p></td>

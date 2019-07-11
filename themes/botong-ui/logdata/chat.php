@@ -1,8 +1,7 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<h2>Chat Messages</h2>
 <?php if ($messages): ?>
 <?php echo $paginator->infoText() ?>
-<table class="horizontal-table">
+<table class="table table-bordered horizontal-table">
 	<tr>
 		<th><?php echo $paginator->sortableColumn('time', 'Date/Time') ?></th>
 		<th><?php echo $paginator->sortableColumn('type', 'Type') ?></th>

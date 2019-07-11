@@ -96,9 +96,6 @@ if ($session->isLoggedIn()) {
         <span class="user_name">
             <?php echo $session->account->userid ?>
         </span>
-        <span class="user_notifications">
-            0 Notifications
-        </span>
     </div>
     <div class="user_picture_area">
         <div class="user_picture" style="background: url('https://www.gravatar.com/avatar/<?php echo md5($session->account->email) ?>?s=47') ">
@@ -131,7 +128,7 @@ if ($session->isLoggedIn()) {
             </div>
         </div>
     <div class="fcp_modal">
-        <div class="row h-100 nomargin user_info">
+        <div class="row h-100 m-0 user_info">
                 <div class="d-flex flex-column justify-content-center align-items-center user_info_menu">
                     <span data-toggle="tooltip" data-placement="left" title="Account Settings">
                     <a href="<?php echo $this->url('account','settings') ?>"><i class="fas fa-cog"></i></a>
@@ -149,10 +146,10 @@ if ($session->isLoggedIn()) {
                 <div class="v_divider"></div>
                 <div class="d-flex flex-column justify-content-center align-items-center">
                         <table class="m_user_info">
-                                <?php foreach($user_info as $info): if (!$info['value']) continue; ?>
+                                <?php foreach($user_info as $uinfo): if (!$uinfo['value']) continue; ?>
                                 <tr>
-                                    <th><?php echo $info['title'] ?></th>
-                                    <td><?php echo $info['value'] ?></td>
+                                    <th><?php echo $uinfo['title'] ?></th>
+                                    <td><?php echo $uinfo['value'] ?></td>
                                 </tr>
                                 <?php endforeach ?>
                         </table>

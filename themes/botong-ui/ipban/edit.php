@@ -1,5 +1,4 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<h2><?php echo htmlspecialchars(Flux::message('IpbanEditHeading')) ?></h2>
 <?php if ($ipban): ?>
 	<?php if (!empty($errorMessage)): ?>
 		<p class="red"><?php echo htmlspecialchars($errorMessage) ?></p>
@@ -8,7 +7,7 @@
 		<input type="hidden" name="modipban" value="1" />
 	<?php echo Flux_Security::csrfGenerate('IPBanEdit', true) ?>
 
-		<table class="generic-form-table">
+		<table class="table table-bordered generic-form-table">
 			<tr>
 				<th><label for="list"><?php echo htmlspecialchars(Flux::message('IpbanIpAddressLabel')) ?></label></th>
 				<td><input type="text" name="newlist" id="list"

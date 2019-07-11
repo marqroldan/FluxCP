@@ -1,11 +1,10 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<h2>View Cart</h2>
 <p class="cart-info-text">You have <span class="cart-item-count"><?php echo number_format(count($items)) ?></span> item(s) in your cart.</p>
 <p class="cart-total-text">Your current subtotal is <span class="cart-sub-total"><?php echo number_format($total=$server->cart->getTotal()) ?></span> credit(s).</p>
 <br />
 <p class="checkout-text"><a href="<?php echo $this->url('purchase', 'checkout') ?>">Proceed to Checkout Area</a></p>
 <form action="<?php echo $this->url('purchase', 'remove') ?>" method="post">
-	<table class="vertical-table cart">
+	<table class="table table-bordered vertical-table cart">
 		<?php foreach ($items as $num => $item): ?>
 		<tr>
 			<td class="shop-item-image">
@@ -37,11 +36,11 @@
 		<?php endforeach ?>
 	</table>
 	<p class="remove-from-cart">
-		<input type="submit" value="Remove Selected Items from Cart" />
+		<input type="submit" class="btn btn-primary" value="Remove Selected Items from Cart" />
 	</p>
 </form>
 <form action="<?php echo $this->url('purchase', 'clear') ?>" method="post">
 	<p class="remove-from-cart">
-		<input type="submit" value="Empty Out Your Cart" />
+		<input type="submit" class="btn btn-primary" value="Empty Out Your Cart" />
 	</p>
 </form>

@@ -2,7 +2,6 @@
 if (!defined('FLUX_ROOT')) exit;
 $markdownURL = 'http://daringfireball.net/projects/markdown/syntax';
 ?>
-<h2><?php echo htmlspecialchars(Flux::message('MailerHeading')) ?></h2>
 <?php if (!empty($errorMessage)): ?>
 <p class="red"><?php echo htmlspecialchars($errorMessage) ?></p>
 <?php else: ?>
@@ -11,7 +10,7 @@ $markdownURL = 'http://daringfireball.net/projects/markdown/syntax';
 <form action="<?php echo $this->urlWithQs ?>" method="post" name="mailerform" class="generic-form">
 	<input type="hidden" name="_preview" value="0" />
 	<?php echo Flux_Security::csrfGenerate('Mailer', true) ?>
-	<table class="generic-form-table">
+	<table class="table table-bordered generic-form-table">
 		<tr>
 			<th><label><?php echo htmlspecialchars(Flux::message('MailerFromLabel')) ?></label></th>
 			<td><p>
@@ -37,8 +36,8 @@ $markdownURL = 'http://daringfireball.net/projects/markdown/syntax';
 		</tr>
 		<tr>
 			<td colspan="2" align="right">
-				<input type="submit" value="Send E-mail" />
-				<input type="button" value="Preview" onclick="document.mailerform._preview.value = 1; document.mailerform.submit()" />
+				<input type="submit" class="btn btn-primary" value="Send E-mail" />
+				<input type="button" class="btn btn-primary" value="Preview" onclick="document.mailerform._preview.value = 1; document.mailerform.submit()" />
 			</td>
 		</tr>
 	</table>

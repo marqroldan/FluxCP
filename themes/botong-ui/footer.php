@@ -11,5 +11,6 @@ Page generated in <?php echo round(microtime(true) - __START__, 5) ?> second(s).
 Number of queries executed: <?php echo (int)Flux::$numberOfQueries ?>.
 <?php if (Flux::config('GzipCompressOutput')): ?>Gzip Compression: Enabled.<?php endif ?>
 </span>
+        <?php loadFiles($params, $scriptFiles, 'script', $pageFiles, $scriptDefaultElem, "<script %s ></script>") ?>
 	</body>
 </html>

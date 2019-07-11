@@ -1,5 +1,4 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<h2>Modify Item</h2>
 <?php if ($item): ?>
 <p>The only required fields are the <em>Item ID</em>, <em>Identifier</em>, <em>Name</em> and <em>Type</em> fields.</p>
 <p><strong>Note:</strong> An empty <em>NPC Sell</em> price defaults to half of the buy price in-game.</p>
@@ -10,7 +9,7 @@
 	<input type="hidden" name="edititem" value="1" />
 	<?php echo Flux_Security::csrfGenerate('ItemEdit', true) ?>
 
-	<table class="vertical-table">
+	<table class="table table-bordered vertical-table">
 		<tr>
 			<th><label for="item_id">Item ID</label></th>
 			<td><label><strong><?php echo htmlspecialchars($itemID) ?></strong></label></td>

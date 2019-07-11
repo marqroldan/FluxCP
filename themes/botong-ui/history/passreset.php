@@ -1,8 +1,7 @@
 <?php if (!defined('FLUX_ROOT')) exit ?>
-<h2><?php echo htmlspecialchars(Flux::message('HistoryPassResetHeading')) ?></h2>
 <?php if ($resets): ?>
 <?php echo $paginator->infoText() ?>
-<table class="horizontal-table">
+<table class="table table-bordered horizontal-table">
 	<tr>
 		<th><?php echo $paginator->sortableColumn('request_date', Flux::message('HistoryPassResetRequestDate')) ?></th>
 		<th><?php echo $paginator->sortableColumn('request_ip', Flux::message('HistoryPassResetRequestIp')) ?></th>

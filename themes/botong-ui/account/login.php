@@ -1,24 +1,10 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<script>
-	$(document).ready(function() {
-		$('.botonguiPage').overlayScrollbars({
-                className       : "os-theme-dark",
-                sizeAutoCapable : true,
-                paddingAbsolute : false,
-                scrollbars : {
-                        clickScrolling : true,
-                        autoHide: 'leave', 
-                        autoHideDelay: 400, 
-                },
-        }); 
-	});
-</script>
 <div class="container-fluid p-0 h-100 d-flex flex-wrap justify-content-center align-items-center">
 	<div class="botonguiPage d-flex flex-wrap justify-content-center align-items-center">
+	<form action="<?php echo $this->url('account', 'login', array('return_url' => $params->get('return_url'))) ?>" method="post" class="generic-form">
 	<?php if (isset($errorMessage)): ?>
 	<div class="botonguiPageCaption botonguiPageCaptionError"><?php echo htmlspecialchars($errorMessage) ?></div>
 	<?php endif ?>
-	<form action="<?php echo $this->url('account', 'login', array('return_url' => $params->get('return_url'))) ?>" method="post" class="generic-form">
 		<?php if (count($serverNames) === 1): ?>
 		<input type="hidden" name="server" value="<?php echo htmlspecialchars($session->loginAthenaGroup->serverName) ?>">
 		<?php endif ?>
@@ -28,7 +14,7 @@
 				<div class="input-group-prepend">
 				<span class="input-group-text" id="loginUsername"><i class="fas fa-user"></i></span>
 				</div>
-				<input type="text" class="form-control<?php // is-invalid ?>" id="validationServerUsername" aria-describedby="loginUsername" required>
+				<input type="text" name="username" class="form-control<?php // is-invalid ?>" id="validationServerUsername" aria-describedby="loginUsername" required>
 				<?php /*
 				<div class="invalid-feedback">
 				Please choose a username.
@@ -37,12 +23,12 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="validationServerUsername"><?php echo htmlspecialchars(Flux::message('AccountPasswordLabel')) ?></label>
+			<label for="validationServerPassword"><?php echo htmlspecialchars(Flux::message('AccountPasswordLabel')) ?></label>
 			<div class="input-group">
 				<div class="input-group-prepend">
 				<span class="input-group-text" id="loginPassword"><i class="fas fa-lock"></i></span>
 				</div>
-				<input type="text" class="form-control" id="validationServerUsername" aria-describedby="loginPassword" required>
+				<input type="password" class="form-control" name="password" id="validationServerPassword" aria-describedby="loginPassword" required>
 			</div>
 		</div>
 		<?php if (count($serverNames) > 1): ?>

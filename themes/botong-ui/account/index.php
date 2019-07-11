@@ -1,26 +1,25 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<h2>Accounts</h2>
 <p class="toggler"><a href="javascript:toggleSearchForm()"><?php echo htmlspecialchars(Flux::message('SearchLabel')) ?></a></p>
 <form action="<?php echo $this->url ?>" method="get" class="search-form">
 	<?php echo $this->moduleActionFormInputs($params->get('module')) ?>
 	<p>
 		<label for="account_id"><?php echo htmlspecialchars(Flux::message('AccountIdLabel')) ?>:</label>
 		<input type="text" name="account_id" id="account_id" value="<?php echo htmlspecialchars($params->get('account_id')) ?>" />
-		...
+		
 		<label for="username"><?php echo htmlspecialchars(Flux::message('UsernameLabel')) ?>:</label>
 		<input type="text" name="username" id="username" value="<?php echo htmlspecialchars($params->get('username')) ?>" />
 		<?php if ($searchPassword): ?>
-		...
+		
 		<label for="password"><?php echo htmlspecialchars(Flux::message('PasswordLabel')) ?>:</label>
 		<input type="text" name="password" id="password" value="<?php echo htmlspecialchars($params->get('password')) ?>" />
 		<?php endif ?>
-		...
+		
 		<label for="email"><?php echo htmlspecialchars(Flux::message('EmailAddressLabel')) ?>:</label>
 		<input type="text" name="email" id="email" value="<?php echo htmlspecialchars($params->get('email')) ?>" />
-		...
+		
 		<label for="last_ip"><?php echo htmlspecialchars(Flux::message('LastUsedIpLabel')) ?>:</label>
 		<input type="text" name="last_ip" id="last_ip" value="<?php echo htmlspecialchars($params->get('last_ip')) ?>" />
-		...
+		
 		<label for="gender"><?php echo htmlspecialchars(Flux::message('GenderLabel')) ?>:</label>
 		<select name="gender" id="gender">
 			<option value=""<?php if (!in_array($gender=$params->get('gender'), array('M', 'F'))) echo ' selected="selected"' ?>><?php echo htmlspecialchars(Flux::message('AllLabel')) ?></option>
@@ -37,7 +36,7 @@
 			<option value="banned"<?php if ($account_state == 'banned') echo ' selected="selected"' ?>><?php echo htmlspecialchars(Flux::message('AccountStateTempBanLbl')) ?></option>
 			<option value="permabanned"<?php if ($account_state == 'permabanned') echo ' selected="selected"' ?>><?php echo htmlspecialchars(Flux::message('AccountStatePermBanned')) ?></option>
 		</select>
-		...
+		
 		<label for="account_group_id"><?php echo htmlspecialchars(Flux::message('AccountGroupIDLabel')) ?>:</label>
 		<select name="account_group_id_op">
 			<option value="eq"<?php if (($account_group_id_op=$params->get('account_group_id_op')) == 'eq') echo ' selected="selected"' ?>><?php echo htmlspecialchars(Flux::message('IsEqualToLabel')) ?></option>
@@ -45,7 +44,7 @@
 			<option value="lt"<?php if ($account_group_id_op == 'lt') echo ' selected="selected"' ?>><?php echo htmlspecialchars(Flux::message('IsLessThanLabel')) ?></option>
 		</select>
 		<input type="text" name="account_group_id" id="account_group_id" value="<?php echo htmlspecialchars($params->get('account_group_id')) ?>" />
-		...
+		
 		<label for="balance"><?php echo htmlspecialchars(Flux::message('CreditBalanceLabel')) ?>:</label>
 		<select name="balance_op">
 			<option value="eq"<?php if (($balance_op=$params->get('balance_op')) == 'eq') echo ' selected="selected"' ?>><?php echo htmlspecialchars(Flux::message('IsEqualToLabel')) ?></option>
@@ -62,7 +61,7 @@
 			<option value="lt"<?php if ($logincount_op == 'lt') echo ' selected="selected"' ?>><?php echo htmlspecialchars(Flux::message('IsLessThanLabel')) ?></option>
 		</select>
 		<input type="text" name="logincount" id="logincount" value="<?php echo htmlspecialchars($params->get('logincount')) ?>" />
-		...
+		
 		<label for="use_birthdate_after"><?php echo htmlspecialchars(Flux::message('BirthdateBetweenLabel')) ?>:</label>
 		<input type="checkbox" name="use_birthdate_after" id="use_birthdate_after"<?php if ($params->get('use_birthdate_after')) echo ' checked="checked"' ?> />
 		<?php echo $this->dateField('birthdate_after') ?>
@@ -84,7 +83,7 @@
 </form>
 <?php if ($accounts): ?>
 <?php echo $paginator->infoText() ?>
-<table class="horizontal-table">
+<table class="table table-bordered horizontal-table">
 	<tr>
 		<th><?php echo $paginator->sortableColumn('login.account_id', Flux::message('AccountIdLabel')) ?></th>
 		<th><?php echo $paginator->sortableColumn('login.userid', Flux::message('UsernameLabel')) ?></th>

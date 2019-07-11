@@ -57,8 +57,6 @@ $sth->execute(array($mobID));
 $monster = $sth->fetch();
 
 if ($monster) {
-	$title   = "Viewing Monster ({$monster->kro_name})";
-	
 	$monster->boss = $monster->mvp_exp;
 	
 	$monster->base_exp = $monster->base_exp * $server->expRates['Base'] / 100;

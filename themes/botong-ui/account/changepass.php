@@ -1,5 +1,4 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<h2><?php echo htmlspecialchars(Flux::message('PasswordChangeHeading')) ?></h2>
 <?php if (!empty($errorMessage)): ?>
 	<p class="red"><?php echo htmlspecialchars($errorMessage) ?></p>
 <?php else: ?>
@@ -9,7 +8,7 @@
 <form action="<?php echo $this->urlWithQs ?>" method="post" class="generic-form">
 	<?php echo Flux_Security::csrfGenerate('PasswordEdit', true) ?>
 
-	<table class="generic-form-table">
+	<table class="table table-bordered generic-form-table">
 		<tr>
 			<th><label for="currentpass"><?php echo htmlspecialchars(Flux::message('CurrentPasswordLabel')) ?></label></th>
 			<td><input type="password" name="currentpass" id="currentpass" value="" /></td>

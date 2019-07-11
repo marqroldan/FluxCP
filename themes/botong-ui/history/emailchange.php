@@ -1,8 +1,7 @@
 <?php if (!defined('FLUX_ROOT')) exit ?>
-<h2><?php echo htmlspecialchars(Flux::message('HistoryEmailHeading')) ?></h2>
 <?php if ($changes): ?>
 <?php echo $paginator->infoText() ?>
-<table class="horizontal-table">
+<table class="table table-bordered horizontal-table">
 	<tr>
 		<th><?php echo $paginator->sortableColumn('request_date', Flux::message('HistoryEmailRequestDate')) ?></th>
 		<th><?php echo $paginator->sortableColumn('request_ip', Flux::message('HistoryEmailRequestIp')) ?></th>

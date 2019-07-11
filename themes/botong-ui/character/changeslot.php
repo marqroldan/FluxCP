@@ -1,5 +1,4 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<h2>Change Character Slot</h2>
 <?php if (!empty($errorMessage)): ?>
 <p class="red"><?php echo htmlspecialchars($errorMessage) ?></p>
 <?php endif ?>
@@ -7,7 +6,7 @@
 	<input type="hidden" name="changeslot" value="1" />
 	<?php echo Flux_Security::csrfGenerate('SlotEdit', true) ?>
 
-	<table class="generic-form-table">
+	<table class="table table-bordered generic-form-table">
 		<tr>
 			<th><label>Character Name</label></th>
 			<td><div><?php echo htmlspecialchars($char->name) ?></div></td>

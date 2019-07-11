@@ -1,5 +1,4 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<h2>Viewing Monster</h2>
 <?php if ($monster): ?>
 <h3>
 	#<?php echo $monster->monster_id ?>: <?php echo htmlspecialchars($monster->iro_name) ?>
@@ -7,7 +6,7 @@
 		<span class="mvp">(MVP)</span>
 	<?php endif ?>
 </h3>
-<table class="vertical-table">
+<table class="table table-bordered vertical-table">
 	<tr>
 		<th>Monster ID</th>
 		<td><?php echo $monster->monster_id ?></td>
@@ -140,7 +139,7 @@
 
 <h3><?php echo htmlspecialchars($monster->iro_name) ?> Item Drops</h3>
 <?php if ($itemDrops): ?>
-<table class="vertical-table">
+<table class="table table-bordered vertical-table">
 	<tr>
 		<th>Item ID</th>
 		<th colspan="2">Item Name</th>
@@ -192,7 +191,7 @@
 
 <h3>Monster Skills for “<?php echo htmlspecialchars($monster->iro_name) ?>”</h3>
 <?php if ($mobSkills): ?>
-<table class="vertical-table">
+<table class="table table-bordered vertical-table">
 	<tr>
 		<th>Name</th>
 		<th>Level</th>

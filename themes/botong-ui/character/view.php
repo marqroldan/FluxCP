@@ -1,8 +1,7 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<h2>Viewing Character</h2>
 <?php if ($char): ?>
 <h3>Character Information for <?php echo htmlspecialchars($char->char_name) ?></h3>
-<table class="vertical-table">
+<table class="table table-bordered vertical-table">
 	<tr>
 		<?php if ($image=$this->jobImage($char->gender, $char->char_class)): ?>
 			<td rowspan="11" style="width: 150px; text-align: center; vertical-alignment: middle">
@@ -229,7 +228,7 @@
 <h3>Other Party Members of <?php echo htmlspecialchars($char->party_name) ?></h3>
 	<?php if ($partyMembers): ?>
 		<p><?php echo htmlspecialchars($char->party_name) ?> has <?php echo count($partyMembers) ?> other party member(s) besides <?php echo htmlspecialchars($char->char_name) ?>.</p>
-		<table class="vertical-table">
+		<table class="table table-bordered vertical-table">
 			<tr>
 				<th>Character Name</th>
 				<th>Job Class</th>
@@ -285,7 +284,7 @@
 <h3>Friends of <?php echo htmlspecialchars($char->char_name) ?></h3>
 <?php if ($friends): ?>
 	<p><?php echo htmlspecialchars($char->char_name) ?> has <?php echo count($friends) ?> friend(s).</p>
-	<table class="vertical-table">
+	<table class="table table-bordered vertical-table">
 		<tr>
 			<th>Character Name</th>
 			<th>Job Class</th>
@@ -343,7 +342,7 @@
 <h3>Inventory Items of <?php echo htmlspecialchars($char->char_name) ?></h3>
 <?php if ($items): ?>
 	<p><?php echo htmlspecialchars($char->char_name) ?> has <?php echo count($items) ?> inventory item(s).</p>
-	<table class="vertical-table">
+	<table class="table table-bordered vertical-table">
 		<tr>
 			<th>Item ID</th>
 			<th colspan="2">Name</th>
@@ -464,7 +463,7 @@
 <h3>Cart Inventory Items of <?php echo htmlspecialchars($char->char_name) ?></h3>
 <?php if ($cart_items): ?>
 	<p><?php echo htmlspecialchars($char->char_name) ?> has <?php echo count($cart_items) ?> cart inventory item(s).</p>
-	<table class="vertical-table">
+	<table class="table table-bordered vertical-table">
 		<tr>
 			<th>Item ID</th>
 			<th colspan="2">Name</th>

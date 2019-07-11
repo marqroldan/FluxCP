@@ -1,12 +1,11 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<h2><?php echo htmlspecialchars(Flux::message('IpbanAddHeading')) ?></h2>
 <?php if (!empty($errorMessage)): ?>
 	<p class="red"><?php echo htmlspecialchars($errorMessage) ?></p>
 <?php endif ?>
 <form action="<?php echo $this->urlWithQs ?>" method="post" class="generic-form">
 	<input type="hidden" name="addipban" value="1" />
 	<?php echo Flux_Security::csrfGenerate('IPBanAdd', true) ?>
-	<table class="generic-form-table">
+	<table class="table table-bordered generic-form-table">
 		<tr>
 			<th><label for="list"><?php echo htmlspecialchars(Flux::message('IpbanIpAddressLabel')) ?></label></th>
 			<td><input type="text" name="list" id="list" value="<?php echo htmlspecialchars($params->get('list')) ?>" /></td>

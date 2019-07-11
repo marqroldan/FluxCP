@@ -2,7 +2,7 @@
 <h2>Pending Redemption</h2>
 <?php if ($items): ?>
 <p>You have <?php echo number_format($total) ?> item(s) pending redemption.</p>
-<table class="vertical-table">
+<table class="table table-bordered vertical-table">
 	<tr>
 		<th>Item Name</th>
 		<th>Quantity</th>

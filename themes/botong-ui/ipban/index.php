@@ -1,11 +1,10 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<h2><?php echo htmlspecialchars(Flux::message('IpbanListHeading')) ?></h2>
 <?php if ($banlist): ?>
 <?php echo $paginator->infoText() ?>
 <form action="<?php echo $this->url('ipban', 'unban') ?>" method="post">
 	<input type="hidden" name="unban" value="1" />
 	<?php echo Flux_Security::csrfGenerate('IPUnban', true) ?>
-	<table class="horizontal-table">
+	<table class="table table-bordered horizontal-table">
 		<tr>
 			<?php if ($auth->allowedToRemoveIpBan && $auth->actionAllowed('ipban', 'unban')): ?>
 			<th><input type="checkbox" onclick="$('.unban-cb').attr('checked', this.checked)" /></th>
@@ -60,7 +59,7 @@
 		<?php endforeach ?>
 	</table>
 	<?php if ($auth->allowedToRemoveIpBan && $auth->actionAllowed('ipban', 'unban')): ?>
-	<table class="generic-form-table">
+	<table class="table table-bordered generic-form-table">
 		<tr>
 			<th><label for="reason"><?php echo htmlspecialchars(Flux::message('IpbanRemoveReasonLabel')) ?></label></th>
 			<td>

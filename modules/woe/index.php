@@ -1,6 +1,7 @@
 <?php
 if (!defined('FLUX_ROOT')) exit;
 
+if($params->get('output')=='json') {
 $title     = Flux::message('WoeTitle');
 $dayNames  = array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
 $woeTimes  = array();
@@ -59,8 +60,6 @@ foreach ($session->loginAthenaGroup->athenaServers as $athenaServer) {
 			sort($woeTimes[$athenaServer->serverName]);
 	}
 }
-
-if($params->get('output')=='json') {
 	echo json_encode(
 		array(
 			'serverTimes'=> $serverTimes,
@@ -68,5 +67,8 @@ if($params->get('output')=='json') {
 			)
 	);
 	exit();
+}
+else {
+	$this->redirect($this->url('main'));
 }
 ?>

@@ -1,8 +1,7 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<h2><?php echo htmlspecialchars(Flux::message('XferLogHeading')) ?></h2>
 <h3><?php echo htmlspecialchars(Flux::message('XferLogReceivedSubHead')) ?></h3>
 <?php if ($incomingXfers): ?>
-<table class="vertical-table">
+<table class="table table-bordered vertical-table">
 	<tr>
 		<th><?php echo htmlspecialchars(Flux::message('XferLogCreditsLabel')) ?></th>
 		<th><?php echo htmlspecialchars(Flux::message('XferLogFromLabel')) ?></th>
@@ -22,7 +21,7 @@
 
 <h3><?php echo htmlspecialchars(Flux::message('XferLogSentSubHead')) ?></h3>
 <?php if ($outgoingXfers): ?>
-<table class="vertical-table">
+<table class="table table-bordered vertical-table">
 	<tr>
 		<th><?php echo htmlspecialchars(Flux::message('XferLogCreditsLabel')) ?></th>
 		<th><?php echo htmlspecialchars(Flux::message('XferLogCharNameLabel')) ?></th>

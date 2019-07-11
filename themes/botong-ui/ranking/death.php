@@ -1,5 +1,4 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<h2>Death Ranking</h2>
 <h3>
 	Top <?php echo number_format($limit=(int)Flux::config('DeathRankingLimit')) ?> Most Killed Characters
 	<?php if (!is_null($jobClass)): ?>
@@ -26,7 +25,7 @@
 		<input type="button" value="Reset" onclick="reload()" />
 	</p>
 </form>
-<table class="horizontal-table">
+<table class="table table-bordered horizontal-table">
 	<tr>
 		<th>Rank</th>
 		<th>Character Name</th>

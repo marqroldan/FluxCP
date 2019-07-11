@@ -1,6 +1,5 @@
 <?php
 if (!defined('FLUX_ROOT')) exit;
-$hideEverything = true;
 if (Flux::config('UseCaptcha') && Flux::config('EnableReCaptcha')) {
 	require_once 'recaptcha/recaptchalib.php';
 	$recaptcha = '<script src="https://www.google.com/recaptcha/api.js"></script>

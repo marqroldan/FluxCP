@@ -1,5 +1,4 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<h2><?php echo htmlspecialchars(Flux::message('TransferHeading')) ?></h2>
 <?php if (!empty($errorMessage)): ?>
 	<p class="red"><?php echo htmlspecialchars($errorMessage) ?></p>
 <?php endif ?>
@@ -11,7 +10,7 @@
 	<?php echo $this->moduleActionFormInputs('account', 'transfer') ?>
 	<?php echo Flux_Security::csrfGenerate('TransferCredit', true) ?>
 
-	<table class="generic-form-table">
+	<table class="table table-bordered generic-form-table">
 		<tr>
 			<th><label for="credits"><?php echo htmlspecialchars(Flux::message('TransferAmountLabel')) ?></label></th>
 			<td><input type="text" name="credits" id="credits" value="<?php echo htmlspecialchars($params->get('credits')) ?>" /></td>

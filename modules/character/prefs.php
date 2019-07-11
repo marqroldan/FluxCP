@@ -4,6 +4,7 @@ if (!defined('FLUX_ROOT')) exit;
 $this->loginRequired();
 
 $charID = $params->get('id');
+$title = "Preferences";
 
 if (!$charID) {
 	$this->deny();

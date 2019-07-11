@@ -1,7 +1,7 @@
 <?php
 if (!defined('FLUX_ROOT')) exit;
 
-$title = 'WoE Hours';
+$title = 'War of Emperium Hours';
 
 $col  = "sday.value AS sday, eday.value AS eday, ";
 $col .= "stime.value AS stime, etime.value AS etime";

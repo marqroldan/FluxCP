@@ -1,10 +1,9 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<h2><?php echo htmlspecialchars(Flux::message('ServerInfoHeading')) ?></h2>
 <p><?php echo htmlspecialchars(Flux::message('ServerInfoText')) ?></p>
 
 <h3><?php echo htmlspecialchars(sprintf(Flux::message('ServerInfoSubHeading'), $server->serverName)) ?></h3>
 <div class="generic-form-div">
-	<table class="generic-form-table">
+	<table class="table table-bordered generic-form-table">
 		<tr>
 			<th><label><?php echo htmlspecialchars(Flux::message('ServerInfoAccountLabel')) ?></label></th>
 			<td><p><?php echo number_format($info['accounts']) ?></p></td>
@@ -30,7 +29,7 @@
 
 <h3><?php echo htmlspecialchars(sprintf(Flux::message('ServerInfoSubHeading2'), $server->serverName)) ?></h3>
 <div class="generic-form-div">
-	<table class="generic-form-table job-classes">
+	<table class="table table-bordered generic-form-table job-classes">
 		<tr>
 		<?php $i = 1; $x = 5 ?>
 		<?php foreach ($info['classes'] as $class => $total): ?>

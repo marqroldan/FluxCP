@@ -1,6 +1,4 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<h2>Password Resets</h2>
-<p class="toggler"><a href="javascript:toggleSearchForm()">Search...</a></p>
 <form action="<?php echo $this->url ?>" method="get" class="search-form">
 	<?php echo $this->moduleActionFormInputs($params->get('module'), $params->get('action')) ?>
 	<p>
@@ -22,13 +20,13 @@
 	<p>
 		<label for="account_id">Account ID:</label>
 		<input type="text" name="account_id" id="account_id" value="<?php echo htmlspecialchars($params->get('account_id')) ?>" />
-		...
+		
 		<label for="username">Username:</label>
 		<input type="text" name="username" id="username" value="<?php echo htmlspecialchars($params->get('username')) ?>" />
-		...
+		
 		<label for="request_ip">Request IP:</label>
 		<input type="text" name="request_ip" id="request_ip" value="<?php echo htmlspecialchars($params->get('request_ip')) ?>" />
-		...
+		
 		<label for="reset_ip">Reset IP:</label>
 		<input type="text" name="reset_ip" id="reset_ip" value="<?php echo htmlspecialchars($params->get('reset_ip')) ?>" />
 		
@@ -41,7 +39,7 @@
 	<p>
 		<label for="old_password">Old Password:</label>
 		<input type="text" name="old_password" id="old_password" value="<?php echo htmlspecialchars($params->get('old_password')) ?>" />
-		...
+		
 		<label for="new_password">New Password:</label>
 		<input type="text" name="new_password" id="new_password" value="<?php echo htmlspecialchars($params->get('new_password')) ?>" />
 		
@@ -52,7 +50,7 @@
 </form>
 <?php if ($resets): ?>
 <?php echo $paginator->infoText() ?>
-<table class="horizontal-table">
+<table class="table table-bordered horizontal-table">
 	<tr>
 		<th><?php echo $paginator->sortableColumn('log.account_id', 'Account ID') ?></th>
 		<th><?php echo $paginator->sortableColumn('userid', 'Username') ?></th>

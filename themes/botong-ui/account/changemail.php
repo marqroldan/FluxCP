@@ -1,6 +1,4 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<h2><?php echo htmlspecialchars(Flux::message('EmailChangeHeading')) ?></h2>
-
 <?php if (!empty($errorMessage)): ?>
 <p class="red"><?php echo htmlspecialchars($errorMessage) ?></p>
 <?php endif ?>
@@ -13,7 +11,7 @@
 
 <form action="<?php echo $this->urlWithQs ?>" method="post" class="generic-form">
 	<?php echo Flux_Security::csrfGenerate('EmailEdit', true) ?>
-	<table class="generic-form-table">
+	<table class="table table-bordered generic-form-table">
 		<tr>
 			<th><label for="email"><?php echo htmlspecialchars(Flux::message('EmailChangeLabel')) ?></label></th>
 			<td><input type="text" name="email" id="email" /></td>

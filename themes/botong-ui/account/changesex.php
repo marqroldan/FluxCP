@@ -1,5 +1,4 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<h2><?php echo htmlspecialchars(Flux::message('GenderChangeHeading')) ?></h2>
 <?php if ($cost): ?>
 <p>
 	<?php printf(Flux::message('GenderChangeCost'), '<span class="remaining-balance">'.number_format((int)$cost).'</span>') ?>
@@ -22,7 +21,7 @@
 <form action="<?php echo $this->urlWithQs ?>" method="post" class="generic-form">
 	<input type="hidden" name="changegender" value="1" />
 	<?php echo Flux_Security::csrfGenerate('GenderEdit', true) ?>
-	<table class="generic-form-table">
+	<table class="table table-bordered generic-form-table">
 		<tr>
 			<td>
 				<p>

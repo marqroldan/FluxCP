@@ -2,7 +2,6 @@
 if (!defined('FLUX_ROOT')) exit;
 $markdownURL = 'http://daringfireball.net/projects/markdown/syntax';
 ?>
-<h2>Item Shop</h2>
 <h3>Add Item to the Shop</h3>
 <?php if ($item): ?>
 <?php if (!empty($errorMessage)): ?>
@@ -13,7 +12,7 @@ $markdownURL = 'http://daringfireball.net/projects/markdown/syntax';
 <?php if (!$stackable): ?>
 <input type="hidden" name="qty" value="1" />
 <?php endif ?>
-<table class="vertical-table">
+<table class="table table-bordered vertical-table">
 	<tr>
 		<th>Item ID</th>
 		<td><?php echo $this->linkToItem($item->item_id, $item->item_id) ?></td>

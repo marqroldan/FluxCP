@@ -1,8 +1,7 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<h2>Castles</h2>
 <p>This page shows what castles are activated and which guilds own them.</p>
 <?php if ($castles): ?>
-<table class="vertical-table">
+<table class="table table-bordered vertical-table">
 	<tr>
 		<th>Castle ID</th>
 		<th>Castle</th>

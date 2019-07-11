@@ -1,8 +1,7 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<h2><?php echo htmlspecialchars(Flux::message('CommandLogHeading')) ?></h2>
 <?php if ($commands): ?>
 <?php echo $paginator->infoText() ?>
-<table class="horizontal-table">
+<table class="table table-bordered horizontal-table">
 	<tr>
 		<th><?php echo $paginator->sortableColumn('atcommand_date', Flux::message('CommandLogDateLabel')) ?></th>
 		<th><?php echo $paginator->sortableColumn('account_id', Flux::message('CommandLogAccountIdLabel')) ?></th>

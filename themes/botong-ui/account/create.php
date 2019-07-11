@@ -1,17 +1,11 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
 <script>
-	$(document).ready(function() {
-		$('.botonguiPage').overlayScrollbars({
-                className       : "os-theme-dark",
-                sizeAutoCapable : true,
-                paddingAbsolute : false,
-                scrollbars : {
-                        clickScrolling : true,
-                        autoHide: 'leave', 
-                        autoHideDelay: 400, 
-                },
-        }); 
-	});
+	function refreshSecurityCode(imgSelector,clean){
+		var clean = <?php echo Flux::config('UseCleanUrls') ? 'true' : 'false' ?>;
+		var image = new Image();
+		image.src = "<?php echo $this->url('captcha') ?>"+(clean ? '?nocache=' : '&nocache=')+Math.random();
+		$(imgSelector).attr('src', image.src);
+	}
 </script>
 <?php $passwordNotes = array(sprintf("Your password must be between %d and %d characters.", Flux::config('MinPasswordLength'), Flux::config('MaxPasswordLength')));
 	if (Flux::config('PasswordMinUpper') > 0) $passwordNotes[] = sprintf(Flux::message('PasswordNeedUpper'), Flux::config('PasswordMinUpper'));

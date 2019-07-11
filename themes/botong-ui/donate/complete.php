@@ -1,5 +1,4 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<h2>Donation Complete</h2>
 <p class="important">Your transaction has been processed and you should receive credits in a short amount of time.</p>
 <?php $hoursHeld = +(int)Flux::config('HoldUntrustedAccount'); ?>
 <?php if ($hoursHeld): ?>

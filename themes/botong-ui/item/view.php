@@ -1,12 +1,11 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<h2>Viewing Item</h2>
 <?php if ($item): ?>
 <?php $icon = $this->iconImage($item->item_id); ?>
 <h3>
 	<?php if ($icon): ?><img src="<?php echo $icon ?>" /><?php endif ?>
 	#<?php echo htmlspecialchars($item->item_id) ?>: <?php echo htmlspecialchars($item->name) ?>
 </h3>
-<table class="vertical-table">
+<table class="table table-bordered vertical-table">
 	<tr>
 		<th>Item ID</th>
 		<td><?php echo htmlspecialchars($item->item_id) ?></td>
@@ -179,7 +178,7 @@
 </table>
 <?php if ($itemDrops): ?>
 <h3><?php echo htmlspecialchars($item->name) ?> Dropped By</h3>
-<table class="vertical-table">
+<table class="table table-bordered vertical-table">
 	<tr>
 		<th>Monster ID</th>
 		<th>Monster Name</th>

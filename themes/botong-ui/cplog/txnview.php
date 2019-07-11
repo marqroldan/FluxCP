@@ -1,8 +1,7 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<h2>Viewing PayPal Transaction Details</h2>
 <?php if ($txn): ?>
 <p>If the transaction contains negative payment and settle amounts, it is likely there was a chargeback and the donor was reimbursed.</p>
-<table class="vertical-table">
+<table class="table table-bordered vertical-table">
 	<tr>
 		<th>Transaction ID</th>
 		<td><?php echo htmlspecialchars($txn->txn_id) ?></td>

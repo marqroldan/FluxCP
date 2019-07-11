@@ -1,5 +1,4 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<h2>Donate</h2>
 <?php if (Flux::config('AcceptDonations')): ?>
 	<?php if (!empty($errorMessage)): ?>
 		<p class="red"><?php echo htmlspecialchars($errorMessage) ?></p>
@@ -30,7 +29,7 @@
 	<?php endif ?>
 
 	<div class="generic-form-div" style="margin-bottom: 10px">
-		<table class="generic-form-table">
+		<table class="table table-bordered generic-form-table">
 			<tr>
 				<th><label>Current Credit Exchange Rate:</label></th>
 				<td><p><?php echo $this->formatCurrency($dollarAmount) ?> <?php echo htmlspecialchars($currency) ?>

@@ -1,8 +1,7 @@
 <?php if (!defined('FLUX_ROOT')) exit ?>
-<h2><?php echo htmlspecialchars(Flux::message('HistoryPassChangeHeading')) ?></h2>
 <?php if ($changes): ?>
 <?php echo $paginator->infoText() ?>
-<table class="horizontal-table">
+<table class="table table-bordered horizontal-table">
 	<tr>
 		<th><?php echo $paginator->sortableColumn('change_date', Flux::message('HistoryPassChangeChangeDate')) ?></th>
 		<th><?php echo $paginator->sortableColumn('change_ip', Flux::message('HistoryPassChangeChangeIp')) ?></th>

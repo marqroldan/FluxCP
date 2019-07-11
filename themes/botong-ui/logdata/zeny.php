@@ -1,8 +1,7 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<h2><?php echo htmlspecialchars(Flux::message('ZenyLogHeading')) ?></h2>
 <?php if ($logs): ?>
 <?php echo $paginator->infoText() ?>
-<table class="horizontal-table">
+<table class="table table-bordered horizontal-table">
 	<tr>
 		<th><?php echo $paginator->sortableColumn('time', Flux::message('ZenyLogDateLabel')) ?></th>
 		<th><?php echo $paginator->sortableColumn('char_id', Flux::message('ZenyLogCharacterLabel')) ?></th>

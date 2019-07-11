@@ -1,8 +1,7 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<h2>Viewing Guild</h2>
 <?php if ($guild): ?>
 <h3>Guild Information for “<?php echo htmlspecialchars($guild->name) ?>”</h3>
-<table class="vertical-table">
+<table class="table table-bordered vertical-table">
 	<tr>
 		<th>Guild ID</th>
 		<td><?php echo htmlspecialchars($guild->guild_id) ?></td>
@@ -66,7 +65,7 @@
 <h3>Alliances of “<?php echo htmlspecialchars($guild->name) ?>”</h3>
 <?php if ($alliances): ?>
 	<p><?php echo htmlspecialchars($guild->name) ?> has <?php echo count($alliances) ?> Alliance(s).</p>
-	<table class="vertical-table">
+	<table class="table table-bordered vertical-table">
 		<tr>
 			<th>Guild ID</th>
 			<th>Guild Name</th>
@@ -90,7 +89,7 @@
 <h3>Oppositions of “<?php echo htmlspecialchars($guild->name) ?>”</h3>
 <?php if ($oppositions): ?>
 	<p><?php echo htmlspecialchars($guild->name) ?> has <?php echo count($oppositions) ?> Opposition(s).</p>
-	<table class="vertical-table">
+	<table class="table table-bordered vertical-table">
 		<tr>
 			<th>Guild ID</th>
 			<th>Guild Name</th>
@@ -114,7 +113,7 @@
 <h3>Guild Members of “<?php echo htmlspecialchars($guild->name) ?>”</h3>
 <?php if ($members): ?>
 	<p><?php echo htmlspecialchars($guild->name) ?> has <?php echo count($members) ?> guild member(s).</p>
-	<table class="vertical-table">
+	<table class="table table-bordered vertical-table">
 		<tr>
 			<th>Name</th>
 			<th>Job Class</th>
@@ -172,7 +171,7 @@
 <h3>Member Expulsions of “<?php echo htmlspecialchars($guild->name) ?>”</h3>
 <?php if ($expulsions): ?>
 	<p><?php echo htmlspecialchars($guild->name) ?> has <?php echo count($expulsions) ?> member expulsion(s).</p>
-	<table class="vertical-table">
+	<table class="table table-bordered vertical-table">
 		<tr>
 			<th>Account ID</th>
 			<th>Character Name</th>
@@ -208,7 +207,7 @@
 	<?php endif ?>
 	<?php if ($items): ?>
 		<p><?php echo htmlspecialchars($guild->name) ?> has <?php echo count($items) ?> guild storage item(s).</p>
-		<table class="vertical-table">
+		<table class="table table-bordered vertical-table">
 			<tr>
 				<th>Item ID</th>
 				<th colspan="2">Name</th>

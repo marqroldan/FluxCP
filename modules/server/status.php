@@ -59,9 +59,13 @@ else {
 		fclose($fp);
 	}
 }
-
 if($params->get('output')=='json') {
 	echo json_encode($serverStatus);
 	exit();
 }
-?>
+elseif($params->get('action')=='status-xml') {
+
+}
+else {
+	$this->redirect($this->basePath);
+}
