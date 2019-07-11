@@ -2,7 +2,6 @@
 
 if ($session->isLoggedIn()) {
     $user_info = array();
-
     if ($auth->allowedToSeeAccountID) {
         $user_info[] = array(
             'title' => "Account ID",
@@ -21,11 +20,11 @@ if ($session->isLoggedIn()) {
         array(
             'title' => "State",
             'value' => 
-            (!$account->confirmed && $account->confirm_code) ? (Flux::message('AccountStatePending')) : 
+            //(!$account->confirmed && $account->confirm_code) ? (Flux::message('AccountStatePending')) : 
             (
-                (($state = $this->accountStateText($account->state)) && !$account->unban_time) ? $state : 
+                (($state = $this->accountStateText($session->account->state)) && !$session->account->unban_time) ? $state : 
                 (
-                    $account->unban_time ? sprintf(htmlspecialchars(Flux::message('AccountStateTempBanned')), date(Flux::config('DateTimeFormat'), $account->unban_time)) :
+                    $session->account->unban_time ? sprintf(htmlspecialchars(Flux::message('AccountStateTempBanned')), date(Flux::config('DateTimeFormat'), $session->account->unban_time)) :
                     "Unknown" 
                 )
             ),
@@ -37,7 +36,7 @@ if ($session->isLoggedIn()) {
             'value' => $session->account->logincount ),
         array(
             'title' => "Last Login",
-            'value' => (!$account->lastlogin || $account->lastlogin == '0000-00-00 00:00:00') ? Flux::message('NeverLabel') : $this->formatDateTime($account->lastlogin)  ),
+            'value' => (!$session->account->lastlogin || $session->account->lastlogin == '0000-00-00 00:00:00') ? Flux::message('NeverLabel') : $this->formatDateTime($session->account->lastlogin)  ),
         array(
             'title' => "Last IP",
             'value' => $session->account->last_ip ),
@@ -45,10 +44,10 @@ if ($session->isLoggedIn()) {
             'title' => "Birthdate",
             'value' => $session->account->birthdate),
         array(
-            'title' => "Account ID",
+            'title' => "Last Donation Date",
             'value' => $session->account->last_donation_date ),
         array(
-            'title' => "Account ID",
+            'title' => "Last Donation Amount",
             'value' => $session->account->last_donation_amount ),
     ));
     $currencies = array();
@@ -66,7 +65,6 @@ if ($session->isLoggedIn()) {
         fluxicon-Events
         fluxicon-Credits
         fluxicon-Zeny
-    */
     $currencies[] = array(
         'title' => "Vote",
         'icon' => 'fluxicon-Vote',
@@ -87,6 +85,7 @@ if ($session->isLoggedIn()) {
         'icon' => 'fluxicon-Zeny',
         'value' => 99999999,
     );
+    */
 }
 
 ?>
@@ -131,16 +130,16 @@ if ($session->isLoggedIn()) {
         <div class="row h-100 m-0 user_info">
                 <div class="d-flex flex-column justify-content-center align-items-center user_info_menu">
                     <span data-toggle="tooltip" data-placement="left" title="Account Settings">
-                    <a href="<?php echo $this->url('account','settings') ?>"><i class="fas fa-cog"></i></a>
+                    <a href="<?php echo $this->url('account','view') ?>"><i class="fas fa-cog"></i></a>
                     </span>
                     <span data-toggle="tooltip" data-placement="left" title="The account gender is <?php echo $session->account->sex=="M" ? strtolower(Flux::message('GenderTypeMale')) : (Flux::message('GenderTypeFemale')) ?>.">
-                    <a href="<?php echo $this->url('account','settings') ?>"><i class="fas fa-<?php echo $session->account->sex=="M" ? 'mars' : 'venus' ?>"></i></a>
+                    <a href="<?php echo $this->url('account','view') ?>"><i class="fas fa-<?php echo $session->account->sex=="M" ? 'mars' : 'venus' ?>"></i></a>
                     </span>
                     <span data-toggle="tooltip" data-placement="left" title="Account Characters">
-                    <a href="<?php echo $this->url('account','characters') ?>"><i class="fas fa-user"></i></a>
+                    <a href="<?php echo $this->url('account','view') ?>"><i class="fas fa-user"></i></a>
                     </span>
                     <span data-toggle="tooltip" data-placement="left" title="Account Items">
-                    <a href="<?php echo $this->url('account','items') ?>"><i class="fas fa-briefcase"></i></a>
+                    <a href="<?php echo $this->url('account','view') ?>"><i class="fas fa-briefcase"></i></a>
                     </span>
                 </div>
                 <div class="v_divider"></div>

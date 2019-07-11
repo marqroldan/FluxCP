@@ -1,4 +1,3 @@
-
 function _valChange(selector, next, past='') {
     $({ Counter: (past=='') ? selector.html() : past }).animate(
     {   Counter: next },
@@ -52,7 +51,6 @@ function fetchWoETimes() {
         let $table=`<table class="table table-bordered woeModal" name="woeModal">`;
         $.each(woeTimes, function(serverName) {
             countOn+=res.serverTimes[serverName].activeCount;
-            toggleRotator('.emperium_status', (countOn>0) ? 2 : 0, (countOn==0) ? {color: 'grey'} : {color: 'empColor'});
         $table += `
                 <thead>
                     <tr>
@@ -79,17 +77,26 @@ function fetchWoETimes() {
                 </tbody>
         `;
         });
+
         $table +=`</table>`;
         $(container).html($table);
-
         if($(modal).is(':visible')) {
             $(modal).find('.modal-body').html('');
             $('table[name=woeModal]').clone().appendTo($(modal).find('.modal-body'));
         }
-
         createCountdown();
         $('.emperium_status').attr('title',`${countOn>0 ? countOn : 'No'} active WoE schedule.<br>Click to view more information`);
+        
+        toggleRotator('.emperium_status', (countOn>0) ? 2 : 0, (countOn==0) ? {color: 'grey'} : {color: 'empColor'});
+        if(countOn==0) {
+            $('.icon_woe').addClass('icon_grayscale');
+        }
+        else {
+            $('.icon_woe').removeClass('icon_grayscale');
+        }
+
     });
+
 }
 
 function createCountdown() {
@@ -146,6 +153,7 @@ function woeStatusModal(button) {
 
 function fetchServerStatus() {
     let serverStatusDiv = '.server_status';
+    let onlineCount = 9999999;
     toggleRotator(serverStatusDiv, 1);
     toggleRotator('.online_players', 1);
     $('.tooltip').remove();
@@ -159,11 +167,14 @@ function fetchServerStatus() {
         switch (res.minimum) {
             case 0:
                 toggleRotator(serverStatusDiv, 0, {color: 'grey'});
+                $('.icon_serverstatus').addClass('icon_grayscale');
                 break;
             case 1: 
             case 2: 
+                $('.icon_serverstatus').addClass('icon_orangeFromGreen');
                 toggleRotator(serverStatusDiv, 2, {color: 'orange'});
             default:
+                $('.icon_serverstatus').removeClass('icon_grayscale icon_orangeFromGreen');
                 toggleRotator(serverStatusDiv, 2, {color: 'green'});
         }
 
@@ -173,7 +184,7 @@ function fetchServerStatus() {
         $.each(serverStatus, function(serverName) {
             serverStatusMessage = '';
             let child = this[serverName];
-
+            onlineCount = Math.min(onlineCount,child.playersOnline);
             let loginServerUp = child.loginServerUp ? "Online" : "Offline";
             let charServerUp = child.charServerUp ? "Online" : "Offline";
             let mapServerUp = child.mapServerUp ? "Online" : "Offline";
@@ -226,7 +237,14 @@ function fetchServerStatus() {
         $('.online_players').attr('data-original-title',onlinePlayersTitle);
         $('.server_status').attr('title',serverStatusTitle);
         $('.server_status').attr('data-original-title',serverStatusTitle);
-        toggleRotator('.online_players', 0, {fadeOut: true});
+        if(onlineCount==0) {
+            toggleRotator('.online_players', 0);
+            $('.icon_onlineplayers').addClass('icon_grayscale');
+        }
+        else {
+            toggleRotator('.online_players', 0, {color: 'green'});
+            $('.icon_onlineplayers').removeClass('icon_grayscale');
+        }
         content.show(); 
     });
 }
@@ -249,13 +267,11 @@ $(document).ready(function() {
     `;
     console.log(text+$('.fluxDetails').html());
 
-
     modal_original = $('.modal-main-content').html();
 
     $('#modal_botongui').on('hidden.bs.modal', function (event) {
         $(this).find('.modal-main-content').html(modal_original);
     });
-
 
     $('#modal_botongui').on('show.bs.modal', function (event) {
         $('.tooltip').remove();
