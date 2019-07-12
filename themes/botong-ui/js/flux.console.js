@@ -46,7 +46,7 @@ function fetchWoETimes() {
         countOn = 0;
         res = JSON.parse(res);
         woeTimes = res.woeTimes;
-        let container = '.emperium_content';
+        let container = '.naviOriginal .emperium_content';
         $(container).html('');
         let $table=`<table class="table table-bordered woeModal" name="woeModal">`;
         $.each(woeTimes, function(serverName) {
@@ -82,7 +82,7 @@ function fetchWoETimes() {
         $(container).html($table);
         if($(modal).is(':visible')) {
             $(modal).find('.modal-body').html('');
-            $('table[name=woeModal]').clone().appendTo($(modal).find('.modal-body'));
+            $('.naviOriginal table[name=woeModal]').clone().appendTo($(modal).find('.modal-body'));
         }
         createCountdown();
         $('.emperium_status').attr('title',`${countOn>0 ? countOn : 'No'} active WoE schedule.<br>Click to view more information`);
@@ -325,9 +325,7 @@ $(document).ready(function() {
 
     $(document).on('scroll click mouseover mousemove ', function(e) 
     {   
-        var container = $('.fcp_user, .user_picture_area');
-    
-        // if the target of the click isn't the container nor a descendant of the container
+        let container = $('.fcp_user, .user_picture_area');
         if (!container.is(e.target) && container.has(e.target).length === 0) 
         {
             $('.fcp_user').hide();

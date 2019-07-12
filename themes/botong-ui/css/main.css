@@ -263,23 +263,27 @@ nav.naviBottom nav.mainNaviBottom ul.status_circles li .status_content {
 nav.naviBottom nav.mainNaviBottom ul.status_circles li .status_content .icon {
   width: 100%;
   height: 100%;
+  line-height: 42px;
   filter: grayscale(0%);
   transition: all 0.4s ease-in-out;
 }
 nav.naviBottom nav.mainNaviBottom ul.status_circles li .status_content .icon_woe {
-  background: url("icons/woe.png") no-repeat center;
+  color: #cdb232;
+}
+nav.naviBottom nav.mainNaviBottom ul.status_circles li .status_content .icon_woe i {
+  transform: rotate(180deg);
 }
 nav.naviBottom nav.mainNaviBottom ul.status_circles li .status_content .icon_onlineplayers {
-  background: url("icons/onlineplayers.png") no-repeat center;
+  color: #839c5e;
 }
 nav.naviBottom nav.mainNaviBottom ul.status_circles li .status_content .icon_serverstatus {
-  background: url("icons/server.png") no-repeat center;
+  color: #839c5e;
 }
 nav.naviBottom nav.mainNaviBottom ul.status_circles li .status_content .icon_grayscale {
-  filter: grayscale(100%);
+  color: #929292;
 }
 nav.naviBottom nav.mainNaviBottom ul.status_circles li .status_content .icon_orangeFromGreen {
-  filter: hue-rotate(280deg);
+  color: #cd882c;
 }
 nav.naviBottom nav.mainNaviBottom section.logo {
   display: flex;

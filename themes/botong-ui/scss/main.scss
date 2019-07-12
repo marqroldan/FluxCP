@@ -305,24 +305,28 @@ nav.naviBottom {
                     & .icon {
                         width: 100%;
                         height: 100%;
+                        line-height: 42px;
                         filter: grayscale(0%);
                         transition: all .4s ease-in-out; 
 
                         &_woe {
-                            background: url('icons/woe.png') no-repeat center;
+                            color: #cdb232;
+                            & i {
+                                transform: rotate(180deg);
+                            }
                         }
                         &_onlineplayers {
-                            background: url('icons/onlineplayers.png') no-repeat center;
+                            color: #839c5e;
                         }
                         &_serverstatus {
-                            background: url('icons/server.png') no-repeat center;
+                            color: #839c5e;
                         }
 
                         &_grayscale {
-                            filter: grayscale(100%);
+                            color: #929292;
                         }
                         &_orangeFromGreen {
-                            filter: hue-rotate(280deg);
+                            color: #cd882c;
                         }
                     }
                 }
