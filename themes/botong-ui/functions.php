@@ -43,40 +43,56 @@ function returnAbsoluteContents($file) {
 }
 
 function loadFiles($params, $filesList, $fileType, $pageFiles, $defaultElem, $format) {
-    $action = $params->get('action');
-    $module = $params->get('module');
+    $actions = array('*', $params->get('action'));
+    $module =  $params->get('module');
+    $fileTypes = array('_'.$fileType, $fileType);
     $ignoreDefault = false;
-    $arr = array();
+    $arr = array('*'=>array(), $params->get('action')=>array());
+    $ntt = array('*'=>array(), $params->get('action')=>array());
 
-    if(array_key_exists($module, $pageFiles) && array_key_exists($action, $pageFiles[$module])) {
-        if(array_key_exists('ignoreDefault',$pageFiles[$module][$action])) $ignoreDefault = true;
-        if(array_key_exists($fileType,$pageFiles[$module][$action])) {
-            foreach($pageFiles[$module][$action][$fileType] as $index) {
-                $arr[] = $index;
-            }
-        }
-        if(array_key_exists('_'.$fileType, $pageFiles['*'])) {
-            foreach($pageFiles['*']['_'.$fileType] as $index) {
-                $nt[] = $index;
-            }
-        }
-    }
-    if(array_key_exists('*',$pageFiles) && count($pageFiles['*']) > 0 && !$ignoreDefault) {
-        $nt = array();
-        if(array_key_exists($fileType,$pageFiles['*'])) {
-            foreach($pageFiles['*'][$fileType] as $index) {
-                $nt[] = $index;
-            }
-        }
-        $arr = array_merge($nt, $arr);
-        if(array_key_exists('_'.$fileType, $pageFiles['*'])) {
-            foreach($pageFiles['*']['_'.$fileType] as $index) {
-                $arr[] = $index;
+    if(array_key_exists('*',$pageFiles)) {
+        foreach($fileTypes as $fileType) {
+            if(array_key_exists($fileType,$pageFiles['*'])) {
+                foreach($pageFiles['*'][$fileType] as $index) {
+                    if($fileType[0]=="_") {
+                        $ntt['*'][] = $index;
+                    }
+                    else {
+                        $arr['*'][] = $index;
+                    }
+                }
             }
         }
     }
 
-    $arr = array_unique($arr);
+    if(array_key_exists($module,$pageFiles)) {
+        foreach($actions as $action) {
+            if(array_key_exists($action,$pageFiles[$module])) {
+                if(array_key_exists('ignoreDefault',$pageFiles[$module][$action])) $ignoreDefault = true;
+                foreach($fileTypes as $fileType) {
+                    if(array_key_exists($fileType,$pageFiles[$module][$action])) {
+                        foreach($pageFiles[$module][$action][$fileType] as $index) {
+                            if($fileType[0]=="_") {
+                                $ntt[$action][] = $index;
+                            }
+                            else {
+                                $arr[$action][] = $index;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if($ignoreDefault) {
+        $arr = $arr[$actions[1]];
+        $ntt = $arr[$actions[1]];
+    }
+    else {
+        $arr = array_merge($arr[$actions[0]],$arr[$actions[1]]);
+        $ntt = array_merge($ntt[$actions[0]],$ntt[$actions[1]]);
+    }
+    $arr = array_unique(array_merge($arr,$ntt));
 
     $def = ($fileType=='css') ? 'href' : 'src';
     foreach($arr as $index) {

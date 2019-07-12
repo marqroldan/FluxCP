@@ -141,6 +141,9 @@ if ($session->isLoggedIn()) {
                     <span data-toggle="tooltip" data-placement="left" title="Account Items">
                     <a href="<?php echo $this->url('account','view') ?>"><i class="fas fa-briefcase"></i></a>
                     </span>
+                    <span data-toggle="tooltip" data-placement="left" title="Logout">
+                    <a href="<?php echo $this->url('account','logout') ?>"><i class="fas fa-sign-out-alt"></i></a>
+                    </span>
                 </div>
                 <div class="v_divider"></div>
                 <div class="d-flex flex-column justify-content-center align-items-center">

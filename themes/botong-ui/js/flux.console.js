@@ -24,13 +24,13 @@ function updatePreferredServer(sel){
     document.preferred_server_form.preferred_server.value = preferred;
     document.preferred_server_form.submit();
 }
-function updatePreferredTheme(sel){
-    var preferred = sel.options[sel.selectedIndex].value;
-    document.preferred_theme_form.preferred_theme.value = preferred;
-    document.preferred_theme_form.submit();
+function updatePreferredTheme(theme){
+    $.post(window.location.href, {preferred_theme: theme}, function(res) {
+        location.reload();
+    })
 }
 function reload(){
-    window.location.href = '<?php echo $this->url ?>';
+    location.reload();
 }
 
 statusRefresh = 0;

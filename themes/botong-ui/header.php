@@ -6,7 +6,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<?php if (isset($metaRefresh)): ?>
         <meta http-equiv="refresh" content="<?php echo $metaRefresh['seconds'] ?>; URL=<?php echo $metaRefresh['location'] ?>" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">.
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
 		<?php endif ?>
         <title><?php echo Flux::config('SiteTitle'); if (isset($title)) echo ": $title" ?></title>
         <?php loadFiles($params, $cssFiles, 'css', $pageFiles, $cssDefaultElem, "<link %s />") ?>
@@ -17,11 +17,6 @@
 			 };
 		</script>
         <?php endif ?>
-        <script>
-var w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-var h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-//alert(`w: ${w}  && h: ${h}`)
-            </script>
 	</head>
 	<body>
         <?php include_once('main/modal.php') ?>

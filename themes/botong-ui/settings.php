@@ -69,6 +69,7 @@ $hideTemplateOn = array(
     ),
     'unauthorized',
     'error',
+    'main',
 );
 
 if((array_key_exists($params->get('module'),$hideTemplateOn) && in_array($params->get('action'),$hideTemplateOn[$params->get('module')])) || (in_array($params->get('module'), $hideTemplateOn))) {
@@ -105,8 +106,21 @@ $otherScriptFiles = array(
     'fluxmonsterdb' => $this->themePath('js/flux.monster.js'),
 );
 
+$templateScriptFiles = array(
+   "jquerymigrate" => $this->themePath("lib/jquery/jquery-migrate.min.js"),
+   "easing" => $this->themePath("lib/easing/easing.min.js"),
+   "mobilenav" => $this->themePath("lib/mobile-nav/mobile-nav.js"),
+   "wow" => $this->themePath("lib/wow/wow.min.js"),
+   "waypoints" => $this->themePath("lib/waypoints/waypoints.min.js"),
+   "counterup" => $this->themePath("lib/counterup/counterup.min.js"),
+   "owlcarousel" => $this->themePath("lib/owlcarousel/owl.carousel.min.js"),
+   "isotope" => $this->themePath("lib/isotope/isotope.pkgd.min.js"),
+   "lightbox" => $this->themePath("lib/lightbox/js/lightbox.min.js"),
+   "rapid_script" => $this->themePath("js/main.js"),
+);
+
 $defaultCssFiles = array(
-    'google_fonts' => "https://fonts.googleapis.com/css?family=Montserrat:300,400,500&display=swap",
+    'google_fonts' => "https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,500,600,700,700i|Montserrat:300,400,500,600,700",
     'fluxcp_fonts' => $this->themePath('css/fluxcpfonts.css'),
     'fluxcp_main' => $this->themePath('css/main.css'),
     'bootstrap' => 'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css',
@@ -115,7 +129,7 @@ $defaultCssFiles = array(
         "href" => "https://use.fontawesome.com/releases/v5.8.2/css/all.css",
         "integrity" => "sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay",
         "crossorigin" => "anonymous"
-    )
+    ),
 );
 
 $otherCssFiles = array(
@@ -124,8 +138,17 @@ $otherCssFiles = array(
     'overlayscrollbar' => $this->themePath('css/OverlayScrollbars.min.css'),
 );
 
-$cssFiles = array_merge($defaultCssFiles, $otherCssFiles);
-$scriptFiles = array_merge($defaultScriptFiles, $otherScriptFiles);
+$templateCssFiles = array(
+    ////////////// These are the CSS files for the Rapid Template 
+    'animate' => $this->themePath("lib/animate/animate.min.css"),
+    'ionicons' => $this->themePath("lib/ionicons/css/ionicons.min.css"),
+    'owlcarousel' => $this->themePath("lib/owlcarousel/assets/owl.carousel.min.css"),
+    'lightbox' => $this->themePath("lib/lightbox/css/lightbox.min.css"),
+    'rapid_style' => $this->themePath('css/style.css'),
+);
+
+$cssFiles = array_merge($defaultCssFiles, $otherCssFiles, $templateCssFiles);
+$scriptFiles = array_merge($defaultScriptFiles, $otherScriptFiles, $templateScriptFiles);
 
 $pageFiles = array(
     '*' => array(
@@ -140,7 +163,7 @@ $pageFiles = array(
                 //affects all pages under the module
             ),
         'action' => array(
-            'ignoreDefault' => true,    //as long as this is present in the array it will always be true, regardless of its value
+            'ignoreDefault' => true,    //as long as this is present in the array it will always be true, regardless of its value. it will ignore all *
             'css' => array(),
             'script' => array()
         )
@@ -160,6 +183,12 @@ $pageFiles = array(
     'monster' => array(
         'index' => array(
             'script' => array('fluxmonsterdb'),
+        )
+        ),
+    'main' => array(
+        '*' => array(
+            'css' => array_keys($templateCssFiles),
+            'script' => array_keys($templateScriptFiles),
         )
     )
 );
