@@ -242,6 +242,7 @@ nav.naviBottom nav.mainNaviBottom ul.status_circles {
   height: 100%;
   justify-content: center;
   align-items: center;
+  padding: 0;
   margin: 0 auto;
   text-align: center;
 }
@@ -287,6 +288,10 @@ nav.naviBottom nav.mainNaviBottom section.logo {
   position: absolute;
   left: 12px;
   bottom: 12px;
+  max-width: 30vw;
+}
+nav.naviBottom nav.mainNaviBottom section.logo img {
+  max-width: 30vw;
 }
 nav.naviBottom nav.mainNaviBottom section.user {
   display: flex;
@@ -297,6 +302,16 @@ nav.naviBottom nav.mainNaviBottom section.user {
   position: absolute;
   right: 0;
   bottom: 0;
+  /*
+  &:hover + .fcp {
+      display: block;
+  }*/
+}
+nav.naviBottom nav.mainNaviBottom section.user:hover {
+  cursor: pointer;
+}
+nav.naviBottom nav.mainNaviBottom section.user:hover .user_picture {
+  box-shadow: 0 0 5px yellow;
 }
 nav.naviBottom nav.mainNaviBottom section.user .user_details {
   margin-right: 8px;
@@ -332,9 +347,7 @@ nav.naviBottom nav.mainNaviBottom section.user .user_picture_area .user_picture 
   margin-right: 12px;
   background-position: center center;
   background-size: contain;
-}
-nav.naviBottom nav.mainNaviBottom section.user:hover + .fcp {
-  display: block;
+  transition: all 0.4s ease-in-out;
 }
 
 .justify-content-space-between {
@@ -346,6 +359,19 @@ nav.naviBottom nav.mainNaviBottom section.user:hover + .fcp {
   background: green;
   margin: 0 auto;
   max-width: 218px;
+}
+
+.botongui header.topbar .pagemenu .menu_container, .icon_container {
+  padding: 3px;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 0 3px rgba(255, 255, 255, 0.8);
+  text-align: center;
+  min-width: 30px;
+  height: 30px;
+  font-size: 16px;
+  display: inline-block;
+  color: #adb5bd;
 }
 
 main {
@@ -419,18 +445,6 @@ main {
 }
 .botongui header.topbar .pagemenu > div:last-child() {
   margin-right: 0px;
-}
-.botongui header.topbar .pagemenu .menu_container {
-  padding: 3px;
-  border-radius: 3px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  box-shadow: inset 0 0 3px rgba(255, 255, 255, 0.8);
-  text-align: center;
-  min-width: 30px;
-  height: 30px;
-  font-size: 16px;
-  display: inline-block;
-  color: #adb5bd;
 }
 .botongui header.topbar .pagemenu .search_count {
   display: inline-block;
@@ -888,6 +902,22 @@ main {
   display: none;
 }
 
+.smallMenu {
+  display: none;
+}
+
+#smallMenu {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 600;
+  background: #fff;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, white 48%, white 100%);
+  height: 100vh;
+  width: 100vw;
+}
+
 .defaultCol {
   padding-bottom: 100px !important;
 }
@@ -900,42 +930,100 @@ main {
 / Media Queries
 /--------------------------------------------------------------*/
 @media (max-width: 1024px) {
-  nav.naviBottom {
-    background: #fff;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    padding-top: 6px;
-    z-index: 501;
+  .user_name {
+    display: none !important;
   }
-  nav.naviBottom nav.pageNavi {
-    margin-bottom: 6px;
+
+  section.logo {
+    max-width: 50vw !important;
   }
-  nav.naviBottom nav.pageNavi ul {
-    padding: 0;
-    text-align: center;
-    text-transform: uppercase;
-    margin-bottom: 0px;
+  section.logo img {
+    max-width: 50vw !important;
   }
-  nav.naviBottom nav.pageNavi ul li {
-    padding: 2px 10px;
-    border-radius: 7px;
+
+  .max_height, .max_height_normal {
+    height: 100%;
+    max-height: 100%;
+  }
+
+  .naviOriginal .pageNavi {
+    display: none !important;
+  }
+  .naviOriginal .status_circles {
+    display: none !important;
+  }
+
+  .smallMenu, .smallMenu * {
+    display: block;
+  }
+
+  .smallMenu {
+    margin-right: 10px;
+  }
+
+  .search {
+    display: none;
+  }
+
+  .v_divider {
+    display: none;
+  }
+
+  #smallMenu nav.naviBottom nav.mainNaviBottom {
+    display: flex !important;
+    justify-content: space-between;
+  }
+  #smallMenu nav.naviBottom nav.mainNaviBottom ul.status_circles {
+    margin: 0;
+  }
+
+  .modal-body {
+    overflow-x: scroll;
+  }
+
+  .botongui .search {
+    max-width: 100%;
+  }
+}
+@media (max-width: 700px) {
+  .fcp {
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+  }
+  .fcp_modal {
+    min-width: 100vw !important;
+    max-width: 100vw !important;
+  }
+
+  .botongui header.topbar {
+    flex-direction: column !important;
+    height: 100%;
+    margin-bottom: 10px;
+  }
+  .botongui header.topbar h1 {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 24px;
+    margin-left: 0;
+  }
+  .botongui header.topbar .page_title {
+    padding: 15px 0 0 0;
     display: inline-block;
-    font-size: 14px;
-    letter-spacing: 1.5px;
-    margin: 0 5px;
+    width: 100vw;
+    text-align: center;
   }
-  nav.naviBottom nav.pageNavi ul li li:hover, nav.naviBottom nav.pageNavi ul li:hover a {
-    color: #ffffff !important;
+  .botongui header.topbar .pagemenu {
+    margin-right: 0;
+    float: none;
   }
-  nav.naviBottom nav.pageNavi ul li a {
-    color: #6a6a6a !important;
+  .botongui .item_data_container .item_container .list {
+    display: none;
+    width: calc(90vw - 30px);
+    max-width: calc(90vw - 30px);
   }
-  nav.naviBottom nav.pageNavi ul li:hover {
-    background: rgba(0, 0, 0, 0.5);
-  }
-  nav.naviBottom nav.pageNavi ul li:hover a {
-    text-decoration: none;
+  .botongui .item_data_container .item_container .list_name {
+    max-width: calc(90vw - 72px - 30px);
   }
 }
 

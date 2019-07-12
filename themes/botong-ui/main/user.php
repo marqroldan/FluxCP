@@ -91,6 +91,10 @@ if ($session->isLoggedIn()) {
 ?>
 <?php if ($session->isLoggedIn()): ?>
 <section class="user">
+    <?php if(isset($json_arr)): ?>
+    <div class="searchShow smallMenu icon_container"><i class="fas fa-search"></i></div>
+    <?php endif ?>
+    <div class="smallMenu smallMenuToggle icon_container"><i class="fas fa-bars"></i></div>
     <div class="user_details">
         <span class="user_name">
             <?php echo $session->account->userid ?>
@@ -101,7 +105,7 @@ if ($session->isLoggedIn()) {
         </div>
     </div>
 </section>
-<div class="fcp">
+<div class="fcp fcp_user">
         <div class="fcp_modal">
             <div class="row h-100 m-0 user_info_market d-flex justify-content-center align-items-center">
                     <div class="d-flex flex-wrap flex-row justify-content-center align-items-center user_info_market_links">
@@ -161,6 +165,10 @@ if ($session->isLoggedIn()) {
 </div>
 <?php else: ?>
 <section class="user">
+    <?php if(isset($json_arr)): ?>
+    <div class="searchShow smallMenu icon_container"><i class="fas fa-search"></i></div>
+    <?php endif ?>
+    <div class="smallMenu smallMenuToggle icon_container"><i class="fas fa-bars"></i></div>
     <div class="user_details">
         <div class='d-inline-block'><a href="<?php echo $this->url('account','login') ?>"><button class="btn btn-secondary">Login</button></a></div>
         <div class='d-inline-block'><a href="<?php echo $this->url('account','create') ?>"><button class="btn btn-warning">Register</button></a></div>

@@ -92,8 +92,7 @@ function loadFiles($params, $filesList, $fileType, $pageFiles, $defaultElem, $fo
         $arr = array_merge($arr[$actions[0]],$arr[$actions[1]]);
         $ntt = array_merge($ntt[$actions[0]],$ntt[$actions[1]]);
     }
-    $arr = array_unique(array_merge($arr,$ntt));
-
+    $arr = array_filter(array_unique(array_merge($arr,$ntt)));
     $def = ($fileType=='css') ? 'href' : 'src';
     foreach($arr as $index) {
         if(is_array($filesList[$index])) {

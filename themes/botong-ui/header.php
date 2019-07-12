@@ -4,6 +4,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
 		<?php if (isset($metaRefresh)): ?>
         <meta http-equiv="refresh" content="<?php echo $metaRefresh['seconds'] ?>; URL=<?php echo $metaRefresh['location'] ?>" />
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -19,8 +20,19 @@
         <?php endif ?>
 	</head>
 	<body>
+        <div id="smallMenu">
+            <nav class="naviBottom">
+                <nav class="pageNavi">
+                    <?php echo mainNavigation($mainNavigation); ?>
+                </nav>
+                <nav class="mainNaviBottom">
+                    <?php include('main/status_circles.php') ?>
+                    <?php include('main/user.php') ?>
+                </nav>
+            </nav>
+        </div>
         <?php include_once('main/modal.php') ?>
-        <nav class="naviBottom">
+        <nav class="naviBottom naviOriginal">
         <?php include_once('main/alerts.php') ?>
             <nav class="pageNavi">
                 <?php echo mainNavigation($mainNavigation); ?>
@@ -29,8 +41,8 @@
                 <section class="logo">
                     <img src="<?php echo $this->themePath('images/logo.png') ?>" />
                 </section>
-                <?php include_once('main/status_circles.php') ?>
-                <?php include_once('main/user.php') ?>
+                <?php include('main/status_circles.php') ?>
+                <?php include('main/user.php') ?>
             </nav>
 		</nav>
 		<main>

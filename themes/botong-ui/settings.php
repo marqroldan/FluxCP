@@ -170,7 +170,7 @@ $pageFiles = array(
     ),
     */
     'account' => array(
-        'create' => array(
+        '*' => array(
             'script' => array('overlayscrollbar'),
             'css' => array('overlayscrollbar'),
         )
@@ -203,7 +203,7 @@ if(isset($json_arr) && !empty($json_arr)) {
     $cssArr = array(
         'overlayscrollbar','jqueryui'
     );
-    $_scriptArr = array('fluxdb');
+    $_scriptArr = array('');
     $_cssArr = array();
     $scriptFilesArr = array();
     $cssFilesArr = array();

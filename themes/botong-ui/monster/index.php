@@ -23,6 +23,7 @@
                         <div class="col search">
                                 <div class="text-center mx-auto">
                                         <input type="text" name="itemText" class="search_tb" placeholder="Search for Item ID or Name" value="<?php echo $params->get('monster_id') ?>"/>
+                                        <br/>
                                         <span class="search_reset">Reset Filter</span>
                                 </div>
                                 <?php foreach ($search_params as $key => $data) : ?>

@@ -319,5 +319,28 @@ $(document).ready(function() {
     fetchWoETimes();
     fetchServerStatus();
 
+    $('.user_picture_area').on('tap mouseenter click',function() {
+        $('.fcp_user').toggle();
+    });
+
+    $(document).on('scroll click mouseover mousemove ', function(e) 
+    {   
+        var container = $('.fcp_user, .user_picture_area');
+    
+        // if the target of the click isn't the container nor a descendant of the container
+        if (!container.is(e.target) && container.has(e.target).length === 0) 
+        {
+            $('.fcp_user').hide();
+        }
+    });
+
+    $('.smallMenuToggle').on('click', function() {
+        $('#smallMenu').toggle();
+    });
+
+    $('.searchShow').on('click', function() {
+        console.log("hi");
+        $('.search').toggle();
+    });
 });
 
