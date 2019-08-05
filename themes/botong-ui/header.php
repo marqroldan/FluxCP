@@ -1,5 +1,7 @@
 <?php if (!defined('FLUX_ROOT')) exit; ?>
-<?php include_once('settings.php') ?>
+<?php include_once('settings.php');
+$title = isset($title) ? $title : '';
+?>
 <!DOCTYPE html>
 <html>
 	<head>
