@@ -183,7 +183,7 @@ function fetchServerStatus() {
         let serverStatusTitle = ``;
         $.each(serverStatus, function(serverName) {
             serverStatusMessage = '';
-            let child = this[serverName];
+            let child = this;
             onlineCount = Math.min(onlineCount,child.playersOnline);
             let loginServerUp = child.loginServerUp ? "Online" : "Offline";
             let charServerUp = child.charServerUp ? "Online" : "Offline";
@@ -337,8 +337,11 @@ $(document).ready(function() {
     });
 
     $('.searchShow').on('click', function() {
-        console.log("hi");
         $('.search').toggle();
     });
+	
+	$('._showMenuBarToggler').on('click', function() {
+		$('.naviToggle').fadeToggle();
+	});
 });
 
