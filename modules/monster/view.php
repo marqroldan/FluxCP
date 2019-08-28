@@ -208,7 +208,7 @@ if($params->get('output')=='json') {
 		$json_arr['monster']['sprite'] = $monster->sprite;
 		$json_arr['monster']['custom'] = (preg_match('/mob_db2$/', $monster->origin_table)) ? "Yes" : "No";
 		$json_arr['monster']['size'] = ($size=Flux::monsterSizeName($monster->size)) ? $size : "Unknown";
-		$json_arr['monster']['race'] = ($race=Flux::monsterSizeName($monster->race)) ? $race : "Unknown";
+		$json_arr['monster']['race'] = ($race=Flux::monsterRaceName($monster->race)) ? $race : "Unknown";
 		$json_arr['monster']['level'] = number_format($monster->level);
 		$json_arr['monster']['element'] = Flux::elementName($monster->level). " (Lv ".floor($monster->element_level).")";
 		$json_arr['monster']['speed'] = number_format($monster->speed);

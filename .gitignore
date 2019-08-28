@@ -15,8 +15,7 @@ __MACOSX
 /data/logs/schemas
 /data/logs/transactions
 
-/data/tmp/*.php
-/data/tmp/*.cache
+/data/tmp/*
 config/application.php
 config/error.php
 config/servers.php
